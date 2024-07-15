@@ -37,7 +37,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
 
     public static function getProperties(): array
     {
-        return ['moveNumber', 'side', 'player', 'opponent', 'moveNotation', 'fenBefore', 'fenAfter'];
+        return ['moveNumber', 'gameId', 'side', 'player', 'opponent', 'moveNotation', 'fenBefore', 'fenAfter'];
     }
 
     public function getGameId(): string
