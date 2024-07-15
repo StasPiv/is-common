@@ -6,5 +6,5 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface MessageModelFromProcessDataBuilderInterface
 {
-    public function buildMessageModelFromProcessData(SuccessfulProcessDataInterface $data): MessageModelInterface;
+    public function buildMessageModelFromProcessData(ProcessDataInterface $data): MessageModelInterface;
 }
