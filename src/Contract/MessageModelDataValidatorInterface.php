@@ -9,5 +9,5 @@ interface MessageModelDataValidatorInterface
     /**
      * @param class-string|\StanislavPivovartsev\InterestingStatistics\Common\Model\AbstractMessageModel $modelClass
      */
-    public function validateData(array $data, string $modelClass): bool;
+    public function validateData($object, string $modelClass): bool;
 }

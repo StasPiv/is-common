@@ -11,9 +11,8 @@ class MessageModelDataValidator implements MessageModelDataValidatorInterface
     /**
      * @inheritDoc
      */
-    public function validateData(array $data, string $modelClass): bool
+    public function validateData($object, string $modelClass): bool
     {
-        return array_diff($modelClass::getProperties(), array_keys($data)) === [] &&
-            array_diff(array_keys($data), $modelClass::getProperties()) === [];
+        return $object instanceof $modelClass;
     }
 }
