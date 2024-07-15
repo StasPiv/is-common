@@ -23,16 +23,14 @@ class MessageModelFromStringBuilder implements MessageModelFromStringBuilderInte
      */
     public function buildMessageModelFromString(string $string, string $modelClass): MessageModelInterface
     {
-        $data = unserialize($string);
+        $object = unserialize($string);
 
-        if (!$this->messageModelDataValidator->validateData($data, $modelClass)) {
+        if (!$this->messageModelDataValidator->validateData($object, $modelClass)) {
             throw new MessageModelBuilderException(
                 "Incorrect data $string in message for model: " . $modelClass
             );
         }
 
-        $arguments = array_map(fn (string $key) => $data[$key], $modelClass::getProperties());
-
-        return new $modelClass(...$arguments);
+        return $object;
     }
 }
