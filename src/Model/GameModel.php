@@ -38,7 +38,7 @@ class GameModel implements ModelInCollectionInterface, StringInterface, MessageM
 
     public function __toString(): string
     {
-        return json_encode($this->getData());
+        return serialize($this);
     }
 
     public function getPgnHash(): string
