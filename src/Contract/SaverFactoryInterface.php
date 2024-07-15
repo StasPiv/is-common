@@ -21,11 +21,7 @@ interface SaverFactoryInterface
 
     public function createCollectionSaver(): CollectionSaverInterface;
 
-    public function createReceiverMessageProcessor(): MessageProcessorInterface;
-
     public function createPgnHashGenerator(): PgnHashGeneratorInterface;
 
     public function createIdGeneratorStrategy(): IdGeneratorStrategyInterface;
-
-    public function createSavingProcessorEventManager(): EventManagerInterface;
 }

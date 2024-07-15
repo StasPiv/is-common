@@ -172,7 +172,7 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
         return $eventManager;
     }
 
-    public function createSavingProcessorEventManager(): EventManagerInterface
+    public function createReceiverMessageProcessorEventManager(): EventManagerInterface
     {
         $eventManager = new EventManager();
 
@@ -302,7 +302,7 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
             $this->createCollectionSavableModelBuilder(),
             $this->createCollectionFinder(),
             $this->createProcessDataBuilder(),
-            $this->createSavingProcessorEventManager(),
+            $this->createReceiverMessageProcessorEventManager(),
         );
     }
 
