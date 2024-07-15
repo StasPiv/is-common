@@ -1,0 +1,32 @@
+{
+  "name": "pivovartsev/is-common",
+  "autoload": {
+    "psr-4": {
+      "StanislavPivovartsev\\InterestingStatistics\\Common\\": "src/",
+      "StanislavPivovartsev\\InterestingStatistics\\Common\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=8.1",
+    "php-amqplib/php-amqplib": "^3.2",
+    "ext-mysqli": "*",
+    "psr/log": "3.x-dev",
+    "monolog/monolog": "3.x-dev"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "10.5.19",
+    "phpstan/phpstan": "^1.11",
+    "infection/infection": "^0.29.6"
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan analyze src tests",
+    "phpstan-clear-cache": "vendor/bin/phpstan clear-result-cache",
+    "infection": "infection --show-mutations"
+  },
+  "config": {
+    "allow-plugins": {
+      "infection/extension-installer": true
+    }
+  }
+}
