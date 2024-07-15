@@ -25,13 +25,9 @@ interface SaverFactoryInterface
 
     public function createMessageModelDataValidator(): MessageModelDataValidatorInterface;
 
-    public function createMessageModelFromMessageBuilder(): MessageModelFromMessageBuilderInterface;
-
     public function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface;
 
     public function createCollectionSaver(): CollectionSaverInterface;
-
-    public function createProcessDataBuilder(): ProcessDataBuilderInterface;
 
     public function createReceiverMessageProcessor(): MessageProcessorInterface;
 

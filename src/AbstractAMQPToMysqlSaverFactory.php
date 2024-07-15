@@ -41,6 +41,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlInsertQueryB
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlStorageDriverFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PgnHashGeneratorInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataBuilderFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ReceiverFactoryInterface;
@@ -55,7 +56,7 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
     ReceiverFactoryInterface,
     PublisherFactoryInterface,
     AcknowledgingFactoryInterface,
-    LoggerFactoryInterface
+    LoggerFactoryInterface, ProcessDataBuilderFactoryInterface
 {
     public function __construct(
         private readonly AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
