@@ -7,6 +7,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Factory;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromMessageBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 
@@ -21,4 +22,6 @@ interface PublisherFactoryInterface
     public function createPublishingSubscriber(): SubscriberInterface;
 
     public function createMessageModelFromMessageBuilder(): MessageModelFromMessageBuilderInterface;
+
+    public function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface;
 }
