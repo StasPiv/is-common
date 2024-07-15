@@ -8,7 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInter
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 
-class MessageReceiverEventManager implements EventManagerInterface
+class EventManager implements EventManagerInterface
 {
     /**
      * @var array<string, array<\StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface>>

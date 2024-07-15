@@ -6,6 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\FailedProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessagePublishedProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceivedProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataBuilderInterface;
@@ -29,5 +30,10 @@ class ProcessDataBuilder implements ProcessDataBuilderInterface
     public function buildMessageReceivedProcessData(MessageInterface $message): MessageReceivedProcessDataInterface
     {
         return new MessageReceivedProcessData($message);
+    }
+
+    public function buildMessagePublishedProcessData(MessageInterface $message): MessagePublishedProcessDataInterface
+    {
+        return new MessagePublishedProcessData($message);
     }
 }

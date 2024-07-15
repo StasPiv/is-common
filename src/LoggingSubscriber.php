@@ -33,5 +33,9 @@ class LoggingSubscriber implements SubscriberInterface
         if ($data instanceof MessageReceivedProcessDataInterface) {
             $this->logger->info('Message received: ' . $data->getMessage());
         }
+
+        if ($data instanceof MessagePublishedProcessData) {
+            $this->logger->info('Message published: ' . $data->getMessage());
+        }
     }
 }

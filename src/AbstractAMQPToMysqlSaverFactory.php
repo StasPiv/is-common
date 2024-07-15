@@ -44,12 +44,13 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterfac
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ReceiverFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SaverFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Factory\PublisherFactoryInterface;
 
 abstract class AbstractAMQPToMysqlSaverFactory implements
     SaverFactoryInterface,
     MysqlStorageDriverFactoryInterface,
     AMQPConsumerDriverFactoryInterface,
-    ReceiverFactoryInterface
+    ReceiverFactoryInterface, PublisherFactoryInterface
 {
     public function __construct(
         private readonly AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
@@ -132,13 +133,22 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
 
     public function createReceiverEventManager(): EventManagerInterface
     {
-        $eventManager = new MessageReceiverEventManager();
+        $eventManager = new EventManager();
 
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createPublishingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createLoggingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Fail, $this->createLoggingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::MessageReceived, $this->createLoggingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
+
+        return $eventManager;
+    }
+
+    public function createPublisherEventManager(): EventManagerInterface
+    {
+        $eventManager = new EventManager();
+
+        $eventManager->subscribe(ProcessEventTypeEnum::MessagePublished, $this->createLoggingSubscriber());
 
         return $eventManager;
     }
@@ -249,6 +259,8 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
             $this->createPublisher(),
             $this->createPublisherMessageModelBuilder(),
             $this->createPublisherMessageBuilder(),
+            $this->createPublisherEventManager(),
+            $this->createProcessDataBuilder(),
         );
     }
 

@@ -4,8 +4,10 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromProcessDataBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
@@ -18,6 +20,8 @@ class PublishingSavedDataSubscriber implements SubscriberInterface
         private readonly PublisherInterface                          $publisher,
         private readonly MessageModelFromProcessDataBuilderInterface $messageModelBuilder,
         private readonly MessageBuilderInterface                     $messageBuilder,
+        private readonly EventManagerInterface $eventManager,
+        private readonly ProcessDataBuilderInterface $processDataBuilder,
     ) {
     }
 
@@ -36,5 +40,9 @@ class PublishingSavedDataSubscriber implements SubscriberInterface
         $message = $this->messageBuilder->buildMessageFromMessageModel($model);
 
         $this->publisher->publish($message);
+
+        $this->eventManager->notify(
+            $this->processDataBuilder->buildMessagePublishedProcessData($message),
+        );
     }
 }
