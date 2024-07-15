@@ -135,11 +135,7 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
     {
         $eventManager = new EventManager();
 
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createPublishingSubscriber());
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createLoggingSubscriber());
-        $eventManager->subscribe(ProcessEventTypeEnum::Fail, $this->createLoggingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::MessageReceived, $this->createLoggingSubscriber());
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
 
         return $eventManager;
     }
@@ -149,6 +145,19 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
         $eventManager = new EventManager();
 
         $eventManager->subscribe(ProcessEventTypeEnum::MessagePublished, $this->createLoggingSubscriber());
+
+        return $eventManager;
+    }
+
+    public function createSavingProcessorEventManager(): EventManagerInterface
+    {
+        $eventManager = new EventManager();
+
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createPublishingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createLoggingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::Fail, $this->createLoggingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
+
 
         return $eventManager;
     }
@@ -271,6 +280,7 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
             $this->createCollectionSavableModelBuilder(),
             $this->createCollectionFinder(),
             $this->createProcessDataBuilder(),
+            $this->createSavingProcessorEventManager(),
         );
     }
 

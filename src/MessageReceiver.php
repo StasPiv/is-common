@@ -24,8 +24,6 @@ class MessageReceiver implements Contract\MessageReceiverInterface
             $this->processDataBuilder->buildMessageReceivedProcessData($message),
         );
 
-        $processData = $this->messageProcessor->process($message);
-
-        $this->eventManager->notify($processData);
+        $this->messageProcessor->process($message);
     }
 }

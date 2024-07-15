@@ -5,6 +5,9 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 use Psr\Log\LoggerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\AbstractAMQPToMysqlSaverFactory;
+use StanislavPivovartsev\InterestingStatistics\Common\EventManager;
+use StanislavPivovartsev\InterestingStatistics\Common\ProcessEventTypeEnum;
 
 interface SaverFactoryInterface
 {
@@ -41,4 +44,6 @@ interface SaverFactoryInterface
     public function createPgnHashGenerator(): PgnHashGeneratorInterface;
 
     public function createIdGeneratorStrategy(): IdGeneratorStrategyInterface;
+
+    public function createSavingProcessorEventManager(): EventManagerInterface;
 }

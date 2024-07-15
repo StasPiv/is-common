@@ -7,10 +7,10 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSavableModelBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataBuilderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use Throwable;
 
 class SavingMessageProcessor implements MessageProcessorInterface
@@ -20,31 +20,42 @@ class SavingMessageProcessor implements MessageProcessorInterface
         private readonly CollectionSavableModelBuilderInterface $collectionSavableModelBuilder,
         private readonly CollectionFinderInterface $collectionFinder,
         private readonly ProcessDataBuilderInterface $processDataBuilder,
+        private readonly EventManagerInterface $eventManager,
     ) {
     }
 
-    public function process(MessageInterface $message): ProcessDataInterface
+    public function process(MessageInterface $message): void
     {
         try {
             $savableModel = $this->collectionSavableModelBuilder->buildCollectionSavableModel($message);
 
             if ($this->collectionFinder->modelExists($savableModel)) {
-                return $this->processDataBuilder->buildSuccessfulProcessData(
+                $alreadyFound = $this->processDataBuilder->buildSuccessfulProcessData(
                     $message,
                     $savableModel,
                     'Model already found'
                 );
+
+                $this->eventManager->notify($alreadyFound);
+
+                return;
             }
 
             $this->collectionSaver->saveModel($savableModel);
         } catch (Throwable $exception) {
-            return $this->processDataBuilder->buildFailedProcessData($message, $exception->getMessage());
+            $failedProcessData = $this->processDataBuilder->buildFailedProcessData($message, $exception->getMessage());
+
+            $this->eventManager->notify($failedProcessData);
+
+            return;
         }
 
-        return $this->processDataBuilder->buildSuccessfulProcessData(
+        $successfullySaved = $this->processDataBuilder->buildSuccessfulProcessData(
             $message,
             $savableModel,
             'Model successfully saved'
         );
+
+        $this->eventManager->notify($successfullySaved);
     }
 }
