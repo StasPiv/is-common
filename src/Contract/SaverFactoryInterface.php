@@ -11,8 +11,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\ProcessEventTypeEnum;
 
 interface SaverFactoryInterface
 {
-    public function createConsumer(): ConsumerInterface;
-
     public function createPublisherMessageBuilder(): MessageBuilderInterface;
 
     public function createPublisher(): PublisherInterface;
