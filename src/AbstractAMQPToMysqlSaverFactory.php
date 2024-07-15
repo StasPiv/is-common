@@ -153,10 +153,10 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
     {
         $eventManager = new EventManager();
 
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createPublishingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createLoggingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Fail, $this->createLoggingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createPublishingSubscriber());
 
 
         return $eventManager;
