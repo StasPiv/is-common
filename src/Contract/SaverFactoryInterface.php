@@ -25,8 +25,6 @@ interface SaverFactoryInterface
 
     public function createCollectionFinder(): CollectionFinderInterface;
 
-    public function createLogger(): LoggerInterface;
-
     public function createMessageModelDataValidator(): MessageModelDataValidatorInterface;
 
     public function createMessageModelFromMessageBuilder(): MessageModelFromMessageBuilderInterface;

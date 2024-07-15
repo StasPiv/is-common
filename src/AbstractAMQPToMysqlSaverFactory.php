@@ -28,6 +28,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\Pub
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelDataValidatorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromMessageBuilderInterface;
@@ -53,7 +54,8 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
     AMQPConsumerDriverFactoryInterface,
     ReceiverFactoryInterface,
     PublisherFactoryInterface,
-    AcknowledgingFactoryInterface
+    AcknowledgingFactoryInterface,
+    LoggerFactoryInterface
 {
     public function __construct(
         private readonly AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
