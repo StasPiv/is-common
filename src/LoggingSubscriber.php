@@ -6,6 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use Psr\Log\LoggerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\FailedProcessDataInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageAckedProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceivedProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
@@ -36,6 +37,10 @@ class LoggingSubscriber implements SubscriberInterface
 
         if ($data instanceof MessagePublishedProcessData) {
             $this->logger->info('Message published: ' . $data->getMessage());
+        }
+
+        if ($data instanceof MessageAckedProcessDataInterface) {
+            $this->logger->info('Message acked: ' . $data->getMessage());
         }
     }
 }

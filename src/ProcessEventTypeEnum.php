@@ -13,4 +13,6 @@ enum ProcessEventTypeEnum
     case Fail;
 
     case MessagePublished;
+
+    case MessageAcked;
 }

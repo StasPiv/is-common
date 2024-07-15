@@ -11,6 +11,7 @@ use mysqli;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Psr\Log\LoggerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\AcknowledgingFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConsumerDriverFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageReceiverInterface;
@@ -50,7 +51,9 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
     SaverFactoryInterface,
     MysqlStorageDriverFactoryInterface,
     AMQPConsumerDriverFactoryInterface,
-    ReceiverFactoryInterface, PublisherFactoryInterface
+    ReceiverFactoryInterface,
+    PublisherFactoryInterface,
+    AcknowledgingFactoryInterface
 {
     public function __construct(
         private readonly AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
@@ -65,7 +68,10 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
 
     public function createAcknowledgingSubscriber(): SubscriberInterface
     {
-        return new AcknowledgingSubscriber();
+        return new AcknowledgingSubscriber(
+            $this->createAcknowledgingEventManager(),
+            $this->createProcessDataBuilder(),
+        );
     }
 
     public function createAMQPMessageBuilder(): AMQPMessageBuilderInterface
@@ -149,15 +155,23 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
         return $eventManager;
     }
 
+    public function createAcknowledgingEventManager(): EventManagerInterface
+    {
+        $eventManager = new EventManager();
+
+        $eventManager->subscribe(ProcessEventTypeEnum::MessageAcked, $this->createLoggingSubscriber());
+
+        return $eventManager;
+    }
+
     public function createSavingProcessorEventManager(): EventManagerInterface
     {
         $eventManager = new EventManager();
 
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createLoggingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Fail, $this->createLoggingSubscriber());
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createPublishingSubscriber());
-
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
 
         return $eventManager;
     }
