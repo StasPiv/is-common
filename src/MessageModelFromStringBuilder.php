@@ -31,7 +31,7 @@ class MessageModelFromStringBuilder implements MessageModelFromStringBuilderInte
             );
         }
 
-        $arguments = array_map(fn (string $key): string => $data[$key], $modelClass::getProperties());
+        $arguments = array_map(fn (string $key) => $data[$key], $modelClass::getProperties());
 
         return new $modelClass(...$arguments);
     }
