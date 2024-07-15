@@ -49,7 +49,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterfac
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ReceiverFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SaverFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Factory\PublisherFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
 
 abstract class AbstractAMQPToMysqlSaverFactory implements
     SaverFactoryInterface,
