@@ -23,8 +23,6 @@ interface SaverFactoryInterface
 
     public function createCollectionFinder(): CollectionFinderInterface;
 
-    public function createMessageModelDataValidator(): MessageModelDataValidatorInterface;
-
     public function createCollectionSaver(): CollectionSaverInterface;
 
     public function createReceiverMessageProcessor(): MessageProcessorInterface;
