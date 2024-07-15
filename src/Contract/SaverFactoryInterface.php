@@ -17,8 +17,6 @@ interface SaverFactoryInterface
 
     public function createPublisher(): PublisherInterface;
 
-    public function createCommand(): CommandInterface;
-
     public function createCollectionSavableModelBuilder(): CollectionSavableModelBuilderInterface;
 
     public function createCollectionFinder(): CollectionFinderInterface;

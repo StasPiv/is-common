@@ -26,6 +26,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\Log
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\MysqliConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\PublisherConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\CommandFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggerFactoryInterface;
@@ -56,7 +57,9 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
     ReceiverFactoryInterface,
     PublisherFactoryInterface,
     AcknowledgingFactoryInterface,
-    LoggerFactoryInterface, ProcessDataBuilderFactoryInterface
+    LoggerFactoryInterface,
+    ProcessDataBuilderFactoryInterface,
+    CommandFactoryInterface
 {
     public function __construct(
         private readonly AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
