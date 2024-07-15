@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 use StanislavPivovartsev\InterestingStatistics\Common\ProcessEventTypeEnum;
 
-interface ProcessDataInterface extends StringInterface
+interface ProcessDataInterface
 {
     public function getEventType(): ProcessEventTypeEnum;
 

@@ -4,9 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
-use StanislavPivovartsev\InterestingStatistics\Common\SuccessfulProcessData;
-
-interface SuccessfulProcessDataInterface extends ProcessDataInterface
+interface SuccessfulProcessDataInterface extends ProcessDataInterface, StringInterface
 {
     public function getModelInCollection(): ModelInCollectionInterface;
 

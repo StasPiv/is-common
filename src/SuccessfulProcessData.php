@@ -27,4 +27,9 @@ class SuccessfulProcessData extends AbstractProcessData implements SuccessfulPro
     {
         return $this->infoMessage;
     }
+
+    public function __toString(): string
+    {
+        return serialize($this->modelInCollection);
+    }
 }

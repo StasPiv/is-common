@@ -21,4 +21,9 @@ class MoveProcessData extends AbstractProcessData implements MoveProcessDataInte
     {
         return $this->moveMessageModel;
     }
+
+    public function __toString(): string
+    {
+        return serialize($this->getMoveMessageModel());
+    }
 }
