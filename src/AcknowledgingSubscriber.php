@@ -17,12 +17,12 @@ class AcknowledgingSubscriber implements SubscriberInterface
     ) {
     }
 
-    public function update(ProcessDataInterface $data): void
+    public function update(ProcessDataInterface $processData): void
     {
-        $data->getMessage()->ack();
+        $processData->getMessage()->ack();
 
         $this->eventManager->notify(
-            $this->processDataBuilder->buildMessageAckedProcessData($data->getMessage())
+            $this->processDataBuilder->buildMessageAckedProcessData($processData->getMessage())
         );
     }
 }

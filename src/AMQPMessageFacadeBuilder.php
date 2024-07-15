@@ -11,6 +11,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageBuilderInt
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageFromAMQPMessageBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 
 class AMQPMessageFacadeBuilder implements MessageFromAMQPMessageBuilderInterface, MessageBuilderInterface
 {
@@ -25,9 +26,9 @@ class AMQPMessageFacadeBuilder implements MessageFromAMQPMessageBuilderInterface
         return new AMQPMessageFacade($amqpMessage, $this->configuration->getModelInstance());
     }
 
-    public function buildMessageFromMessageModel(MessageModelInterface $messageModel): MessageInterface
+    public function buildMessageFromStringObject(StringInterface $stringObject): MessageInterface
     {
-        $amqpMessage = $this->amqpMessageBuilder->buildAMQPMessage($messageModel);
+        $amqpMessage = $this->amqpMessageBuilder->buildAMQPMessage($stringObject);
 
         return $this->buildMessageFromAmqpMessage($amqpMessage);
     }

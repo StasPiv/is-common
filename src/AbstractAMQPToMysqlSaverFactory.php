@@ -277,8 +277,6 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
         return new MysqlSelectQueryBuilder($this->createMysqli());
     }
 
-    abstract protected function createPublisherMessageModelBuilder(): MessageModelFromProcessDataBuilderInterface;
-
     public function createProcessDataBuilder(): ProcessDataBuilderInterface
     {
         return new ProcessDataBuilder();
@@ -286,9 +284,8 @@ abstract class AbstractAMQPToMysqlSaverFactory implements
 
     public function createPublishingSubscriber(): SubscriberInterface
     {
-        return new PublishingSavedDataSubscriber(
+        return new PublishingSubscriber(
             $this->createPublisher(),
-            $this->createPublisherMessageModelBuilder(),
             $this->createPublisherMessageBuilder(),
             $this->createPublisherEventManager(),
             $this->createProcessDataBuilder(),

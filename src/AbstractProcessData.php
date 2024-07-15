@@ -24,4 +24,9 @@ abstract class AbstractProcessData implements ProcessDataInterface
     {
         return $this->message;
     }
+
+    public function __toString(): string
+    {
+        return serialize($this);
+    }
 }

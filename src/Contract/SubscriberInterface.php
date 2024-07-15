@@ -6,5 +6,5 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface SubscriberInterface
 {
-    public function update(ProcessDataInterface $data): void;
+    public function update(ProcessDataInterface $processData): void;
 }

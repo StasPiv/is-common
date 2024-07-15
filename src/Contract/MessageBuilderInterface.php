@@ -6,5 +6,5 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface MessageBuilderInterface
 {
-    public function buildMessageFromMessageModel(MessageModelInterface $messageModel): MessageInterface;
+    public function buildMessageFromStringObject(StringInterface $stringObject): MessageInterface;
 }

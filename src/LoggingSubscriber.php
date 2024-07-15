@@ -19,28 +19,28 @@ class LoggingSubscriber implements SubscriberInterface
     ) {
     }
 
-    public function update(ProcessDataInterface $data): void
+    public function update(ProcessDataInterface $processData): void
     {
-        if ($data instanceof FailedProcessDataInterface) {
-            $this->logger->error($data->getErrorMessage());
+        if ($processData instanceof FailedProcessDataInterface) {
+            $this->logger->error($processData->getErrorMessage());
 
             return;
         }
 
-        if ($data instanceof SuccessfulProcessDataInterface) {
-            $this->logger->info($data->getInfoMessage() . ': ' . $data->getModelInCollection());
+        if ($processData instanceof SuccessfulProcessDataInterface) {
+            $this->logger->info($processData->getInfoMessage() . ': ' . $processData->getModelInCollection());
         }
 
-        if ($data instanceof MessageReceivedProcessDataInterface) {
-            $this->logger->info('Message received: ' . $data->getMessage());
+        if ($processData instanceof MessageReceivedProcessDataInterface) {
+            $this->logger->info('Message received: ' . $processData->getMessage());
         }
 
-        if ($data instanceof MessagePublishedProcessData) {
-            $this->logger->info('Message published: ' . $data->getMessage());
+        if ($processData instanceof MessagePublishedProcessData) {
+            $this->logger->info('Message published: ' . $processData->getMessage());
         }
 
-        if ($data instanceof MessageAckedProcessDataInterface) {
-            $this->logger->info('Message acked: ' . $data->getMessage());
+        if ($processData instanceof MessageAckedProcessDataInterface) {
+            $this->logger->info('Message acked: ' . $processData->getMessage());
         }
     }
 }
