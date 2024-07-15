@@ -4,10 +4,11 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 
-class GameModel implements ModelInCollectionInterface, StringInterface
+class GameModel implements ModelInCollectionInterface, StringInterface, MessageModelInterface
 {
     public function __construct(
         private readonly string $id,
