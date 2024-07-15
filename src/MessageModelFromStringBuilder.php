@@ -23,7 +23,7 @@ class MessageModelFromStringBuilder implements MessageModelFromStringBuilderInte
      */
     public function buildMessageModelFromString(string $string, string $modelClass): MessageModelInterface
     {
-        $data = json_decode($string, true, 512, JSON_THROW_ON_ERROR);
+        $data = unserialize($string);
 
         if (!$this->messageModelDataValidator->validateData($data, $modelClass)) {
             throw new MessageModelBuilderException(

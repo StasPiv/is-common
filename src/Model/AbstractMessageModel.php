@@ -15,6 +15,6 @@ abstract class AbstractMessageModel implements MessageModelInterface, ArrayInter
 
     public function __toString(): string
     {
-        return json_encode($this->toArray());
+        return serialize($this);
     }
 }
