@@ -8,7 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Model\PlayerModel;
 
 interface MoveProcessDataInterface
 {
-    public function getMoveNumber(): string;
+    public function getMoveNumber(): int;
 
     public function getSide(): string;
 

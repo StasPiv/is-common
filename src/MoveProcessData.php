@@ -13,7 +13,7 @@ class MoveProcessData extends AbstractProcessData implements MoveProcessDataInte
     final public function __construct(
         protected MessageInterface                  $message,
         private readonly string $gameId,
-        private readonly string $moveNumber,
+        private readonly int $moveNumber,
         private readonly string $side,
         private readonly PlayerModel $player,
         private readonly PlayerModel $opponent,
@@ -24,7 +24,7 @@ class MoveProcessData extends AbstractProcessData implements MoveProcessDataInte
         parent::__construct(ProcessEventTypeEnum::Success, $this->message);
     }
 
-    public function getMoveNumber(): string
+    public function getMoveNumber(): int
     {
         return $this->moveNumber;
     }
