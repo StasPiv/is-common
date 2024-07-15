@@ -13,8 +13,6 @@ interface SaverFactoryInterface
 {
     public function createConsumer(): ConsumerInterface;
 
-    public function createReceiverMessageBuilder(): MessageBuilderInterface;
-
     public function createPublisherMessageBuilder(): MessageBuilderInterface;
 
     public function createPublisher(): PublisherInterface;
@@ -30,8 +28,6 @@ interface SaverFactoryInterface
     public function createMessageModelFromMessageBuilder(): MessageModelFromMessageBuilderInterface;
 
     public function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface;
-
-    public function createMessageReceiver(): MessageReceiverInterface;
 
     public function createCollectionSaver(): CollectionSaverInterface;
 

@@ -15,4 +15,8 @@ interface ReceiverFactoryInterface
     public function createAcknowledgingSubscriber(): SubscriberInterface;
 
     public function createLoggingSubscriber(): SubscriberInterface;
+
+    public function createReceiverMessageBuilder(): MessageBuilderInterface;
+
+    public function createMessageReceiver(): MessageReceiverInterface;
 }
