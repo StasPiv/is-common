@@ -195,7 +195,7 @@ abstract class AbstractAMQPToMysqlSaverFactory implements CommandFactoryInterfac
         return $eventManager;
     }
 
-    private function createLoggingSubscriber(ProcessEventTypeEnum $processEventTypeEnum): SubscriberInterface
+    protected function createLoggingSubscriber(ProcessEventTypeEnum $processEventTypeEnum): SubscriberInterface
     {
         return new LoggingSubscriber($this->createLogger(), $processEventTypeEnum);
     }
