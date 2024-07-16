@@ -27,6 +27,8 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverIn
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
+use StasPiv\ChessBestMove\Model\EngineConfiguration;
+use StasPiv\ChessBestMove\Service\ChessBestMove;
 
 abstract class AbstractAMQPFactory implements CommandFactoryInterface
 {
