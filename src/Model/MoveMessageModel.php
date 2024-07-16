@@ -5,8 +5,9 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 
-class MoveMessageModel extends AbstractMessageModel implements MessageModelInterface
+class MoveMessageModel extends AbstractMessageModel implements MessageModelInterface, ProcessDataInterface
 {
     private string $gameId;
 
