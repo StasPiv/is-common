@@ -20,6 +20,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\Log
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\PublisherConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
@@ -27,11 +28,11 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverIn
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
-use StasPiv\ChessBestMove\Model\EngineConfiguration;
-use StasPiv\ChessBestMove\Service\ChessBestMove;
 
 abstract class AbstractAMQPFactory implements CommandFactoryInterface
 {
+    protected LoggerFactoryInterface $loggerFactory;
+
     public function __construct(
         protected AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
         protected AMQPConsumerConfigurationInterface      $consumerConfiguration,
@@ -40,6 +41,7 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         protected PublisherConfigurationInterface         $publisherConfiguration,
         protected LoggerConfigurationInterface            $loggerConfiguration,
     ) {
+        $this->loggerFactory = $this->createLoggerFactory();
     }
 
     protected function createAMQPConnection(): AMQPStreamConnection
@@ -57,16 +59,9 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         return $this->createAMQPConnection()->channel();
     }
 
-    protected function createLogger(): LoggerInterface
+    protected function createLoggerFactory(): LoggerFactoryInterface
     {
-        $logger = new Logger($this->loggerConfiguration->getLogName());
-        $logger->pushHandler(
-            new StreamHandler('php://stdout',
-                Level::fromName($this->loggerConfiguration->getLogLevel())
-            )
-        );
-
-        return $logger;
+        return new LoggerFactory($this->loggerConfiguration);
     }
 
     public function createCommand(): CommandInterface
@@ -80,10 +75,22 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
     {
         $eventManager = new EventManager();
 
-        $eventManager->subscribe(ProcessEventTypeEnum::ModelFound, $this->createLoggingSubscriber(ProcessEventTypeEnum::ModelFound));
-        $eventManager->subscribe(ProcessEventTypeEnum::ModelNotFound, $this->createLoggingSubscriber(ProcessEventTypeEnum::ModelNotFound));
-        $eventManager->subscribe(ProcessEventTypeEnum::ModelSaveFailed, $this->createLoggingSubscriber(ProcessEventTypeEnum::ModelSaveFailed));
-        $eventManager->subscribe(ProcessEventTypeEnum::ModelCreated, $this->createLoggingSubscriber(ProcessEventTypeEnum::ModelCreated));
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::ModelFound,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelFound)
+        );
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::ModelNotFound,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelNotFound)
+        );
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::ModelSaveFailed,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelSaveFailed)
+        );
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::ModelCreated,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelCreated)
+        );
 
         $eventManager->subscribe(ProcessEventTypeEnum::ModelCreated, $this->createPublishingSubscriber());
 
@@ -139,9 +146,18 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
     {
         $eventManager = new EventManager();
 
-        $eventManager->subscribe(ProcessEventTypeEnum::MessageReceived, $this->createLoggingSubscriber(ProcessEventTypeEnum::MessageReceived));
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createLoggingSubscriber(ProcessEventTypeEnum::Success));
-        $eventManager->subscribe(ProcessEventTypeEnum::Fail, $this->createLoggingSubscriber(ProcessEventTypeEnum::Fail));
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::MessageReceived,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageReceived)
+        );
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::Success,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::Success)
+        );
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::Fail,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::Fail)
+        );
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
 
         return $eventManager;
@@ -151,7 +167,10 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
     {
         $eventManager = new EventManager();
 
-        $eventManager->subscribe(ProcessEventTypeEnum::MessagePublished, $this->createLoggingSubscriber(ProcessEventTypeEnum::MessagePublished));
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::MessagePublished,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessagePublished)
+        );
 
         return $eventManager;
     }
@@ -160,14 +179,12 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
     {
         $eventManager = new EventManager();
 
-        $eventManager->subscribe(ProcessEventTypeEnum::MessageAcked, $this->createLoggingSubscriber(ProcessEventTypeEnum::MessageAcked));
+        $eventManager->subscribe(
+            ProcessEventTypeEnum::MessageAcked,
+            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageAcked)
+        );
 
         return $eventManager;
-    }
-
-    protected function createLoggingSubscriber(ProcessEventTypeEnum $processEventTypeEnum): SubscriberInterface
-    {
-        return new LoggingSubscriber($this->createLogger(), $processEventTypeEnum);
     }
 
     private function createMessageModelFromMessageBuilder(): MessageModelExtractorInterface
