@@ -5,11 +5,11 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\EngineConfigurationInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\EngineFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ChessBestMoveFactoryInterface;
 use StasPiv\ChessBestMove\Model\EngineConfiguration;
 use StasPiv\ChessBestMove\Service\ChessBestMove;
 
-class EngineFactory implements EngineFactoryInterface
+class ChessBestMoveFactory implements ChessBestMoveFactoryInterface
 {
     public function __construct(
         private readonly EngineConfigurationInterface $engineConfiguration,
@@ -21,7 +21,7 @@ class EngineFactory implements EngineFactoryInterface
         return new ChessBestMove($this->createEngineConfiguration());
     }
 
-    public function createEngineConfiguration(): EngineConfiguration
+    private function createEngineConfiguration(): EngineConfiguration
     {
         $testEngineConfiguration = new EngineConfiguration($this->engineConfiguration->getName());
 
