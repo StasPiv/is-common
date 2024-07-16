@@ -12,8 +12,6 @@ interface ReceiverFactoryInterface
 
     public function createReceiverEventManager(): EventManagerInterface;
 
-    public function createPublishingSubscriber(): SubscriberInterface;
-
     public function createAcknowledgingSubscriber(): SubscriberInterface;
 
     public function createLoggingSubscriber(): SubscriberInterface;
