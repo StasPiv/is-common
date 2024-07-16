@@ -44,4 +44,9 @@ class GameModel implements ModelInCollectionInterface, MessageModelInterface
     {
         return $this->pgnHash;
     }
+
+    public function getPgn(): string
+    {
+        return $this->pgn;
+    }
 }
