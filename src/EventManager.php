@@ -7,6 +7,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 class EventManager implements EventManagerInterface
 {
@@ -14,15 +15,6 @@ class EventManager implements EventManagerInterface
      * @var array<string, array<\StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface>>
      */
     private array $subscribers = [];
-
-    public function __construct()
-    {
-        $eventTypeSuccess = ProcessEventTypeEnum::Success;
-        $this->subscribers[$eventTypeSuccess->name] = [];
-
-        $eventTypeFail = ProcessEventTypeEnum::Fail;
-        $this->subscribers[$eventTypeFail->name] = [];
-    }
 
     public function subscribe(ProcessEventTypeEnum $eventType, SubscriberInterface $subscriber): void
     {
@@ -36,10 +28,14 @@ class EventManager implements EventManagerInterface
         }
     }
 
-    public function notify(ProcessDataInterface $data): void
+    public function notify(ProcessEventTypeEnum $eventType, ProcessDataInterface $data): void
     {
+        if (!isset($this->subscribers[$eventType->name])) {
+            return;
+        }
+
         array_walk(
-            $this->subscribers[$data->getEventType()->name],
+            $this->subscribers[$eventType->name],
             fn (SubscriberInterface $subscriber) => $subscriber->update($data),
         );
     }

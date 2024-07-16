@@ -4,25 +4,27 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\AckableInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 class AcknowledgingSubscriber implements SubscriberInterface
 {
     public function __construct(
         private readonly EventManagerInterface $eventManager,
-        private readonly ProcessDataBuilderInterface $processDataBuilder,
     ) {
     }
 
     public function update(ProcessDataInterface $processData): void
     {
-        $processData->getMessage()->ack();
+        if (!$processData instanceof AckableInterface) {
+            return;
+        }
 
-        $this->eventManager->notify(
-            $this->processDataBuilder->buildMessageAckedProcessData($processData->getMessage())
-        );
+        $processData->ack();
+
+        $this->eventManager->notify(ProcessEventTypeEnum::MessageAcked, $processData);
     }
 }

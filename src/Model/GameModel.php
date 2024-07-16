@@ -6,9 +6,8 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 
-class GameModel implements ModelInCollectionInterface, StringInterface, MessageModelInterface
+class GameModel implements ModelInCollectionInterface, MessageModelInterface
 {
     public function __construct(
         private readonly string $id,

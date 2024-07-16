@@ -5,19 +5,16 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use PhpAmqpLib\Message\AMQPMessage;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQPMessageFacadeConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageBuilderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageFromAMQPMessageBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 
-class AMQPMessageFacadeBuilder implements MessageFromAMQPMessageBuilderInterface, MessageBuilderInterface
+class AMQPMessageFacadeBuilder implements AMQPMessageFacadeBuilderInterface, MessageBuilderInterface
 {
     public function __construct(
         private readonly AMQPMessageFacadeConfigurationInterface $configuration,
-        private readonly AMQPMessageBuilderInterface $amqpMessageBuilder,
     ) {
     }
 
@@ -28,7 +25,7 @@ class AMQPMessageFacadeBuilder implements MessageFromAMQPMessageBuilderInterface
 
     public function buildMessageFromStringObject(StringInterface $stringObject): MessageInterface
     {
-        $amqpMessage = $this->amqpMessageBuilder->buildAMQPMessage($stringObject);
+        $amqpMessage = new AMQPMessage((string) $stringObject);
 
         return $this->buildMessageFromAmqpMessage($amqpMessage);
     }

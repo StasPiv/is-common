@@ -5,27 +5,26 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use PhpAmqpLib\Channel\AMQPChannel;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageBuilderInterface;
+use PhpAmqpLib\Message\AMQPMessage;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromMessageBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 
 class AMQPPublisher implements PublisherInterface
 {
     public function __construct(
-        private readonly AMQPChannel                             $channel,
-        private readonly string                                  $queue,
-        private readonly AMQPMessageBuilderInterface             $messageBuilder,
-        private readonly MessageModelFromMessageBuilderInterface $messageModelBuilder,
+        private readonly AMQPChannel                    $channel,
+        private readonly string                         $queue,
+        private readonly MessageModelExtractorInterface $messageModelBuilder,
     ) {
     }
 
     public function publish(MessageInterface $message): void
     {
-        $model = $this->messageModelBuilder->buildMessageModelFromMessage($message);
+        $model = $this->messageModelBuilder->extractMessageModelFromMessage($message);
 
         $this->channel->basic_publish(
-            $this->messageBuilder->buildAMQPMessage($model),
+            new AMQPMessage((string) $model),
             '',
             $this->queue,
         );

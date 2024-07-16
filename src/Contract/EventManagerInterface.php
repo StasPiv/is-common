@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
-use StanislavPivovartsev\InterestingStatistics\Common\ProcessEventTypeEnum;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 interface EventManagerInterface
 {
@@ -12,5 +12,5 @@ interface EventManagerInterface
 
     public function unsubscribe(ProcessEventTypeEnum $eventType, SubscriberInterface $subscriber): void;
 
-    public function notify(ProcessDataInterface $data): void;
+    public function notify(ProcessEventTypeEnum $eventType, ProcessDataInterface $data): void;
 }
