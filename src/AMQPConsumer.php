@@ -38,17 +38,12 @@ class AMQPConsumer implements ConsumerInterface
             false,
             false,
             false,
-            [$this, 'onReceiveAMQPMessage']
+            fn (AMQPMessage $amqpMessage) => $this->messageReceiver->onReceive($this->amqpMessageFacadeBuilder->buildMessageFromAmqpMessage($amqpMessage))
         );
 
         $this->channel->consume();
 
         $this->channel->close();
         $this->connection->close();
-    }
-
-    private function onReceiveAMQPMessage(AMQPMessage $amqpMessage): void
-    {
-        $this->messageReceiver->onReceive($this->amqpMessageFacadeBuilder->buildMessageFromAmqpMessage($amqpMessage));
     }
 }
