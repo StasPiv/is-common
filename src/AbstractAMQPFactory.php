@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CommandFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CommandInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQPConnectionConfigurationInterface;
@@ -13,13 +12,11 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQ
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQPMessageFacadeConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\LoggerConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\PublisherConfigurationInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublishingSubscriberFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 abstract class AbstractAMQPFactory implements CommandFactoryInterface
@@ -27,6 +24,7 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
     protected LoggingSubscriberFactoryInterface $loggingSubscriberFactory;
     protected AMQPConnectionFactoryInterface $amqpConnectionFactory;
     protected PublishingSubscriberFactoryInterface $publishingSubscriberFactory;
+    protected ConsumerFactoryInterface $consumerFactory;
 
     public function __construct(
         protected AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
@@ -39,6 +37,7 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         $this->loggingSubscriberFactory = $this->createLoggerFactory();
         $this->amqpConnectionFactory = $this->createAMQPConnectionFactory();
         $this->publishingSubscriberFactory = $this->createPublishingSubscriberFactory();
+        $this->consumerFactory = $this->createConsumerFactory();
     }
 
     protected function createLoggerFactory(): LoggingSubscriberFactoryInterface
@@ -61,9 +60,20 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         );
     }
 
+    protected function createConsumerFactory(): ConsumerFactoryInterface
+    {
+        return new ConsumerFactory(
+            $this->amqpConnectionFactory,
+            $this->loggingSubscriberFactory,
+            $this->consumerConfiguration,
+            $this->receiverAmqpConfiguration,
+            $this->createMessageProcessor(),
+        );
+    }
+
     public function createCommand(): CommandInterface
     {
-        return new ConsumeCommand($this->createConsumer());
+        return new ConsumeCommand($this->consumerFactory->createConsumer());
     }
 
     abstract protected function createMessageProcessor(): MessageProcessorInterface;
@@ -90,70 +100,6 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         );
 
         $eventManager->subscribe(ProcessEventTypeEnum::ModelCreated, $this->publishingSubscriberFactory->createPublishingSubscriber());
-
-        return $eventManager;
-    }
-
-    private function createConsumer(): ConsumerInterface
-    {
-        return new AMQPConsumer(
-            $this->amqpConnectionFactory->createAMQPConnection(),
-            $this->amqpConnectionFactory->createAMQPChannel(),
-            $this->createAMQPReceivedMessageFacadeBuilder(),
-            $this->consumerConfiguration,
-            $this->createMessageReceiver(),
-        );
-    }
-
-    private function createMessageReceiver(): MessageReceiverInterface
-    {
-        return new MessageReceiver(
-            $this->createReceiverEventManager(),
-            $this->createMessageProcessor(),
-        );
-    }
-
-    private function createAcknowledgingSubscriber(): SubscriberInterface
-    {
-        return new AcknowledgingSubscriber(
-            $this->createAcknowledgingEventManager(),
-        );
-    }
-
-    private function createAMQPReceivedMessageFacadeBuilder(): AMQPMessageFacadeBuilderInterface
-    {
-        return new AMQPMessageFacadeBuilder($this->receiverAmqpConfiguration);
-    }
-
-    private function createReceiverEventManager(): EventManagerInterface
-    {
-        $eventManager = new EventManager();
-
-        $eventManager->subscribe(
-            ProcessEventTypeEnum::MessageReceived,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageReceived)
-        );
-        $eventManager->subscribe(
-            ProcessEventTypeEnum::Success,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::Success)
-        );
-        $eventManager->subscribe(
-            ProcessEventTypeEnum::Fail,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::Fail)
-        );
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
-
-        return $eventManager;
-    }
-
-    private function createAcknowledgingEventManager(): EventManagerInterface
-    {
-        $eventManager = new EventManager();
-
-        $eventManager->subscribe(
-            ProcessEventTypeEnum::MessageAcked,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageAcked)
-        );
 
         return $eventManager;
     }
