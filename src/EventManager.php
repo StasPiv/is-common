@@ -8,7 +8,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInter
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\EventTypeInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 class EventManager implements EventManagerInterface
 {

@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\LoggerConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\EventTypeInterface;
 
 class LoggerFactory implements LoggerFactoryInterface
 {
@@ -20,9 +20,9 @@ class LoggerFactory implements LoggerFactoryInterface
     ) {
     }
 
-    public function createLoggingSubscriber(ProcessEventTypeEnum $processEventTypeEnum): SubscriberInterface
+    public function createLoggingSubscriber(EventTypeInterface $eventType): SubscriberInterface
     {
-        return new LoggingSubscriber($this->createLogger(), $processEventTypeEnum);
+        return new LoggingSubscriber($this->createLogger(), $eventType);
     }
 
     protected function createLogger(): LoggerInterface
