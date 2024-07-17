@@ -9,11 +9,11 @@ use Monolog\Level;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\LoggerConfigurationInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggerFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\EventTypeInterface;
 
-class LoggerFactory implements LoggerFactoryInterface
+class LoggingSubscriberFactory implements LoggingSubscriberFactoryInterface
 {
     public function __construct(
         private readonly LoggerConfigurationInterface $loggerConfiguration,

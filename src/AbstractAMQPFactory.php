@@ -4,12 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Level;
-use Monolog\Logger;
-use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Psr\Log\LoggerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CommandFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CommandInterface;
@@ -20,18 +15,18 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\Log
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\PublisherConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggerFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublishingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 abstract class AbstractAMQPFactory implements CommandFactoryInterface
 {
-    protected LoggerFactoryInterface $loggerFactory;
+    protected LoggingSubscriberFactoryInterface $loggingSubscriberFactory;
+    protected AMQPConnectionFactoryInterface $amqpConnectionFactory;
+    protected PublishingSubscriberFactoryInterface $publishingSubscriberFactory;
 
     public function __construct(
         protected AMQPConnectionConfigurationInterface    $amqpConnectionConfiguration,
@@ -41,27 +36,29 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         protected PublisherConfigurationInterface         $publisherConfiguration,
         protected LoggerConfigurationInterface            $loggerConfiguration,
     ) {
-        $this->loggerFactory = $this->createLoggerFactory();
+        $this->loggingSubscriberFactory = $this->createLoggerFactory();
+        $this->amqpConnectionFactory = $this->createAMQPConnectionFactory();
+        $this->publishingSubscriberFactory = $this->createPublishingSubscriberFactory();
     }
 
-    protected function createAMQPConnection(): AMQPStreamConnection
+    protected function createLoggerFactory(): LoggingSubscriberFactoryInterface
     {
-        return new AMQPStreamConnection(
-            $this->amqpConnectionConfiguration->getHost(),
-            $this->amqpConnectionConfiguration->getPort(),
-            $this->amqpConnectionConfiguration->getUser(),
-            $this->amqpConnectionConfiguration->getPassword(),
+        return new LoggingSubscriberFactory($this->loggerConfiguration);
+    }
+
+    protected function createAMQPConnectionFactory(): AMQPConnectionFactoryInterface
+    {
+        return new AMQPConnectionFactory($this->amqpConnectionConfiguration);
+    }
+
+    protected function createPublishingSubscriberFactory(): PublishingSubscriberFactoryInterface
+    {
+        return new PublishingSubscriberFactory(
+            $this->amqpConnectionFactory,
+            $this->loggingSubscriberFactory,
+            $this->publisherAmqpConfiguration,
+            $this->publisherConfiguration,
         );
-    }
-
-    protected function createAMQPChannel(): AMQPChannel
-    {
-        return $this->createAMQPConnection()->channel();
-    }
-
-    protected function createLoggerFactory(): LoggerFactoryInterface
-    {
-        return new LoggerFactory($this->loggerConfiguration);
     }
 
     public function createCommand(): CommandInterface
@@ -77,22 +74,22 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
 
         $eventManager->subscribe(
             ProcessEventTypeEnum::ModelFound,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelFound)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelFound)
         );
         $eventManager->subscribe(
             ProcessEventTypeEnum::ModelNotFound,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelNotFound)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelNotFound)
         );
         $eventManager->subscribe(
             ProcessEventTypeEnum::ModelSaveFailed,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelSaveFailed)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelSaveFailed)
         );
         $eventManager->subscribe(
             ProcessEventTypeEnum::ModelCreated,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelCreated)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::ModelCreated)
         );
 
-        $eventManager->subscribe(ProcessEventTypeEnum::ModelCreated, $this->createPublishingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::ModelCreated, $this->publishingSubscriberFactory->createPublishingSubscriber());
 
         return $eventManager;
     }
@@ -100,8 +97,8 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
     private function createConsumer(): ConsumerInterface
     {
         return new AMQPConsumer(
-            $this->createAMQPConnection(),
-            $this->createAMQPChannel(),
+            $this->amqpConnectionFactory->createAMQPConnection(),
+            $this->amqpConnectionFactory->createAMQPChannel(),
             $this->createAMQPReceivedMessageFacadeBuilder(),
             $this->consumerConfiguration,
             $this->createMessageReceiver(),
@@ -128,49 +125,23 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         return new AMQPMessageFacadeBuilder($this->receiverAmqpConfiguration);
     }
 
-    private function createAMQPPublishedMessageFacadeBuilder(): AMQPMessageFacadeBuilderInterface
-    {
-        return new AMQPMessageFacadeBuilder($this->publisherAmqpConfiguration);
-    }
-
-    protected function createPublisher(): PublisherInterface
-    {
-        return new AMQPPublisher(
-            $this->createAMQPChannel(),
-            $this->publisherConfiguration->getQueue(),
-            $this->createMessageModelFromMessageBuilder(),
-        );
-    }
-
     private function createReceiverEventManager(): EventManagerInterface
     {
         $eventManager = new EventManager();
 
         $eventManager->subscribe(
             ProcessEventTypeEnum::MessageReceived,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageReceived)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageReceived)
         );
         $eventManager->subscribe(
             ProcessEventTypeEnum::Success,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::Success)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::Success)
         );
         $eventManager->subscribe(
             ProcessEventTypeEnum::Fail,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::Fail)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::Fail)
         );
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
-
-        return $eventManager;
-    }
-
-    private function createPublisherEventManager(): EventManagerInterface
-    {
-        $eventManager = new EventManager();
-
-        $eventManager->subscribe(
-            ProcessEventTypeEnum::MessagePublished,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessagePublished)
-        );
 
         return $eventManager;
     }
@@ -181,28 +152,9 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
 
         $eventManager->subscribe(
             ProcessEventTypeEnum::MessageAcked,
-            $this->loggerFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageAcked)
+            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageAcked)
         );
 
         return $eventManager;
-    }
-
-    private function createMessageModelFromMessageBuilder(): MessageModelExtractorInterface
-    {
-        return new MessageModelExtractor($this->createMessageModelFromStringBuilder());
-    }
-
-    private function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface
-    {
-        return new MessageModelFromStringBuilder();
-    }
-
-    protected function createPublishingSubscriber(): SubscriberInterface
-    {
-        return new PublishingSubscriber(
-            $this->createPublisher(),
-            $this->createPublisherEventManager(),
-            $this->createAMQPPublishedMessageFacadeBuilder(),
-        );
     }
 }

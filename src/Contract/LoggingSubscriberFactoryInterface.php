@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\EventTypeInterface;
 
-interface LoggerFactoryInterface
+interface LoggingSubscriberFactoryInterface
 {
     public function createLoggingSubscriber(EventTypeInterface $eventType): SubscriberInterface;
 }
