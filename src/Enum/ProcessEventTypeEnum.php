@@ -4,8 +4,10 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Enum;
 
-enum ProcessEventTypeEnum
+enum ProcessEventTypeEnum implements EventTypeInterface
 {
+    use EventTypeTrait;
+
     case MessageReceived;
 
     case Success;

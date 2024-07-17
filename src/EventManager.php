@@ -7,6 +7,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\EventTypeInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 class EventManager implements EventManagerInterface
@@ -16,26 +17,26 @@ class EventManager implements EventManagerInterface
      */
     private array $subscribers = [];
 
-    public function subscribe(ProcessEventTypeEnum $eventType, SubscriberInterface $subscriber): void
+    public function subscribe(EventTypeInterface $eventType, SubscriberInterface $subscriber): void
     {
-        $this->subscribers[$eventType->name][] = $subscriber;
+        $this->subscribers[$eventType->getName()][] = $subscriber;
     }
 
-    public function unsubscribe(ProcessEventTypeEnum $eventType, SubscriberInterface $subscriber): void
+    public function unsubscribe(EventTypeInterface $eventType, SubscriberInterface $subscriber): void
     {
-        if (($key = array_search($subscriber, $this->subscribers[$eventType->name])) !== false) {
-            unset($this->subscribers[$eventType->name][$key]);
+        if (($key = array_search($subscriber, $this->subscribers[$eventType->getName()])) !== false) {
+            unset($this->subscribers[$eventType->getName()][$key]);
         }
     }
 
-    public function notify(ProcessEventTypeEnum $eventType, ProcessDataInterface $data): void
+    public function notify(EventTypeInterface $eventType, ProcessDataInterface $data): void
     {
-        if (!isset($this->subscribers[$eventType->name])) {
+        if (!isset($this->subscribers[$eventType->getName()])) {
             return;
         }
 
         array_walk(
-            $this->subscribers[$eventType->name],
+            $this->subscribers[$eventType->getName()],
             fn (SubscriberInterface $subscriber) => $subscriber->update($data),
         );
     }
