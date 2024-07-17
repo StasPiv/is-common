@@ -6,6 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
@@ -16,6 +17,7 @@ class MessageReceiver implements MessageReceiverInterface
     public function __construct(
         private readonly EventManagerInterface                  $eventManager,
         private readonly MessageProcessorInterface              $messageProcessor,
+        private readonly MessageModelExtractorInterface $messageModelExtractor,
     ) {
     }
 
@@ -24,7 +26,8 @@ class MessageReceiver implements MessageReceiverInterface
         $this->eventManager->notify(ProcessEventTypeEnum::MessageReceived, $message);
 
         try {
-            $this->messageProcessor->process($message);
+            $messageModel = $this->messageModelExtractor->extractMessageModelFromMessage($message);
+            $this->messageProcessor->process($messageModel);
             $this->eventManager->notify(ProcessEventTypeEnum::Success, $message);
         } catch (ProcessorException $processorException) {
             $this->eventManager->notify(ProcessEventTypeEnum::Fail, $processorException);

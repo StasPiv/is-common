@@ -41,11 +41,11 @@ class PublishingSubscriberFactory implements PublishingSubscriberFactoryInterfac
         return new AMQPPublisher(
             $this->amqpConnectionFactory->createAMQPChannel(),
             $this->publisherConfiguration->getQueue(),
-            $this->createMessageModelFromMessageBuilder(),
+            $this->createMessageModelExtractor(),
         );
     }
 
-    private function createMessageModelFromMessageBuilder(): MessageModelExtractorInterface
+    private function createMessageModelExtractor(): MessageModelExtractorInterface
     {
         return new MessageModelExtractor($this->createMessageModelFromStringBuilder());
     }

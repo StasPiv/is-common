@@ -6,5 +6,5 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface MessageProcessorInterface
 {
-    public function process(MessageInterface $message): void;
+    public function process(MessageModelInterface $messageModel): void;
 }

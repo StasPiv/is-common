@@ -15,13 +15,13 @@ class AMQPPublisher implements PublisherInterface
     public function __construct(
         private readonly AMQPChannel                    $channel,
         private readonly string                         $queue,
-        private readonly MessageModelExtractorInterface $messageModelBuilder,
+        private readonly MessageModelExtractorInterface $messageModelExtractor,
     ) {
     }
 
     public function publish(MessageInterface $message): void
     {
-        $model = $this->messageModelBuilder->extractMessageModelFromMessage($message);
+        $model = $this->messageModelExtractor->extractMessageModelFromMessage($message);
 
         $this->channel->basic_publish(
             new AMQPMessage((string) $model),

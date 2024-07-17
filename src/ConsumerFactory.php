@@ -12,6 +12,8 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerFactoryIn
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
@@ -49,6 +51,7 @@ class ConsumerFactory implements ConsumerFactoryInterface
         return new MessageReceiver(
             $this->createReceiverEventManager(),
             $this->messageProcessor,
+            $this->createMessageModelExtractor(),
         );
     }
 
@@ -90,5 +93,15 @@ class ConsumerFactory implements ConsumerFactoryInterface
         );
 
         return $eventManager;
+    }
+
+    private function createMessageModelExtractor(): MessageModelExtractorInterface
+    {
+        return new MessageModelExtractor($this->createMessageModelFromStringBuilder());
+    }
+
+    private function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface
+    {
+        return new MessageModelFromStringBuilder();
     }
 }
