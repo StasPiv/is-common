@@ -14,7 +14,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInter
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
@@ -26,7 +25,7 @@ class ConsumerFactory implements ConsumerFactoryInterface
         private readonly LoggingSubscriberFactoryInterface $loggingSubscriberFactory,
         private readonly AMQPConsumerConfigurationInterface $consumerConfiguration,
         private readonly AMQPMessageFacadeConfigurationInterface $receiverAmqpConfiguration,
-        private readonly MessageProcessorInterface $messageProcessor,
+        private readonly MessageProcessorFactoryInterface $messageProcessorFactory,
     ) {
     }
 
@@ -50,7 +49,7 @@ class ConsumerFactory implements ConsumerFactoryInterface
     {
         return new MessageReceiver(
             $this->createReceiverEventManager(),
-            $this->messageProcessor,
+            $this->messageProcessorFactory->createMessageProcessor(),
             $this->createMessageModelExtractor(),
         );
     }

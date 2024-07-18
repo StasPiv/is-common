@@ -35,6 +35,7 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
         protected AMQPMessageFacadeConfigurationInterface $publisherAmqpConfiguration,
         protected PublisherConfigurationInterface         $publisherConfiguration,
         protected LoggerConfigurationInterface            $loggerConfiguration,
+        protected MessageProcessorFactoryInterface $messageProcessorFactory,
     ) {
         $this->loggingSubscriberFactory = $this->createLoggerFactory();
         $this->amqpConnectionFactory = $this->createAMQPConnectionFactory();
@@ -71,7 +72,7 @@ abstract class AbstractAMQPFactory implements CommandFactoryInterface
             $this->loggingSubscriberFactory,
             $this->consumerConfiguration,
             $this->receiverAmqpConfiguration,
-            $this->createMessageProcessor(),
+            $this->messageProcessorFactory,
         );
     }
 
