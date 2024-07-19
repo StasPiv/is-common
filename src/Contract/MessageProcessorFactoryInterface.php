@@ -2,9 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace StanislavPivovartsev\InterestingStatistics\Common;
-
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorInterface;
+namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface MessageProcessorFactoryInterface
 {
