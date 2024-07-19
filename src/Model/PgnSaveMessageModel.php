@@ -22,21 +22,4 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
     {
         return $this->pgn;
     }
-
-    public function toArray(): array
-    {
-        return [
-            'pgn' => $this->getPgn(),
-        ];
-    }
-
-    public static function getProperties(): array
-    {
-        return ['pgn'];
-    }
-
-    public function getData(): array
-    {
-        return $this->toArray();
-    }
 }

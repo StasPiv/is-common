@@ -9,7 +9,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Exception\CollectionFinderException;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableModel;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 
 class MoveFinder implements CollectionFinderInterface
 {
@@ -21,7 +21,7 @@ class MoveFinder implements CollectionFinderInterface
 
     public function modelExists(ModelInCollectionInterface $model): bool
     {
-        if (!$model instanceof MoveSavableModel) {
+        if (!$model instanceof MoveSavableMessageModel) {
             throw new CollectionFinderException('MoveFinder can work only with MoveSavableModel');
         }
 

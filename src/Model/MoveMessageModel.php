@@ -22,25 +22,6 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
     ) {
     }
 
-    public function toArray(): array
-    {
-        return [
-            'gameId' => $this->gameId,
-            'moveNumber' => $this->moveNumber,
-            'side' => $this->side,
-            'player' => $this->player,
-            'opponent' => $this->opponent,
-            'moveNotation' => $this->moveNotation,
-            'fenBefore' => $this->fenBefore,
-            'fenAfter' => $this->fenAfter,
-        ];
-    }
-
-    public static function getProperties(): array
-    {
-        return ['moveNumber', 'gameId', 'side', 'player', 'opponent', 'moveNotation', 'fenBefore', 'fenAfter'];
-    }
-
     public function getGameId(): string
     {
         return $this->gameId;

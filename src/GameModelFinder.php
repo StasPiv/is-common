@@ -9,7 +9,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Exception\CollectionFinderException;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\GameModel;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\GameMessageModel;
 
 class GameModelFinder implements CollectionFinderInterface
 {
@@ -21,7 +21,7 @@ class GameModelFinder implements CollectionFinderInterface
 
     public function modelExists(ModelInCollectionInterface $model): bool
     {
-        if (!$model instanceof GameModel) {
+        if (!$model instanceof GameMessageModel) {
             throw new CollectionFinderException('GameModelFinder can work only with GameModel');
         }
 

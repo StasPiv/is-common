@@ -7,7 +7,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
-class GameModel implements ModelInCollectionInterface, MessageModelInterface
+class GameMessageModel extends AbstractMessageModel implements ModelInCollectionInterface, MessageModelInterface
 {
     public function __construct(
         private readonly string $id,
@@ -33,11 +33,6 @@ class GameModel implements ModelInCollectionInterface, MessageModelInterface
     public function getId(): string
     {
         return $this->id;
-    }
-
-    public function __toString(): string
-    {
-        return serialize($this);
     }
 
     public function getPgnHash(): string

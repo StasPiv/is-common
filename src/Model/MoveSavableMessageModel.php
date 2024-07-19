@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
-class MoveSavableModel implements ModelInCollectionInterface
+class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCollectionInterface
 {
     public function __construct(
         private readonly string $id,
@@ -48,11 +48,6 @@ class MoveSavableModel implements ModelInCollectionInterface
             'player_elo' => $this->playerElo,
             'opponent_elo' => $this->opponentElo,
         ];
-    }
-
-    public function __toString(): string
-    {
-        return serialize($this);
     }
 
     public function getFenBefore(): string
