@@ -37,6 +37,10 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
 
         $result = $this->mysqlConnection->query($sql);
 
+        if ($result->num_rows === 0) {
+            return null;
+        }
+
         $assoc = $result->fetch_assoc();
         $modelInstance = $this->getModelInstance();
 
