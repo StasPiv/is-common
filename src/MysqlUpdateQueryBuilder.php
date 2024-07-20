@@ -24,10 +24,16 @@ class MysqlUpdateQueryBuilder implements Contract\MysqlUpdateQueryBuilderInterfa
      */
     private function buildPairs(array $data): string
     {
+        $savableValues = array_filter(
+            $data,
+            fn ($value): bool => $value !== null,
+            ARRAY_FILTER_USE_BOTH,
+        );
+
         $pairsArray = array_map(
             fn (string $value, string $key): string => "`$key` = '" . $this->mysqli->real_escape_string($value) . "'",
-            $data,
-            array_keys($data),
+            $savableValues,
+            array_keys($savableValues),
         );
 
         return implode(', ', $pairsArray);
