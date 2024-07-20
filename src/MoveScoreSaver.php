@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
+use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveScoreModel;
+
 class MoveScoreSaver extends AbstractMysqlSaver
 {
     public function getCollection(): string
@@ -13,6 +15,6 @@ class MoveScoreSaver extends AbstractMysqlSaver
 
     public function getModelInstance(): string
     {
-        return MoveScoreSaver::class;
+        return MoveScoreModel::class;
     }
 }
