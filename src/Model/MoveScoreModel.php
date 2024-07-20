@@ -33,14 +33,14 @@ class MoveScoreModel implements ModelInCollectionInterface
         ];
     }
 
-    public function getScoreBefore(): int
+    public function getScoreBefore(): ?string
     {
-        return (int) $this->scoreBefore;
+        return $this->scoreBefore;
     }
 
-    public function getScoreAfter(): int
+    public function getScoreAfter(): ?string
     {
-        return (int) $this->scoreAfter;
+        return $this->scoreAfter;
     }
 
     public function getDiff(): int
