@@ -14,7 +14,7 @@ class MoveScoreModel implements ModelInCollectionInterface
         private readonly string $moveId,
         private readonly string $scoreBefore,
         private readonly string $scoreAfter,
-        private readonly string $diff,
+        private ?string $diff,
     ) {
     }
 
@@ -51,5 +51,12 @@ class MoveScoreModel implements ModelInCollectionInterface
     public function getDiff(): int
     {
         return (int) $this->diff;
+    }
+
+    public function setDiff(string $diff): MoveScoreModel
+    {
+        $this->diff = $diff;
+
+        return $this;
     }
 }
