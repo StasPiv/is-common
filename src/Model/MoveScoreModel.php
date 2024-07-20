@@ -12,8 +12,8 @@ class MoveScoreModel implements ModelInCollectionInterface
 
     public function __construct(
         private readonly string $moveId,
-        private readonly string $scoreBefore,
-        private readonly string $scoreAfter,
+        private ?string $scoreBefore,
+        private ?string $scoreAfter,
         private ?string $diff,
     ) {
     }
@@ -56,6 +56,20 @@ class MoveScoreModel implements ModelInCollectionInterface
     public function setDiff(string $diff): MoveScoreModel
     {
         $this->diff = $diff;
+
+        return $this;
+    }
+
+    public function setScoreBefore(string $scoreBefore): MoveScoreModel
+    {
+        $this->scoreBefore = $scoreBefore;
+
+        return $this;
+    }
+
+    public function setScoreAfter(string $scoreAfter): MoveScoreModel
+    {
+        $this->scoreAfter = $scoreAfter;
 
         return $this;
     }
