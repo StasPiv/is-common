@@ -13,8 +13,7 @@
     "ext-mysqli": "*",
     "psr/log": "3.x-dev",
     "monolog/monolog": "3.x-dev",
-    "predis/predis": "dev-main",
-    "staspiv/chess-bestmove": "3.*"
+    "predis/predis": "dev-main"
   },
   "require-dev": {
     "phpunit/phpunit": "10.5.19",
