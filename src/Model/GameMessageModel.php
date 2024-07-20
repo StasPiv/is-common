@@ -16,17 +16,12 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     ) {
     }
 
-    public function getCollection(): string
-    {
-        return 'games';
-    }
-
     public function getData(): array
     {
         return [
             'id' => $this->id,
             'pgn' => $this->pgn,
-            'pgn_hash' => $this->pgnHash,
+            'pgnHash' => $this->pgnHash,
         ];
     }
 

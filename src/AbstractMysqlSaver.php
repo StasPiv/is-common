@@ -9,7 +9,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionIn
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlInsertQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
 
-class MysqlSaver implements CollectionSaverInterface
+abstract class AbstractMysqlSaver implements CollectionSaverInterface
 {
     public function __construct(
         private readonly MysqlConnectionInterface $mysqlConnection,
@@ -19,7 +19,7 @@ class MysqlSaver implements CollectionSaverInterface
 
     public function saveModel(ModelInCollectionInterface $model): bool
     {
-        $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($model->getCollection(), $model->getData());
+        $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($this->getCollection(), $model->getData());
 
         return $this->mysqlConnection->query($sql);
     }

@@ -6,34 +6,16 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use mysqli;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\MysqliConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlInsertQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
 
-class MysqlCollectionFactory implements CollectionFactoryInterface
+abstract class AbstractMysqlCollectionFactory implements CollectionFactoryInterface
 {
     public function __construct(
         protected MysqliConfigurationInterface $mysqliConfiguration,
     ) {
-    }
-
-    public function createCollectionFinder(): CollectionFinderInterface
-    {
-        return new MysqlFinder(
-            $this->createMysqlConnection(),
-            $this->createMysqlSelectQueryBuilder(),
-        );
-    }
-
-    public function createCollectionSaver(): CollectionSaverInterface
-    {
-        return new MysqlSaver(
-            $this->createMysqlConnection(),
-            $this->createMysqlInsertQueryBuilder(),
-        );
     }
 
     protected function createMysqlConnection(): MysqlConnectionInterface

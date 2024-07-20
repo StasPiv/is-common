@@ -11,21 +11,16 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     public function __construct(
         private readonly string $id,
         private readonly string $gameId,
-        private readonly int $moveNumber,
+        private readonly string $moveNumber,
         private readonly string $side,
         private readonly string $move,
         private readonly string $fenBefore,
         private readonly string $fenAfter,
         private readonly string $player,
         private readonly string $opponent,
-        private readonly int $playerElo,
-        private readonly int $opponentElo,
+        private readonly string $playerElo,
+        private readonly string $opponentElo,
     ) {
-    }
-
-    public function getCollection(): string
-    {
-        return 'moves';
     }
 
     public function getId(): string
@@ -37,16 +32,16 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     {
         return [
             'id' => $this->id,
-            'game_id' => $this->gameId,
-            'move_number' => $this->moveNumber,
+            'gameId' => $this->gameId,
+            'moveNumber' => $this->moveNumber,
             'side' => $this->side,
             'move' => $this->move,
-            'fen_before' => $this->fenBefore,
-            'fen_after' => $this->fenAfter,
+            'fenBefore' => $this->fenBefore,
+            'fenAfter' => $this->fenAfter,
             'player' => $this->player,
             'opponent' => $this->opponent,
-            'player_elo' => $this->playerElo,
-            'opponent_elo' => $this->opponentElo,
+            'playerElo' => $this->playerElo,
+            'opponentElo' => $this->opponentElo,
         ];
     }
 
@@ -67,7 +62,7 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
 
     public function getMoveNumber(): int
     {
-        return $this->moveNumber;
+        return (int) $this->moveNumber;
     }
 
     public function getSide(): string
@@ -92,11 +87,11 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
 
     public function getPlayerElo(): int
     {
-        return $this->playerElo;
+        return (int) $this->playerElo;
     }
 
     public function getOpponentElo(): int
     {
-        return $this->opponentElo;
+        return (int) $this->opponentElo;
     }
 }

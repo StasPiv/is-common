@@ -15,7 +15,7 @@ class MysqlSelectQueryBuilder implements MysqlSelectQueryBuilderInterface
 
     public function buildSelectSql(string $table, array $columns = ['*'], array $where = []): string
     {
-        $columnsString = implode(', ', array_map(fn (string $column): string => "`$column`", $columns));
+        $columnsString = implode(', ', array_map(fn (string $column): string => "$column", $columns));
         $whereCondition = $this->buildWhereCondition($where);
 
         return "SELECT $columnsString FROM `$table` WHERE $whereCondition";
