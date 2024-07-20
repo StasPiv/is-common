@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveScoreModel;
 
-class MoveScoreFinder extends AbstractMysqlFinder
+class MoveScoreCollectionFinder extends AbstractMysqlFinder
 {
     public function getCollection(): string
     {

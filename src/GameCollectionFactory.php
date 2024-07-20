@@ -4,24 +4,15 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
-
 class GameCollectionFactory extends AbstractMysqlCollectionFactory
 {
-    public function createCollectionFinder(): CollectionFinderInterface
+    protected function getCollectionFinderClassName(): string
     {
-        return new GameCollectionFinder(
-            $this->createMysqlConnection(),
-            $this->createMysqlSelectQueryBuilder(),
-        );
+        return GameCollectionFinder::class;
     }
 
-    public function createCollectionSaver(): CollectionSaverInterface
+    protected function getCollectionSaverClassName(): string
     {
-        return new GameCollectionSaver(
-            $this->createMysqlConnection(),
-            $this->createMysqlInsertQueryBuilder(),
-        );
+        return GameCollectionSaver::class;
     }
 }

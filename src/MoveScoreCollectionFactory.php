@@ -4,24 +4,15 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
-
 class MoveScoreCollectionFactory extends AbstractMysqlCollectionFactory
 {
-    public function createCollectionFinder(): CollectionFinderInterface
+    protected function getCollectionFinderClassName(): string
     {
-        return new MoveScoreFinder(
-            $this->createMysqlConnection(),
-            $this->createMysqlSelectQueryBuilder(),
-        );
+        return MoveScoreCollectionFinder::class;
     }
 
-    public function createCollectionSaver(): CollectionSaverInterface
+    protected function getCollectionSaverClassName(): string
     {
-        return new MoveScoreSaver(
-            $this->createMysqlConnection(),
-            $this->createMysqlInsertQueryBuilder(),
-        );
+        return MoveScoreCollectionSaver::class;
     }
 }

@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveScoreModel;
 
-class MoveScoreSaver extends AbstractMysqlSaver
+class MoveScoreCollectionSaver extends AbstractMysqlSaver
 {
     public function getCollection(): string
     {
