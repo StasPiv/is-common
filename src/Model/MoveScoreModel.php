@@ -11,31 +11,26 @@ class MoveScoreModel implements ModelInCollectionInterface
     use StringSerializableTrait;
 
     public function __construct(
-        private readonly string $moveId,
-        private ?string $scoreBefore,
-        private ?string $scoreAfter,
-        private ?string $diff,
+        private readonly string $id,
+        private ?string         $scoreBefore,
+        private ?string         $scoreAfter,
+        private ?string         $diff,
     ) {
     }
 
     public function getId(): string
     {
-        return $this->moveId;
+        return $this->id;
     }
 
     public function getData(): array
     {
         return [
-            'moveId' => $this->moveId,
+            'id' => $this->id,
             'scoreBefore' => $this->scoreBefore,
             'scoreAfter' => $this->scoreAfter,
             'diff' => $this->diff,
         ];
-    }
-
-    public function getMoveId(): string
-    {
-        return $this->moveId;
     }
 
     public function getScoreBefore(): int
