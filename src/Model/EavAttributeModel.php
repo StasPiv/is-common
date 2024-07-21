@@ -12,7 +12,7 @@ class EavAttributeModel implements ModelInCollectionInterface
 
     public function __construct(
         private readonly string $id,
-        private readonly int $type,
+        private readonly string $type,
         private readonly string $name,
     ) {
     }
@@ -22,7 +22,7 @@ class EavAttributeModel implements ModelInCollectionInterface
         return $this->id;
     }
 
-    public function getType(): int
+    public function getType(): string
     {
         return $this->type;
     }
