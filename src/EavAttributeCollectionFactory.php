@@ -8,7 +8,7 @@ class EavAttributeCollectionFactory extends AbstractMysqlCollectionFactory
 {
     protected function getCollectionFinderClassName(): string
     {
-        return EavAttributeVarcharCollectionFinder::class;
+        return EavAttributeCollectionFinder::class;
     }
 
     protected function getCollectionSaverClassName(): string
