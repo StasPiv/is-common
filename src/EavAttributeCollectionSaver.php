@@ -11,7 +11,7 @@ class EavAttributeCollectionSaver extends AbstractMysqlSaver
 
     public function getCollection(): string
     {
-        return 'eav_attribute';
+        return 'eav_attributes';
     }
 
     public function getModelInstance(): string
