@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 
-class PlayerModel implements StringInterface
+class PlayerModel extends AbstractMessageModel implements StringInterface
 {
     use StringJsonEncodableTrait;
 
