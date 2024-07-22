@@ -52,7 +52,7 @@ class PublishingSubscriberFactory implements PublishingSubscriberFactoryInterfac
 
     private function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface
     {
-        return new MessageModelFromStringBuilder();
+        return new JsonDecodeMessageModelBuilder();
     }
 
     private function createPublisherEventManager(): EventManagerInterface

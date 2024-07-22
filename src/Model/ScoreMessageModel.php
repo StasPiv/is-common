@@ -16,6 +16,15 @@ class ScoreMessageModel extends AbstractMessageModel  implements MessageModelInt
     ) {
     }
 
+    protected function getData(): array
+    {
+        return [
+            'fen' => $this->fen,
+            'score' => $this->score,
+            'moveId' => $this->moveId,
+        ];
+    }
+
     public function getFen(): string
     {
         return $this->fen;

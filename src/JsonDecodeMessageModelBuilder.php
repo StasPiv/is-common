@@ -8,16 +8,16 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromS
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Exception\MessageModelBuilderException;
 
-class MessageModelFromStringBuilder implements MessageModelFromStringBuilderInterface
+class JsonDecodeMessageModelBuilder implements MessageModelFromStringBuilderInterface
 {
     /**
-     * @param class-string|\StanislavPivovartsev\InterestingStatistics\Common\Model\AbstractMessageModel $modelClass
-     *
-     * @throws \JsonException
+     * @inheritDoc
      */
     public function buildMessageModelFromString(string $string, string $modelClass): MessageModelInterface
     {
-        $object = unserialize($string);
+        $data = json_decode($string, true);
+
+        $object = $modelClass::getInstance(...$data);
 
         if (!$object instanceof $modelClass) {
             throw new MessageModelBuilderException(

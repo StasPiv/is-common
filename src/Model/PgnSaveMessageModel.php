@@ -18,6 +18,13 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
     ) {
     }
 
+    protected function getData(): array
+    {
+        return [
+            'pgn' => $this->pgn,
+        ];
+    }
+
     public function getPgn(): string
     {
         return $this->pgn;

@@ -8,5 +8,10 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInter
 
 abstract class AbstractMessageModel implements MessageModelInterface
 {
-    use StringSerializableTrait;
+    use StringJsonEncodableTrait;
+
+    public static function getInstance(...$data): static
+    {
+        return new static(...$data);
+    }
 }

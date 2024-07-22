@@ -15,6 +15,14 @@ class PgnParseMessageModel extends AbstractMessageModel implements MessageModelI
     ) {
     }
 
+    protected function getData(): array
+    {
+        return [
+            'id' => $this->id,
+            'pgn' => $this->pgn,
+        ];
+    }
+
     public function getId(): string
     {
         return $this->id;

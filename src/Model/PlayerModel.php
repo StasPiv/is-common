@@ -8,12 +8,25 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 
 class PlayerModel implements StringInterface
 {
-    use StringSerializableTrait;
+    use StringJsonEncodableTrait;
 
     public function __construct(
         private readonly string $name,
         private readonly int $elo,
     ) {
+    }
+
+    public function toArray(): array
+    {
+        return $this->getData();
+    }
+
+    protected function getData(): array
+    {
+        return [
+            'name' => $this->name,
+            'elo' => $this->elo,
+        ];
     }
 
     public function getName(): string

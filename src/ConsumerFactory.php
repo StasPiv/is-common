@@ -102,6 +102,6 @@ class ConsumerFactory implements ConsumerFactoryInterface
 
     private function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface
     {
-        return new MessageModelFromStringBuilder();
+        return new JsonDecodeMessageModelBuilder();
     }
 }
