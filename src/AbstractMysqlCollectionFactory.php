@@ -77,7 +77,13 @@ abstract class AbstractMysqlCollectionFactory implements CollectionFactoryInterf
 
     private function createMysqli(): mysqli
     {
-        return new mysqli(
+        static $mysqli;
+
+        if ($mysqli) {
+            return $mysqli;
+        }
+
+        return $mysqli = new mysqli(
             $this->mysqliConfiguration->getHost(),
             $this->mysqliConfiguration->getUserName(),
             $this->mysqliConfiguration->getPassword(),
