@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-class EavAttributeVarcharCollectionFactory extends AbstractMysqlCollectionFactory
+class EavAttributeVarcharCollectionFactory extends AbstractEavAttributeValueCollectionFactory
 {
     protected function getCollectionFinderClassName(): string
     {
