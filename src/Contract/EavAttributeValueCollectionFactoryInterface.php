@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
-interface EavAttributeValueCollectionSaverFactoryInterface extends CollectionFactoryInterface
+interface EavAttributeValueCollectionFactoryInterface extends CollectionFactoryInterface
 {
     public function createCollectionSaver(): EavAttributeValueCollectionSaverInterface;
 }
