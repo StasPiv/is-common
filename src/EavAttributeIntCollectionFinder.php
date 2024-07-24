@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Model\EavAttributeInt;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\EavAttributeIntModel;
 
 class EavAttributeIntCollectionFinder extends AbstractMysqlFinder
 {
@@ -15,6 +15,6 @@ class EavAttributeIntCollectionFinder extends AbstractMysqlFinder
 
     public function getModelInstance(): string
     {
-        return EavAttributeInt::class;
+        return EavAttributeIntModel::class;
     }
 }

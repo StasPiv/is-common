@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
-class EavAttributeVarcharModel extends AbstractEavAttributeValueModel
+class EavAttributeIntModel extends AbstractEavAttributeValueModel
 {
     use StringSerializableTrait;
 
     protected function checkValueType(mixed $value): bool
     {
-        return is_string($value);
+        return is_numeric($value);
     }
 }

@@ -14,10 +14,10 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlUpdateQueryB
 abstract class AbstractMysqlSaver implements CollectionSaverInterface
 {
     public function __construct(
-        private readonly MysqlConnectionInterface $mysqlConnection,
-        private readonly CollectionFinderInterface $collectionFinder,
-        private readonly MysqlInsertQueryBuilderInterface $mysqlInsertQueryBuilder,
-        private readonly MysqlUpdateQueryBuilderInterface $mysqlUpdateQueryBuilder,
+        protected MysqlConnectionInterface $mysqlConnection,
+        protected CollectionFinderInterface $collectionFinder,
+        protected MysqlInsertQueryBuilderInterface $mysqlInsertQueryBuilder,
+        protected MysqlUpdateQueryBuilderInterface $mysqlUpdateQueryBuilder,
     ) {
     }
 

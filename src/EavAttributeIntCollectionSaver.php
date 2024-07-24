@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Model\EavAttributeInt;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\EavAttributeIntModel;
 
-class EavAttributeIntCollectionSaver extends AbstractMysqlSaver
+class EavAttributeIntCollectionSaver extends AbstractEavAttributeValueCollectionSaver
 {
     public function getCollection(): string
     {
@@ -15,6 +15,6 @@ class EavAttributeIntCollectionSaver extends AbstractMysqlSaver
 
     public function getModelInstance(): string
     {
-        return EavAttributeInt::class;
+        return EavAttributeIntModel::class;
     }
 }
