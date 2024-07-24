@@ -14,6 +14,7 @@ class EavAttributeModel implements ModelInCollectionInterface
         private readonly string $id,
         private readonly string $type,
         private readonly string $name,
+        private readonly string $table,
     ) {
     }
 
@@ -32,12 +33,18 @@ class EavAttributeModel implements ModelInCollectionInterface
         return $this->name;
     }
 
+    public function getTable(): string
+    {
+        return $this->table;
+    }
+
     public function getData(): array
     {
         return [
             'id' => $this->id,
             'type' => $this->type,
             'name' => $this->name,
+            'table' => $this->table,
         ];
     }
 }
