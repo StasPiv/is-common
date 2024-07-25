@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 class EavAttributeVarcharModel extends AbstractEavAttributeValueModel
 {
-    use StringSerializableTrait;
+    use StringJsonEncodableTrait;
 
     protected function checkValueType(mixed $value): bool
     {

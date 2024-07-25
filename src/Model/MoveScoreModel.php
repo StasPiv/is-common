@@ -8,7 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 
 class MoveScoreModel implements ModelInCollectionInterface
 {
-    use StringSerializableTrait;
+    use StringJsonEncodableTrait;
 
     public function __construct(
         private readonly string $id,
