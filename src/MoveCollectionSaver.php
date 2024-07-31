@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 
-class MoveCollectionSaver extends AbstractMysqlSaver
+class MoveCollectionSaver extends AbstractCollectionSaver
 {
     public function getCollection(): string
     {

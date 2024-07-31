@@ -13,4 +13,6 @@ interface MysqliConfigurationInterface
     public function getUserName(): string;
 
     public function getPassword(): string;
+
+    public function getPort(): int;
 }

@@ -4,13 +4,8 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-class MoveScoreCollectionFactory extends AbstractMysqlCollectionFactory
+class MoveScoreCollectionSaverFactory extends AbstractCollectionSaverFactory
 {
-    protected function getCollectionFinderClassName(): string
-    {
-        return MoveScoreCollectionFinder::class;
-    }
-
     protected function getCollectionSaverClassName(): string
     {
         return MoveScoreCollectionSaver::class;

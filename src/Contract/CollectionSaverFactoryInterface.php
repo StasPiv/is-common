@@ -4,9 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
-interface CollectionFactoryInterface
+interface CollectionSaverFactoryInterface
 {
-    public function createCollectionFinder(): CollectionFinderInterface;
-
     public function createCollectionSaver(): CollectionSaverInterface;
 }

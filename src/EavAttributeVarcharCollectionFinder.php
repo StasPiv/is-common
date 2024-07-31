@@ -8,7 +8,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Model\EavAttributeVarcharM
 
 class EavAttributeVarcharCollectionFinder extends AbstractMysqlFinder
 {
-
     public function getCollection(): string
     {
         return 'eav_attribute_varchar';

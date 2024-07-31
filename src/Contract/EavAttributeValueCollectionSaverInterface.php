@@ -6,5 +6,4 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface EavAttributeValueCollectionSaverInterface extends CollectionSaverInterface
 {
-    public function saveEavAttributeValue(string $entityId, string $attributeId, mixed $value): void;
 }

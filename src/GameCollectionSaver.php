@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Model\GameMessageModel;
 
-class GameCollectionSaver extends AbstractMysqlSaver
+class GameCollectionSaver extends AbstractCollectionSaver
 {
     public function getCollection(): string
     {

@@ -8,7 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\EavAttributeValueCollectio
 
 interface EavAttributeValueCollectionSaverContextInterface
 {
-    public function setStrategy(EavAttributeValueCollectionSaverInterface $strategy): EavAttributeValueCollectionSaverContext;
+    public function setStrategy(CollectionSaverInterface $strategy): EavAttributeValueCollectionSaverContext;
 
     public function processSaveEavAttributeValue(string $entityId, string $attributeId, mixed $value): void;
 }
