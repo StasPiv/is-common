@@ -52,4 +52,20 @@ class ModelAndCollectionMessageModel extends AbstractMessageModel implements Pro
             'model' => $this->model->getData(),
         ];
     }
+
+    /**
+     * @return string
+     */
+    public function getCollection(): string
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @return \StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface
+     */
+    public function getModel(): ModelInCollectionInterface
+    {
+        return $this->model;
+    }
 }
