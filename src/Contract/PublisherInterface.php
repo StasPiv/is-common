@@ -6,5 +6,5 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface PublisherInterface
 {
-    public function publish(MessageInterface $message): void;
+    public function publish(StringInterface $model): void;
 }

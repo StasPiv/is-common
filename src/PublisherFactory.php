@@ -4,7 +4,6 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\PublisherConfigurationInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
@@ -22,13 +21,7 @@ class PublisherFactory implements PublisherFactoryInterface
         return new AMQPPublisher(
             $this->amqpConnectionFactory->createAMQPChannel(),
             $this->publisherConfiguration->getQueue(),
-            $this->createMessageModelExtractor(),
         );
-    }
-
-    private function createMessageModelExtractor(): MessageModelExtractorInterface
-    {
-        return new MessageModelExtractor($this->createMessageModelFromStringBuilder());
     }
 
     private function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface
