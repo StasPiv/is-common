@@ -44,6 +44,7 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
             ProcessEventTypeEnum::ModelNotFound,
             ProcessEventTypeEnum::ModelSaveFailed,
             ProcessEventTypeEnum::ModelCreated,
+            ProcessEventTypeEnum::ModelPublished,
         ];
     }
 }
