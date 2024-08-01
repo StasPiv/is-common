@@ -4,15 +4,11 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQPMessageFacadeConfigurationInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\PublisherConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublishingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
@@ -20,42 +16,22 @@ use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 class PublishingSubscriberFactory implements PublishingSubscriberFactoryInterface
 {
     public function __construct(
-        private readonly AMQPConnectionFactoryInterface $amqpConnectionFactory,
+        private readonly PublisherFactoryInterface $publisherFactory,
         private readonly LoggingSubscriberFactoryInterface $loggingSubscriberFactory,
         private readonly AMQPMessageFacadeConfigurationInterface $publisherAmqpConfiguration,
-        private readonly PublisherConfigurationInterface $publisherConfiguration,
     ) {
     }
 
     public function createPublishingSubscriber(): SubscriberInterface
     {
         return new PublishingSubscriber(
-            $this->createPublisher(),
-            $this->createPublisherEventManager(),
+            $this->publisherFactory->createPublisher(),
+            $this->createPublishingSubscriberEventManager(),
             $this->createAMQPPublishedMessageFacadeBuilder(),
         );
     }
 
-    private function createPublisher(): PublisherInterface
-    {
-        return new AMQPPublisher(
-            $this->amqpConnectionFactory->createAMQPChannel(),
-            $this->publisherConfiguration->getQueue(),
-            $this->createMessageModelExtractor(),
-        );
-    }
-
-    private function createMessageModelExtractor(): MessageModelExtractorInterface
-    {
-        return new MessageModelExtractor($this->createMessageModelFromStringBuilder());
-    }
-
-    private function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface
-    {
-        return new JsonDecodeMessageModelBuilder();
-    }
-
-    private function createPublisherEventManager(): EventManagerInterface
+    private function createPublishingSubscriberEventManager(): EventManagerInterface
     {
         $eventManager = new EventManager();
 
