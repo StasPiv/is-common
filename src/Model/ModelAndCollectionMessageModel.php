@@ -20,7 +20,7 @@ class ModelAndCollectionMessageModel implements MessageModelInterface, ProcessDa
     {
         return [
             'collection' => $this->collection,
-            'model' => $this->model,
+            'model' => $this->model->getData(),
         ];
     }
 }
