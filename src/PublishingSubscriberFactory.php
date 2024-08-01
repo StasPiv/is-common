@@ -4,8 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQPMessageFacadeConfigurationInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
@@ -18,7 +17,7 @@ class PublishingSubscriberFactory implements PublishingSubscriberFactoryInterfac
     public function __construct(
         private readonly PublisherFactoryInterface $publisherFactory,
         private readonly LoggingSubscriberFactoryInterface $loggingSubscriberFactory,
-        private readonly AMQPMessageFacadeConfigurationInterface $publisherAmqpConfiguration,
+        private readonly AMQPMessageFacadeBuilderFactoryInterface $amqpMessageFacadeBuilderFactory,
     ) {
     }
 
@@ -27,7 +26,7 @@ class PublishingSubscriberFactory implements PublishingSubscriberFactoryInterfac
         return new PublishingSubscriber(
             $this->publisherFactory->createPublisher(),
             $this->createPublishingSubscriberEventManager(),
-            $this->createAMQPPublishedMessageFacadeBuilder(),
+            $this->amqpMessageFacadeBuilderFactory->createAMQPMessageFacadeBuilder(),
         );
     }
 
@@ -41,10 +40,5 @@ class PublishingSubscriberFactory implements PublishingSubscriberFactoryInterfac
         );
 
         return $eventManager;
-    }
-
-    private function createAMQPPublishedMessageFacadeBuilder(): AMQPMessageFacadeBuilderInterface
-    {
-        return new AMQPMessageFacadeBuilder($this->publisherAmqpConfiguration);
     }
 }

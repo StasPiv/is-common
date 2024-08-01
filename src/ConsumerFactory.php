@@ -5,9 +5,8 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPMessageFacadeBuilderFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQPConsumerConfigurationInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQPMessageFacadeConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
@@ -22,11 +21,11 @@ use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 class ConsumerFactory implements ConsumerFactoryInterface
 {
     public function __construct(
-        private readonly AMQPConnectionFactoryInterface $amqpConnectionFactory,
-        private readonly LoggingSubscriberFactoryInterface $loggingSubscriberFactory,
-        private readonly AMQPConsumerConfigurationInterface $consumerConfiguration,
-        private readonly AMQPMessageFacadeConfigurationInterface $receiverAmqpConfiguration,
-        private readonly MessageProcessorFactoryInterface $messageProcessorFactory,
+        private readonly AMQPConnectionFactoryInterface           $amqpConnectionFactory,
+        private readonly LoggingSubscriberFactoryInterface        $loggingSubscriberFactory,
+        private readonly AMQPConsumerConfigurationInterface       $consumerConfiguration,
+        private readonly MessageProcessorFactoryInterface         $messageProcessorFactory,
+        private readonly AMQPMessageFacadeBuilderFactoryInterface $amqpMessageFacadeBuilderFactory,
     ) {
     }
 
@@ -35,15 +34,10 @@ class ConsumerFactory implements ConsumerFactoryInterface
         return new AMQPConsumer(
             $this->amqpConnectionFactory->createAMQPConnection(),
             $this->amqpConnectionFactory->createAMQPChannel(),
-            $this->createAMQPReceivedMessageFacadeBuilder(),
+            $this->amqpMessageFacadeBuilderFactory->createAMQPMessageFacadeBuilder(),
             $this->consumerConfiguration,
             $this->createMessageReceiver(),
         );
-    }
-
-    private function createAMQPReceivedMessageFacadeBuilder(): AMQPMessageFacadeBuilderInterface
-    {
-        return new AMQPMessageFacadeBuilder($this->receiverAmqpConfiguration);
     }
 
     private function createMessageReceiver(): MessageReceiverInterface
