@@ -12,7 +12,7 @@ class ModelAndCollectionMessageModel extends AbstractMessageModel implements Pro
 
     private static array $map = [
         'games' => GameMessageModel::class,
-        'eav_attribute' => EavAttributeModel::class,
+        'eav_attributes' => EavAttributeModel::class,
         'eav_attribute_int' => EavAttributeIntModel::class,
         'eav_attribute_varchar' => EavAttributeVarcharModel::class,
         'moves' => MoveSavableMessageModel::class,
