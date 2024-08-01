@@ -7,7 +7,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Exception\EavAttributeValueException;
 
-abstract class AbstractEavAttributeValueModel implements ModelInCollectionInterface
+abstract class AbstractEavAttributeValueModel extends AbstractMessageModel implements ModelInCollectionInterface
 {
     final public function __construct(
         protected string $id,

@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
-class MoveScoreModel implements ModelInCollectionInterface
+class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionInterface
 {
     use StringJsonEncodableTrait;
 

@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
-class EavAttributeModel implements ModelInCollectionInterface
+class EavAttributeModel extends AbstractMessageModel implements ModelInCollectionInterface
 {
     use StringJsonEncodableTrait;
 
