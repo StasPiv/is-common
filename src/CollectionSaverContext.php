@@ -24,6 +24,6 @@ class CollectionSaverContext implements CollectionSaverContextInterface
 
     public function processSaveModel(ModelInCollectionInterface $model, string $collection): bool
     {
-        return $this->collectionSaverStrategy->saveModel($model, $collection);
+        return $this->collectionSaverStrategy->saveModel($collection, $model);
     }
 }

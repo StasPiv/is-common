@@ -19,7 +19,7 @@ class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
     ) {
     }
 
-    public function saveModel(ModelInCollectionInterface $model, string $collection): bool
+    public function saveModel(string $collection, ModelInCollectionInterface $model): bool
     {
         if (!$this->collectionFinder->find($model->getId())) {
             $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $model->getData());
