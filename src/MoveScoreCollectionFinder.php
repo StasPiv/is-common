@@ -8,6 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderI
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveScoreModel;
 
 class MoveScoreCollectionFinder extends AbstractMysqlFinder
@@ -38,5 +39,12 @@ class MoveScoreCollectionFinder extends AbstractMysqlFinder
         return [
             'id' => $existingMoveModel->getId(),
         ];
+    }
+
+    protected function buildModelFromDb(array $assoc): ModelInCollectionInterface
+    {
+        $assoc['moveModel'] = $this->moveCollectionFinder->find($assoc['id']);
+
+        return parent::buildModelFromDb($assoc);
     }
 }

@@ -19,4 +19,9 @@ class CollectionFinderContext implements CollectionFinderContextInterface
     {
         return $this->strategy->findUnique($model);
     }
+
+    public function find(ModelInCollectionInterface $model): ?ModelInCollectionInterface
+    {
+        return $this->strategy->find($model);
+    }
 }

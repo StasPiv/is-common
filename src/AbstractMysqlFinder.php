@@ -44,6 +44,14 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
         }
 
         $assoc = $result->fetch_assoc();
+
+        return $this->buildModelFromDb($assoc);
+    }
+
+    abstract protected function getUniqueCriteria(ModelInCollectionInterface $model): array;
+
+    protected function buildModelFromDb(array $assoc): ModelInCollectionInterface
+    {
         $id = $assoc['id'];
         unset($assoc['id']);
 
@@ -55,6 +63,4 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
 
         return $modelInstance;
     }
-
-    abstract protected function getUniqueCriteria(ModelInCollectionInterface $model): array;
 }

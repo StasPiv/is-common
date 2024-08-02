@@ -7,4 +7,6 @@ interface CollectionFinderContextInterface
     public function setStrategy(CollectionFinderInterface $strategy): void;
 
     public function findUnique(ModelInCollectionInterface $model): ?ModelInCollectionInterface;
+
+    public function find(ModelInCollectionInterface $model): ?ModelInCollectionInterface;
 }

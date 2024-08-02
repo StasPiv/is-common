@@ -39,4 +39,20 @@ abstract class AbstractEavAttributeValueFinder extends AbstractMysqlFinder
             'attributeId' => $attribute->getId(),
         ];
     }
+
+    protected function buildModelFromDb(array $assoc): ModelInCollectionInterface
+    {
+        $entityFinder = match ($assoc['entityType']) {
+            'game' => $this->gameFinder,
+            default => throw new CollectionFinderException('Unknown entity type: ' . $assoc['entityType']),
+        };
+
+        $this->collectionFinderContext->setStrategy($entityFinder);
+        $assoc['entity'] = $this->collectionFinderContext->find($assoc['entityId']);
+        $assoc['attribute'] = $this->eavAttributeFinder->find($assoc['attributeId']);
+        unset($assoc['entityId']);
+        unset($assoc['attributeId']);
+
+        return parent::buildModelFromDb($assoc);
+    }
 }
