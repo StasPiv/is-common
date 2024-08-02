@@ -45,7 +45,7 @@ class ModelAndCollectionMessageModel extends AbstractMessageModel implements Pro
         return self::$map[$collection];
     }
 
-    protected function getDataForSerialize(): array
+    public function getDataForSerialize(): array
     {
         return [
             'collection' => $this->collection,

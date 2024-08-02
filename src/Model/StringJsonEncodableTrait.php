@@ -11,5 +11,5 @@ trait StringJsonEncodableTrait
         return json_encode($this->getDataForSerialize());
     }
 
-    abstract protected function getDataForSerialize(): array;
+    abstract public function getDataForSerialize(): array;
 }
