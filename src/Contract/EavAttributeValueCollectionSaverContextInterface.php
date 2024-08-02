@@ -10,5 +10,5 @@ interface EavAttributeValueCollectionSaverContextInterface
 {
     public function setStrategy(CollectionSaverInterface $strategy): EavAttributeValueCollectionSaverContext;
 
-    public function processSaveEavAttributeValue(string $entityId, string $attributeId, mixed $value): void;
+    public function processSaveEavAttributeValue(ModelInCollectionInterface $entity, string $entityType, ModelInCollectionInterface $attribute, mixed $value): void;
 }

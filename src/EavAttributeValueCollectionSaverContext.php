@@ -7,15 +7,11 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EavAttributeValueCollectionSaverContextInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
 class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollectionSaverContextInterface
 {
     private CollectionSaverInterface $strategy;
-
-    public function __construct(
-        private readonly IdGeneratorStrategyInterface $idGeneratorStrategy,
-    ) {
-    }
 
     public function setStrategy(CollectionSaverInterface $strategy): EavAttributeValueCollectionSaverContext
     {
@@ -24,13 +20,14 @@ class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollec
         return $this;
     }
 
-    public function processSaveEavAttributeValue(string $entityId, string $attributeId, mixed $value): void
+    public function processSaveEavAttributeValue(ModelInCollectionInterface $entity, string $entityType, ModelInCollectionInterface $attribute, mixed $value): void
     {
+        /** @var \StanislavPivovartsev\InterestingStatistics\Common\Model\AbstractEavAttributeValueModel|class-string $modelClass */
         $modelClass = $this->strategy->getModelInstance();
         $eavAttributeValueModel = new $modelClass(
-            $this->idGeneratorStrategy->generateId(),
-            $entityId,
-            $attributeId,
+            $entity,
+            $entityType,
+            $attribute,
             $value,
         );
 
