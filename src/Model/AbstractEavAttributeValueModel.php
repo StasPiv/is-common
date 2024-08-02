@@ -32,6 +32,7 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
     {
         return [
             'entity' => $this->entity->getData(),
+            'entityType' => $this->entityType,
             'attribute' => $this->attribute->getData(),
             'value' => $this->value,
         ];
