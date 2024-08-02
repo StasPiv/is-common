@@ -18,9 +18,9 @@ class MoveModelForSaveBuilder extends StandardModelForSaveBuilder
         parent::__construct($idGeneratorStrategy);
     }
 
-    public function buildModelForSave(ModelInCollectionInterface|MoveMessageModel $model): void
+    public function buildModelForInsert(ModelInCollectionInterface|MoveMessageModel $model): void
     {
-        parent::buildModelForSave($model);
+        parent::buildModelForInsert($model);
 
         $existingGame = $this->gameCollectionFinder->findUnique($model->getGame());
 
@@ -31,5 +31,14 @@ class MoveModelForSaveBuilder extends StandardModelForSaveBuilder
         }
 
         $model->setGame($existingGame);
+    }
+
+    public function buildModelForUpdate(
+        ModelInCollectionInterface|MoveMessageModel $model,
+        ModelInCollectionInterface|MoveMessageModel $existingModel
+    ): void {
+        parent::buildModelForUpdate($model, $existingModel);
+
+        $model->setGame($existingModel->getGame());
     }
 }

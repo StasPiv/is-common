@@ -18,7 +18,7 @@ class MoveScoreModelForSaveBuilder extends StandardModelForSaveBuilder
         parent::__construct($idGeneratorStrategy);
     }
 
-    public function buildModelForSave(ModelInCollectionInterface|MoveScoreModel $model): void
+    public function buildModelForInsert(ModelInCollectionInterface|MoveScoreModel $model): void
     {
         $existingMove = $this->moveCollectionFinder->findUnique($model->getMoveModel());
 

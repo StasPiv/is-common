@@ -23,9 +23,9 @@ class EavAttributeValueForSaveBuilder extends StandardModelForSaveBuilder
     }
 
 
-    public function buildModelForSave(ModelInCollectionInterface|AbstractEavAttributeValueModel $model): void
+    public function buildModelForInsert(ModelInCollectionInterface|AbstractEavAttributeValueModel $model): void
     {
-        parent::buildModelForSave($model);
+        parent::buildModelForInsert($model);
 
         $entityFinder = match ($model->getEntityType()) {
             'game' => $this->gameFinder,
@@ -45,5 +45,15 @@ class EavAttributeValueForSaveBuilder extends StandardModelForSaveBuilder
 
         $model->setEntity($entity);
         $model->setAttribute($attribute);
+    }
+
+    public function buildModelForUpdate(
+        ModelInCollectionInterface|AbstractEavAttributeValueModel $model,
+        ModelInCollectionInterface|AbstractEavAttributeValueModel $existingModel
+    ): void {
+        parent::buildModelForUpdate($model, $existingModel);
+
+        $model->setEntity($existingModel->getEntity());
+        $model->setAttribute($existingModel->getAttribute());
     }
 }

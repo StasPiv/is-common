@@ -13,8 +13,13 @@ class StandardModelForSaveBuilder implements ModelForSaveBuilderInterface
     ) {
     }
 
-    public function buildModelForSave(ModelInCollectionInterface $model): void
+    public function buildModelForInsert(ModelInCollectionInterface $model): void
     {
         $model->setId($this->idGeneratorStrategy->generateId());
+    }
+
+    public function buildModelForUpdate(ModelInCollectionInterface $model, ModelInCollectionInterface $existingModel): void
+    {
+        $model->setId($existingModel->getId());
     }
 }
