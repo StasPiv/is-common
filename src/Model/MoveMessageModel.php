@@ -10,7 +10,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterf
 class MoveMessageModel extends AbstractMessageModel implements MessageModelInterface, ProcessDataInterface
 {
     public function __construct(
-        private readonly string $gameId,
+        private readonly GameMessageModel $game,
         private readonly int $moveNumber,
         private readonly string $side,
         private readonly PlayerModel $player,
@@ -24,7 +24,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
     protected function getData(): array
     {
         return [
-            'gameId' => $this->gameId,
+            'game' => $this->game->getData(),
             'moveNumber' => $this->moveNumber,
             'side' => $this->side,
             'player' => $this->player->toArray(),
@@ -45,7 +45,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
 
     public function getGameId(): string
     {
-        return $this->gameId;
+        return $this->game->getId();
     }
 
     public function getMoveNumber(): int
@@ -81,5 +81,10 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
     public function getFenAfter(): string
     {
         return $this->fenAfter;
+    }
+
+    public function getGame(): GameMessageModel
+    {
+        return $this->game;
     }
 }
