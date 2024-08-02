@@ -26,7 +26,7 @@ class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
         $existingModel = $this->collectionFinder->findUnique($model);
 
         if ($existingModel) {
-            $model->setId($existingModel->getId());
+            $model = $existingModel;
             $sql = $this->mysqlUpdateQueryBuilder->buildUpdateSql($collection, $model->getDataForSave(), ['id' => $model->getId()]);
         } else {
             $this->modelForSaveBuilder->buildModelForSave($model);
