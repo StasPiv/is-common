@@ -37,6 +37,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
 
     public static function getInstance(...$data): static
     {
+        $data['game'] = GameMessageModel::getInstance(...$data['game']);
         $data['player'] = PlayerModel::getInstance(...$data['player']);
         $data['opponent'] = PlayerModel::getInstance(...$data['opponent']);
 

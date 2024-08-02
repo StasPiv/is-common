@@ -61,6 +61,13 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
         ];
     }
 
+    public static function getInstance(...$data): static
+    {
+        $data['game'] = GameMessageModel::getInstance(...$data['game']);
+
+        return parent::getInstance($data);
+    }
+
     public function getFenBefore(): string
     {
         return $this->fenBefore;
