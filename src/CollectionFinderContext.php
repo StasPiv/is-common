@@ -20,8 +20,8 @@ class CollectionFinderContext implements CollectionFinderContextInterface
         return $this->strategy->findUnique($model);
     }
 
-    public function find(ModelInCollectionInterface $model): ?ModelInCollectionInterface
+    public function find(string $id): ?ModelInCollectionInterface
     {
-        return $this->strategy->find($model);
+        return $this->strategy->find($id);
     }
 }

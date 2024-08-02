@@ -8,5 +8,5 @@ interface CollectionFinderContextInterface
 
     public function findUnique(ModelInCollectionInterface $model): ?ModelInCollectionInterface;
 
-    public function find(ModelInCollectionInterface $model): ?ModelInCollectionInterface;
+    public function find(string $id): ?ModelInCollectionInterface;
 }
