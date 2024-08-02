@@ -11,5 +11,5 @@ interface CollectionInterface
     /**
      * @return class-string
      */
-    public function getModelInstance(): string;
+    public function getModelInstanceClass(): string;
 }

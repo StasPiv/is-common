@@ -44,9 +44,16 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
         }
 
         $assoc = $result->fetch_assoc();
-        $modelInstance = $this->getModelInstance();
+        $id = $assoc['id'];
+        unset($assoc['id']);
 
-        return new $modelInstance(...$assoc);
+        $modelInstanceClass = $this->getModelInstanceClass();
+        /** @var ModelInCollectionInterface $modelInstance */
+        $modelInstance = new $modelInstanceClass(...$assoc);
+
+        $modelInstance->setId($id);
+
+        return $modelInstance;
     }
 
     abstract protected function getUniqueCriteria(ModelInCollectionInterface $model): array;

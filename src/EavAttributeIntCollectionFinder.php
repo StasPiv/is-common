@@ -13,7 +13,7 @@ class EavAttributeIntCollectionFinder extends AbstractEavAttributeValueFinder
         return 'eav_attribute_int';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return EavAttributeIntModel::class;
     }

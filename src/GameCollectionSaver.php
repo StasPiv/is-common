@@ -13,7 +13,7 @@ class GameCollectionSaver extends AbstractCollectionSaver
         return 'games';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return GameMessageModel::class;
     }

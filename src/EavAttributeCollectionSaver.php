@@ -14,7 +14,7 @@ class EavAttributeCollectionSaver extends AbstractCollectionSaver
         return 'eav_attributes';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return EavAttributeModel::class;
     }

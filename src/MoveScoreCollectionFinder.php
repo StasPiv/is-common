@@ -26,7 +26,7 @@ class MoveScoreCollectionFinder extends AbstractMysqlFinder
         return 'move_scores';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return MoveScoreModel::class;
     }

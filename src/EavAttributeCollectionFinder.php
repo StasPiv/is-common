@@ -14,7 +14,7 @@ class EavAttributeCollectionFinder extends AbstractMysqlFinder
         return 'eav_attributes';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return EavAttributeModel::class;
     }

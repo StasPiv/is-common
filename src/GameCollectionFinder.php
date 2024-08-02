@@ -14,7 +14,7 @@ class GameCollectionFinder extends AbstractMysqlFinder
         return 'games';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return GameMessageModel::class;
     }

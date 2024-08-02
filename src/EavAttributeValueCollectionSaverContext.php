@@ -23,7 +23,7 @@ class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollec
     public function processSaveEavAttributeValue(ModelInCollectionInterface $entity, string $entityType, ModelInCollectionInterface $attribute, mixed $value): void
     {
         /** @var \StanislavPivovartsev\InterestingStatistics\Common\Model\AbstractEavAttributeValueModel|class-string $modelClass */
-        $modelClass = $this->strategy->getModelInstance();
+        $modelClass = $this->strategy->getModelInstanceClass();
         $eavAttributeValueModel = new $modelClass(
             $entity,
             $entityType,

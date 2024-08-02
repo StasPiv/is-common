@@ -13,7 +13,7 @@ class MoveCollectionSaver extends AbstractCollectionSaver
         return 'moves';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return MoveSavableMessageModel::class;
     }

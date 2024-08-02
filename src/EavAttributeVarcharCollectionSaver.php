@@ -13,7 +13,7 @@ class EavAttributeVarcharCollectionSaver extends AbstractEavAttributeValueCollec
         return 'eav_attribute_varchar';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return EavAttributeVarcharModel::class;
     }

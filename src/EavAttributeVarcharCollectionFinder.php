@@ -13,7 +13,7 @@ class EavAttributeVarcharCollectionFinder extends AbstractEavAttributeValueFinde
         return 'eav_attribute_varchar';
     }
 
-    public function getModelInstance(): string
+    public function getModelInstanceClass(): string
     {
         return EavAttributeVarcharModel::class;
     }
