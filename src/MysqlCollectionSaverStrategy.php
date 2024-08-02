@@ -30,7 +30,9 @@ class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
             $sql = $this->mysqlUpdateQueryBuilder->buildUpdateSql($collection, $model->getData(), ['id' => $model->getId()]);
         } else {
             $model->setId($this->idGeneratorStrategy->generateId());
-            $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $model->getData());
+            $data = $model->getData();
+            $data['id'] = $model->getId();
+            $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $data);
         }
 
         return $this->mysqlConnection->query($sql);
