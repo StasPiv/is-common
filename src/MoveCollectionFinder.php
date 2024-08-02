@@ -33,7 +33,7 @@ class MoveCollectionFinder extends AbstractMysqlFinder
 
     protected function getUniqueCriteria(ModelInCollectionInterface|MoveSavableMessageModel $model): array
     {
-        $game = $this->gameFinder->findUnique($model->getGameModel());
+        $game = $this->gameFinder->findUnique($model->getGame());
 
         return [
             'gameId' => $game->getId(),

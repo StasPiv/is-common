@@ -12,16 +12,16 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     private string $gameId;
 
     public function __construct(
-        private readonly GameMessageModel $gameModel,
-        private readonly string $moveNumber,
-        private readonly string $side,
-        private readonly string $move,
-        private readonly string $fenBefore,
-        private readonly string $fenAfter,
-        private readonly string $player,
-        private readonly string $opponent,
-        private readonly string $playerElo,
-        private readonly string $opponentElo,
+        private readonly GameMessageModel $game,
+        private readonly string           $moveNumber,
+        private readonly string           $side,
+        private readonly string           $move,
+        private readonly string           $fenBefore,
+        private readonly string           $fenAfter,
+        private readonly string           $player,
+        private readonly string           $opponent,
+        private readonly string           $playerElo,
+        private readonly string           $opponentElo,
     ) {
     }
 
@@ -40,15 +40,15 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
         $this->gameId = $gameId;
     }
 
-    public function getGameModel(): GameMessageModel
+    public function getGame(): GameMessageModel
     {
-        return $this->gameModel;
+        return $this->game;
     }
 
     public function getDataForSerialize(): array
     {
         return [
-            'game' => $this->gameModel->getDataForSerialize(),
+            'game' => $this->game->getDataForSerialize(),
             'moveNumber' => $this->moveNumber,
             'side' => $this->side,
             'move' => $this->move,
@@ -65,7 +65,7 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     {
         return [
             'id' => $this->id,
-            'gameId' => $this->gameModel->getId(),
+            'gameId' => $this->game->getId(),
             'moveNumber' => $this->moveNumber,
             'side' => $this->side,
             'move' => $this->move,
