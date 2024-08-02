@@ -44,7 +44,7 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
         $data['entity'] = GameMessageModel::getInstance(...$data['entity']);
         $data['attribute'] = EavAttributeModel::getInstance(...$data['attribute']);
 
-        return parent::getInstance($data);
+        return parent::getInstance(...$data);
     }
 
     public function getId(): string

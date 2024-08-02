@@ -44,7 +44,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
     {
         $data['move'] = MoveMessageModel::getInstance(...$data['move']);
 
-        return parent::getInstance($data);
+        return parent::getInstance(...$data);
     }
 
     public function getScoreBefore(): ?string
