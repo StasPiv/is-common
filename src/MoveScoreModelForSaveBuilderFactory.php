@@ -10,7 +10,7 @@ class MoveScoreModelForSaveBuilderFactory implements Contract\ModelForSaveBuilde
 {
     public function __construct(
         private readonly IdGeneratorStrategyFactoryInterface $idGeneratorStrategyFactory,
-        private readonly CollectionFinderFactoryInterface $gameCollectionFinderFactory,
+        private readonly CollectionFinderFactoryInterface    $moveCollectionFinderFactory,
     ) {
     }
 
@@ -18,7 +18,7 @@ class MoveScoreModelForSaveBuilderFactory implements Contract\ModelForSaveBuilde
     {
         return new MoveScoreModelForSaveBuilder(
             $this->idGeneratorStrategyFactory->createIdGeneratorStrategy(),
-            $this->gameCollectionFinderFactory->createCollectionFinder(),
+            $this->moveCollectionFinderFactory->createCollectionFinder(),
         );
     }
 }
