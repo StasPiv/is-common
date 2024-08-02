@@ -18,10 +18,10 @@ class PlayerModel extends AbstractMessageModel implements StringInterface
 
     public function toArray(): array
     {
-        return $this->getData();
+        return $this->getDataForSerialize();
     }
 
-    protected function getData(): array
+    protected function getDataForSerialize(): array
     {
         return [
             'name' => $this->name,

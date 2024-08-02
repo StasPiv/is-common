@@ -8,8 +8,8 @@ trait StringJsonEncodableTrait
 {
     public function __toString(): string
     {
-        return json_encode($this->getData());
+        return json_encode($this->getDataForSerialize());
     }
 
-    abstract protected function getData(): array;
+    abstract protected function getDataForSerialize(): array;
 }

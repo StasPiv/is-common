@@ -30,10 +30,20 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         $this->id = $id;
     }
 
-    public function getData(): array
+    public function getDataForSerialize(): array
     {
         return [
-            'move' => $this->moveModel->getData(),
+            'move' => $this->moveModel->getDataForSerialize(),
+            'scoreBefore' => $this->scoreBefore,
+            'scoreAfter' => $this->scoreAfter,
+            'diff' => $this->diff,
+        ];
+    }
+
+    public function getDataForSave(): array
+    {
+        return [
+            'id' => $this->id,
             'scoreBefore' => $this->scoreBefore,
             'scoreAfter' => $this->scoreAfter,
             'diff' => $this->diff,

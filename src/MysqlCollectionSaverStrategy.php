@@ -27,10 +27,10 @@ class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
 
         if ($existingModel) {
             $model->setId($existingModel->getId());
-            $sql = $this->mysqlUpdateQueryBuilder->buildUpdateSql($collection, $model->getData(), ['id' => $model->getId()]);
+            $sql = $this->mysqlUpdateQueryBuilder->buildUpdateSql($collection, $model->getDataForSave(), ['id' => $model->getId()]);
         } else {
             $model->setId($this->idGeneratorStrategy->generateId());
-            $data = $model->getData();
+            $data = $model->getDataForSave();
             $data['id'] = $model->getId();
             $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $data);
         }

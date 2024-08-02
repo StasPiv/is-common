@@ -28,12 +28,22 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
 
     abstract protected function checkValueType(mixed $value): bool;
 
-    public function getData(): array
+    public function getDataForSerialize(): array
     {
         return [
-            'entity' => $this->entity->getData(),
+            'entity' => $this->entity->getDataForSerialize(),
             'entityType' => $this->entityType,
-            'attribute' => $this->attribute->getData(),
+            'attribute' => $this->attribute->getDataForSerialize(),
+            'value' => $this->value,
+        ];
+    }
+
+    public function getDataForSave(): array
+    {
+        return [
+            'entityId' => $this->entity->getId(),
+            'entityType' => $this->entityType,
+            'attributeId' => $this->attribute->getId(),
             'value' => $this->value,
         ];
     }

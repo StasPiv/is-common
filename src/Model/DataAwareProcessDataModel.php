@@ -15,7 +15,7 @@ class DataAwareProcessDataModel implements ProcessDataInterface
     ) {
     }
 
-    protected function getData(): array
+    protected function getDataForSerialize(): array
     {
         return $this->data;
     }

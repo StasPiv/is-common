@@ -6,5 +6,5 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface SavableModelInterface extends ProcessDataInterface
 {
-    public function getData(): array;
+    public function getDataForSave(): array;
 }

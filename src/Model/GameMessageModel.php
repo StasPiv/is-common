@@ -17,9 +17,18 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     ) {
     }
 
-    public function getData(): array
+    public function getDataForSerialize(): array
     {
         return [
+            'pgn' => $this->pgn,
+            'pgnHash' => $this->pgnHash,
+        ];
+    }
+
+    public function getDataForSave(): array
+    {
+        return [
+            'id' => $this->id,
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
         ];

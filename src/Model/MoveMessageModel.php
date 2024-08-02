@@ -21,10 +21,10 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
     ) {
     }
 
-    protected function getData(): array
+    public function getDataForSerialize(): array
     {
         return [
-            'game' => $this->game->getData(),
+            'game' => $this->game->getDataForSerialize(),
             'moveNumber' => $this->moveNumber,
             'side' => $this->side,
             'player' => $this->player->toArray(),
