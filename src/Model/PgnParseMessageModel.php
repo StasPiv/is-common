@@ -15,7 +15,7 @@ class PgnParseMessageModel extends AbstractMessageModel implements MessageModelI
     ) {
     }
 
-    protected function getData(): array
+    public function getDataForSerialize(): array
     {
         return [
             'id' => $this->id,

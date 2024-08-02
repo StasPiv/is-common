@@ -18,7 +18,7 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
     ) {
     }
 
-    protected function getData(): array
+    public function getDataForSerialize(): array
     {
         return [
             'pgn' => $this->pgn,

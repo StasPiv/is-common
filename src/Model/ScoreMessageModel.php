@@ -16,7 +16,7 @@ class ScoreMessageModel extends AbstractMessageModel  implements MessageModelInt
     ) {
     }
 
-    protected function getData(): array
+    public function getDataForSerialize(): array
     {
         return [
             'fen' => $this->fen,
