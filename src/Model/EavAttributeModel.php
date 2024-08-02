@@ -10,8 +10,9 @@ class EavAttributeModel extends AbstractMessageModel implements ModelInCollectio
 {
     use StringJsonEncodableTrait;
 
+    private string $id;
+
     public function __construct(
-        private readonly string $id,
         private readonly string $type,
         private readonly string $name,
         private readonly string $table,
@@ -21,6 +22,11 @@ class EavAttributeModel extends AbstractMessageModel implements ModelInCollectio
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
     }
 
     public function getType(): string

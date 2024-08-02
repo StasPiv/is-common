@@ -4,6 +4,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlInsertQueryBuilderInterface;
@@ -16,15 +17,20 @@ class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
         private readonly CollectionFinderInterface        $collectionFinder,
         private readonly MysqlInsertQueryBuilderInterface $mysqlInsertQueryBuilder,
         private readonly MysqlUpdateQueryBuilderInterface $mysqlUpdateQueryBuilder,
+        private readonly IdGeneratorStrategyInterface $idGeneratorStrategy,
     ) {
     }
 
     public function saveModel(string $collection, ModelInCollectionInterface $model): bool
     {
-        if (!$this->collectionFinder->find($model->getId())) {
-            $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $model->getData());
-        } else {
+        $existingModel = $this->collectionFinder->findUnique($model);
+
+        if ($existingModel) {
+            $model->setId($existingModel->getId());
             $sql = $this->mysqlUpdateQueryBuilder->buildUpdateSql($collection, $model->getData(), ['id' => $model->getId()]);
+        } else {
+            $model->setId($this->idGeneratorStrategy->generateId());
+            $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $model->getData());
         }
 
         return $this->mysqlConnection->query($sql);

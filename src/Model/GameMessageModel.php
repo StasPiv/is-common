@@ -9,8 +9,9 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 
 class GameMessageModel extends AbstractMessageModel implements ModelInCollectionInterface, MessageModelInterface
 {
+    private string $id;
+
     public function __construct(
-        private readonly string $id,
         private readonly string $pgn,
         private readonly string $pgnHash,
     ) {
@@ -28,6 +29,11 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
     }
 
     public function getPgnHash(): string

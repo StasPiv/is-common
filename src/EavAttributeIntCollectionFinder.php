@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Model\EavAttributeIntModel;
 
-class EavAttributeIntCollectionFinder extends AbstractMysqlFinder
+class EavAttributeIntCollectionFinder extends AbstractEavAttributeValueFinder
 {
     public function getCollection(): string
     {

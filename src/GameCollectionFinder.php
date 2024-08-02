@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\GameMessageModel;
 
 class GameCollectionFinder extends AbstractMysqlFinder
@@ -16,5 +17,12 @@ class GameCollectionFinder extends AbstractMysqlFinder
     public function getModelInstance(): string
     {
         return GameMessageModel::class;
+    }
+
+    protected function getUniqueCriteria(ModelInCollectionInterface|GameMessageModel $model): array
+    {
+        return [
+            'pgnHash' => $model->getPgnHash(),
+        ];
     }
 }

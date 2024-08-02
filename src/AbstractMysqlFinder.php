@@ -12,14 +12,16 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryB
 abstract class AbstractMysqlFinder implements CollectionFinderInterface
 {
     public function __construct(
-        protected readonly MysqlConnectionInterface $mysqlConnection,
-        protected readonly MysqlSelectQueryBuilderInterface $mysqlSelectQueryBuilder,
+        protected MysqlConnectionInterface $mysqlConnection,
+        protected MysqlSelectQueryBuilderInterface $mysqlSelectQueryBuilder,
     ) {
     }
 
-    public function modelExists(array $criteria): bool
+    public function findUnique(ModelInCollectionInterface $model): ?ModelInCollectionInterface
     {
-        return $this->findOneBy($criteria) !== null;
+        $criteria = $this->getUniqueCriteria($model);
+
+        return $this->findOneBy($criteria);
     }
 
     public function find(string $id): ?ModelInCollectionInterface
@@ -46,4 +48,6 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
 
         return new $modelInstance(...$assoc);
     }
+
+    abstract protected function getUniqueCriteria(ModelInCollectionInterface $model): array;
 }

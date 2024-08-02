@@ -2,7 +2,7 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-class EavAttributeVarcharCollectionFinderFactory extends AbstractMysqlCollectionFinderFactory
+class EavAttributeVarcharCollectionFinderFactory extends AbstractEavAttributeValueCollectionFinderFactory
 {
     protected function getCollectionFinderClassName(): string
     {

@@ -11,8 +11,8 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryB
 abstract class AbstractMysqlCollectionFinderFactory implements CollectionFinderFactoryInterface
 {
     public function __construct(
-        private readonly MysqlConnectionFactoryInterface $mysqlConnectionFactory,
-        private readonly MysqliFactoryInterface $mysqliFactory,
+        protected MysqlConnectionFactoryInterface $mysqlConnectionFactory,
+        protected MysqliFactoryInterface $mysqliFactory,
     ) {
     }
 
@@ -31,7 +31,7 @@ abstract class AbstractMysqlCollectionFinderFactory implements CollectionFinderF
      */
     abstract protected function getCollectionFinderClassName(): string;
 
-    private function createMysqlSelectQueryBuilder(): MysqlSelectQueryBuilderInterface
+    protected function createMysqlSelectQueryBuilder(): MysqlSelectQueryBuilderInterface
     {
         return new MysqlSelectQueryBuilder($this->mysqliFactory->createMysqli());
     }

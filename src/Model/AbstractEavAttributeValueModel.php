@@ -9,10 +9,14 @@ use StanislavPivovartsev\InterestingStatistics\Common\Exception\EavAttributeValu
 
 abstract class AbstractEavAttributeValueModel extends AbstractMessageModel implements ModelInCollectionInterface
 {
+    protected string $id;
+    protected string $entityId;
+    protected string $attributeId;
+
     final public function __construct(
-        protected string $id,
-        protected string $entityId,
-        protected string $attributeId,
+        protected readonly ModelInCollectionInterface $entity,
+        protected readonly string $entityType,
+        protected readonly EavAttributeModel $attribute,
         protected mixed $value,
     ) {
         if (!$this->checkValueType($this->value)) {
@@ -37,5 +41,50 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function setEntityId(string $entityId): void
+    {
+        $this->entityId = $entityId;
+    }
+
+    public function getEntityId(): string
+    {
+        return $this->entityId;
+    }
+
+    public function getEntity(): ModelInCollectionInterface
+    {
+        return $this->entity;
+    }
+
+    public function setAttributeId(string $attributeId): void
+    {
+        $this->attributeId = $attributeId;
+    }
+
+    public function getAttribute(): EavAttributeModel
+    {
+        return $this->attribute;
+    }
+
+    public function getValue(): mixed
+    {
+        return $this->value;
+    }
+
+    public function getAttributeId(): string
+    {
+        return $this->attributeId;
+    }
+
+    public function getEntityType(): string
+    {
+        return $this->entityType;
     }
 }

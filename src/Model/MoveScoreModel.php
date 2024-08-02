@@ -10,17 +10,24 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
 {
     use StringJsonEncodableTrait;
 
+    private string $id;
+
     public function __construct(
-        private readonly string $id,
-        private ?string         $scoreBefore,
-        private ?string         $scoreAfter,
-        private ?string         $diff,
+        private readonly MoveSavableMessageModel $moveModel,
+        private ?string                          $scoreBefore,
+        private ?string                          $scoreAfter,
+        private ?string                          $diff,
     ) {
     }
 
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
     }
 
     public function getData(): array
@@ -67,5 +74,13 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         $this->scoreAfter = $scoreAfter;
 
         return $this;
+    }
+
+    /**
+     * @return \StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel
+     */
+    public function getMoveModel(): MoveSavableMessageModel
+    {
+        return $this->moveModel;
     }
 }

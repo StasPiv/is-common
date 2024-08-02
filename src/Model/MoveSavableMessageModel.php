@@ -8,9 +8,11 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 
 class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCollectionInterface
 {
+    private string $id;
+    private string $gameId;
+
     public function __construct(
-        private readonly string $id,
-        private readonly string $gameId,
+        private readonly GameMessageModel $gameModel,
         private readonly string $moveNumber,
         private readonly string $side,
         private readonly string $move,
@@ -26,6 +28,21 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function setGameId(string $gameId): void
+    {
+        $this->gameId = $gameId;
+    }
+
+    public function getGameModel(): GameMessageModel
+    {
+        return $this->gameModel;
     }
 
     public function getData(): array
