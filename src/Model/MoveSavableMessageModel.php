@@ -12,7 +12,7 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     private string $gameId;
 
     public function __construct(
-        private readonly GameMessageModel $game,
+        private GameMessageModel $game,
         private readonly string           $moveNumber,
         private readonly string           $side,
         private readonly string           $move,
@@ -133,5 +133,10 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     public function getOpponentElo(): int
     {
         return (int) $this->opponentElo;
+    }
+
+    public function setGame(GameMessageModel $game): void
+    {
+        $this->game = $game;
     }
 }
