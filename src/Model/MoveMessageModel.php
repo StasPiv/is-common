@@ -10,7 +10,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterf
 class MoveMessageModel extends AbstractMessageModel implements MessageModelInterface, ProcessDataInterface
 {
     public function __construct(
-        private readonly GameMessageModel $game,
+        private GameMessageModel $game,
         private readonly int $moveNumber,
         private readonly string $side,
         private readonly PlayerModel $player,
@@ -87,5 +87,10 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
     public function getGame(): GameMessageModel
     {
         return $this->game;
+    }
+
+    public function setGame(GameMessageModel $game): void
+    {
+        $this->game = $game;
     }
 }

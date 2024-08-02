@@ -4,7 +4,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelForSaveBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlInsertQueryBuilderInterface;
@@ -17,7 +17,7 @@ class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
         private readonly CollectionFinderInterface        $collectionFinder,
         private readonly MysqlInsertQueryBuilderInterface $mysqlInsertQueryBuilder,
         private readonly MysqlUpdateQueryBuilderInterface $mysqlUpdateQueryBuilder,
-        private readonly IdGeneratorStrategyInterface $idGeneratorStrategy,
+        private readonly ModelForSaveBuilderInterface $modelForSaveBuilder,
     ) {
     }
 
@@ -29,7 +29,7 @@ class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
             $model->setId($existingModel->getId());
             $sql = $this->mysqlUpdateQueryBuilder->buildUpdateSql($collection, $model->getDataForSave(), ['id' => $model->getId()]);
         } else {
-            $model->setId($this->idGeneratorStrategy->generateId());
+            $this->modelForSaveBuilder->buildModelForSave($model);
             $data = $model->getDataForSave();
             $data['id'] = $model->getId();
             $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $data);

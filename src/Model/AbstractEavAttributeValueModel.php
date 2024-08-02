@@ -14,9 +14,9 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
     protected string $attributeId;
 
     final public function __construct(
-        protected readonly ModelInCollectionInterface $entity,
+        protected ModelInCollectionInterface $entity,
         protected readonly string $entityType,
-        protected readonly EavAttributeModel $attribute,
+        protected EavAttributeModel $attribute,
         protected mixed $value,
     ) {
         if (!$this->checkValueType($this->value)) {
@@ -105,5 +105,15 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
     public function getEntityType(): string
     {
         return $this->entityType;
+    }
+
+    public function setEntity(ModelInCollectionInterface $entity): void
+    {
+        $this->entity = $entity;
+    }
+
+    public function setAttribute(EavAttributeModel $attribute): void
+    {
+        $this->attribute = $attribute;
     }
 }
