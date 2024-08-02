@@ -21,7 +21,7 @@ class PlayerModel extends AbstractMessageModel implements StringInterface
         return $this->getDataForSerialize();
     }
 
-    protected function getDataForSerialize(): array
+    public function getDataForSerialize(): array
     {
         return [
             'name' => $this->name,
