@@ -20,7 +20,6 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     public function getData(): array
     {
         return [
-            'id' => $this->id,
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
         ];

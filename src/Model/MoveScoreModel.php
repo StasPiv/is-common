@@ -33,7 +33,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
     public function getData(): array
     {
         return [
-            'id' => $this->id,
+            'move' => $this->moveModel->getData(),
             'scoreBefore' => $this->scoreBefore,
             'scoreAfter' => $this->scoreAfter,
             'diff' => $this->diff,

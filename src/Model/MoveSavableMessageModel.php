@@ -48,8 +48,7 @@ class MoveSavableMessageModel extends AbstractMessageModel implements ModelInCol
     public function getData(): array
     {
         return [
-            'id' => $this->id,
-            'gameId' => $this->gameId,
+            'game' => $this->gameModel->getData(),
             'moveNumber' => $this->moveNumber,
             'side' => $this->side,
             'move' => $this->move,
