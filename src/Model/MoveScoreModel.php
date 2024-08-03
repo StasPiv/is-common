@@ -13,7 +13,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
     private string $id;
 
     public function __construct(
-        private readonly MoveSavableMessageModel $moveModel,
+        private readonly MoveSavableMessageModel $move,
         private ?string                          $scoreBefore,
         private ?string                          $scoreAfter,
         private ?string                          $diff,
@@ -33,7 +33,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
     public function getDataForSerialize(): array
     {
         return [
-            'move' => $this->moveModel->getDataForSerialize(),
+            'move' => $this->move->getDataForSerialize(),
             'scoreBefore' => $this->scoreBefore,
             'scoreAfter' => $this->scoreAfter,
             'diff' => $this->diff,
@@ -98,6 +98,6 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
      */
     public function getMoveModel(): MoveSavableMessageModel
     {
-        return $this->moveModel;
+        return $this->move;
     }
 }
