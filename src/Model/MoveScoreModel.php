@@ -67,9 +67,9 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         return $this->scoreAfter;
     }
 
-    public function getDiff(): int
+    public function getDiff(): ?int
     {
-        return (int) $this->diff;
+        return $this->diff;
     }
 
     public function setDiff(string $diff): MoveScoreModel
