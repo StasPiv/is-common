@@ -13,10 +13,10 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
     private string $id;
 
     public function __construct(
-        private readonly MoveSavableMessageModel $move,
-        private ?string                          $scoreBefore,
-        private ?string                          $scoreAfter,
-        private ?string                          $diff,
+        private readonly MoveMessageModel $move,
+        private ?string                   $scoreBefore,
+        private ?string                   $scoreAfter,
+        private ?string                   $diff,
     ) {
     }
 
@@ -93,10 +93,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         return $this;
     }
 
-    /**
-     * @return \StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel
-     */
-    public function getMove(): MoveSavableMessageModel
+    public function getMove(): MoveMessageModel
     {
         return $this->move;
     }
