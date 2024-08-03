@@ -12,7 +12,6 @@ class ScoreMessageModel extends AbstractMessageModel  implements MessageModelInt
     public function __construct(
         private readonly string $fen,
         private readonly ?int $score,
-        private readonly string $moveId,
     ) {
     }
 
@@ -21,7 +20,6 @@ class ScoreMessageModel extends AbstractMessageModel  implements MessageModelInt
         return [
             'fen' => $this->fen,
             'score' => $this->score,
-            'moveId' => $this->moveId,
         ];
     }
 
@@ -33,10 +31,5 @@ class ScoreMessageModel extends AbstractMessageModel  implements MessageModelInt
     public function getScore(): ?int
     {
         return $this->score;
-    }
-
-    public function getMoveId(): string
-    {
-        return $this->moveId;
     }
 }

@@ -14,7 +14,7 @@ class RedisKeyFinder implements KeyFinderInterface
     ) {
     }
 
-    public function getIntValue(string $key): int
+    public function getIntValue(string $key): ?int
     {
         return (int) $this->redisClient->get($key);
     }
