@@ -34,7 +34,7 @@ class MoveScoreCollectionFinder extends AbstractMysqlFinder
 
     protected function getUniqueCriteria(ModelInCollectionInterface|MoveScoreModel $model): array
     {
-        $existingMoveModel = $this->moveCollectionFinder->findUnique($model->getMoveModel());
+        $existingMoveModel = $this->moveCollectionFinder->findUnique($model->getMove());
 
         return [
             'id' => $existingMoveModel->getId(),

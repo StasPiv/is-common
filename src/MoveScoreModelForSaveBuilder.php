@@ -20,11 +20,11 @@ class MoveScoreModelForSaveBuilder extends StandardModelForSaveBuilder
 
     public function buildModelForInsert(ModelInCollectionInterface|MoveScoreModel $model): void
     {
-        $existingMove = $this->moveCollectionFinder->findUnique($model->getMoveModel());
+        $existingMove = $this->moveCollectionFinder->findUnique($model->getMove());
 
         if (!$existingMove instanceof MoveSavableMessageModel) {
             throw new ModelForSaveBuilderException(
-                'MoveScore needs existing move for save: ' . $model->getMoveModel(),
+                'MoveScore needs existing move for save: ' . $model->getMove(),
             );
         }
 

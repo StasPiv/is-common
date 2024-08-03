@@ -96,7 +96,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
     /**
      * @return \StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel
      */
-    public function getMoveModel(): MoveSavableMessageModel
+    public function getMove(): MoveSavableMessageModel
     {
         return $this->move;
     }
