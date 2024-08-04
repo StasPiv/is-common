@@ -10,4 +10,5 @@ enum ScoreWorkerProcessTypeEnum implements EventTypeInterface
 
     case ScoreExists;
     case ScoreNotExists;
+    case ScoreNotProcessed;
 }

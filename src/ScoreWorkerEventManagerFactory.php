@@ -13,6 +13,7 @@ class ScoreWorkerEventManagerFactory extends MessageProcessorEventManagerFactory
         $newEvents = [
             ScoreWorkerProcessTypeEnum::ScoreExists,
             ScoreWorkerProcessTypeEnum::ScoreNotExists,
+            ScoreWorkerProcessTypeEnum::ScoreNotProcessed,
         ];
 
         return array_merge($newEvents, $events);

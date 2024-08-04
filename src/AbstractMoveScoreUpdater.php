@@ -41,9 +41,16 @@ abstract class AbstractMoveScoreUpdater implements MoveScoreUpdaterInterface
 
         $score = $this->scoreProcessor->processNewScore($fen);
 
+        if ($score === null) {
+            $this->eventManager->notify(
+                ScoreWorkerProcessTypeEnum::ScoreNotProcessed, new DataAwareProcessDataModel(['fen' => $fen])
+            );
+
+            return;
+        }
+
         $this->updateScoreColumn($moveScoreModel, $score);
         $diff = $this->scoreDiffCalculator->calculateDiff($moveScoreModel);
-
         $moveScoreModel->setDiff($diff !== null ? (string) $diff : null);
     }
 
