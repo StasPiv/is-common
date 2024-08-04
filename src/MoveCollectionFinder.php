@@ -45,7 +45,7 @@ class MoveCollectionFinder extends AbstractMysqlFinder
 
     protected function buildModelFromDb(array $assoc): ModelInCollectionInterface
     {
-        $assoc['gameModel'] = $this->gameFinder->find($assoc['gameId']);
+        $assoc['game'] = $this->gameFinder->find($assoc['gameId']);
         unset($assoc['gameId']);
 
         return parent::buildModelFromDb($assoc);
