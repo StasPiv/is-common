@@ -29,7 +29,7 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
             );
         }
 
-        $eventManager->subscribe(ProcessEventTypeEnum::ModelCreated, $this->publishingSubscriberFactory->createPublishingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::MessagePreparedForPublish, $this->publishingSubscriberFactory->createPublishingSubscriber());
 
         return $eventManager;
     }
@@ -43,7 +43,7 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
             ProcessEventTypeEnum::ModelFound,
             ProcessEventTypeEnum::ModelNotFound,
             ProcessEventTypeEnum::ModelSaveFailed,
-            ProcessEventTypeEnum::ModelCreated,
+            ProcessEventTypeEnum::MessagePreparedForPublish,
             ProcessEventTypeEnum::ModelPublished,
         ];
     }
