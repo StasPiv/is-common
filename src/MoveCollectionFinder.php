@@ -8,6 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderI
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveMessageModel;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 
 class MoveCollectionFinder extends AbstractMysqlFinder
@@ -31,7 +32,7 @@ class MoveCollectionFinder extends AbstractMysqlFinder
         return MoveSavableMessageModel::class;
     }
 
-    protected function getUniqueCriteria(ModelInCollectionInterface|MoveSavableMessageModel $model): array
+    protected function getUniqueCriteria(ModelInCollectionInterface|MoveMessageModel $model): array
     {
         $game = $this->gameFinder->findUnique($model->getGame());
 

@@ -5,10 +5,12 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
-class MoveMessageModel extends AbstractMessageModel implements MessageModelInterface, ProcessDataInterface
+class MoveMessageModel extends AbstractMessageModel implements MessageModelInterface, ModelInCollectionInterface
 {
+    private string $id;
+
     public function __construct(
         private GameMessageModel $game,
         private readonly int $moveNumber,
@@ -35,6 +37,23 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
         ];
     }
 
+    public function getDataForSave(): array
+    {
+        return [
+            'id' => $this->id,
+            'gameId' => $this->game->getId(),
+            'moveNumber' => $this->moveNumber,
+            'side' => $this->side,
+            'move' => $this->moveNotation,
+            'fenBefore' => $this->fenBefore,
+            'fenAfter' => $this->fenAfter,
+            'player' => $this->player,
+            'opponent' => $this->opponent,
+            'playerElo' => $this->player->getElo(),
+            'opponentElo' => $this->opponent->getElo(),
+        ];
+    }
+
     public static function getInstance(...$data): static
     {
         $data['game'] = GameMessageModel::getInstance(...$data['game']);
@@ -42,6 +61,22 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
         $data['opponent'] = PlayerModel::getInstance(...$data['opponent']);
 
         return parent::getInstance(...$data);
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
     }
 
     public function getGameId(): string
