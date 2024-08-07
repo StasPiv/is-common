@@ -55,6 +55,8 @@ class MoveCollectionFinder extends AbstractMysqlFinder
             $assoc['opponent'],
             (int) $assoc['opponentElo'],
         );
+        unset($assoc['playerElo']);
+        unset($assoc['opponentElo']);
 
         return parent::buildModelFromDb($assoc);
     }
