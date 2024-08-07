@@ -49,11 +49,11 @@ class MoveCollectionFinder extends AbstractMysqlFinder
         unset($assoc['gameId']);
         $assoc['player'] = new PlayerModel(
             $assoc['player'],
-            $assoc['playerElo'],
+            (int) $assoc['playerElo'],
         );
         $assoc['opponent'] = new PlayerModel(
             $assoc['opponent'],
-            $assoc['opponentElo'],
+            (int) $assoc['opponentElo'],
         );
 
         return parent::buildModelFromDb($assoc);
