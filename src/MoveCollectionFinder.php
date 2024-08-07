@@ -9,6 +9,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveMessageModel;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\PlayerModel;
 
 class MoveCollectionFinder extends AbstractMysqlFinder
 {
@@ -46,6 +47,14 @@ class MoveCollectionFinder extends AbstractMysqlFinder
     {
         $assoc['game'] = $this->gameFinder->find($assoc['gameId']);
         unset($assoc['gameId']);
+        $assoc['player'] = new PlayerModel(
+            $assoc['player'],
+            $assoc['playerElo'],
+        );
+        $assoc['opponent'] = new PlayerModel(
+            $assoc['opponent'],
+            $assoc['opponentElo'],
+        );
 
         return parent::buildModelFromDb($assoc);
     }
