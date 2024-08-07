@@ -47,6 +47,7 @@ class MoveCollectionFinder extends AbstractMysqlFinder
     {
         $assoc['game'] = $this->gameFinder->find($assoc['gameId']);
         unset($assoc['gameId']);
+        $assoc['moveNumber'] = (int) $assoc['moveNumber'];
         $assoc['player'] = new PlayerModel(
             $assoc['player'],
             (int) $assoc['playerElo'],
