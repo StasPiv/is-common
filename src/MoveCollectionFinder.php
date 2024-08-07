@@ -9,7 +9,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveMessageModel;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 
 class MoveCollectionFinder extends AbstractMysqlFinder
 {
@@ -29,7 +28,7 @@ class MoveCollectionFinder extends AbstractMysqlFinder
 
     public function getModelInstanceClass(): string
     {
-        return MoveSavableMessageModel::class;
+        return MoveMessageModel::class;
     }
 
     protected function getUniqueCriteria(ModelInCollectionInterface|MoveMessageModel $model): array

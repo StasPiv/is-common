@@ -8,7 +8,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderI
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlSelectQueryBuilderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveScoreModel;
 
 class MoveScoreCollectionFinder extends AbstractMysqlFinder

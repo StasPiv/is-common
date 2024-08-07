@@ -6,7 +6,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderI
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Exception\ModelForSaveBuilderException;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveMessageModel;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveScoreModel;
 
 class MoveScoreModelForSaveBuilder extends StandardModelForSaveBuilder
@@ -22,7 +22,7 @@ class MoveScoreModelForSaveBuilder extends StandardModelForSaveBuilder
     {
         $existingMove = $this->moveCollectionFinder->findUnique($model->getMove());
 
-        if (!$existingMove instanceof MoveSavableMessageModel) {
+        if (!$existingMove instanceof MoveMessageModel) {
             throw new ModelForSaveBuilderException(
                 'MoveScore needs existing move for save: ' . $model->getMove(),
             );

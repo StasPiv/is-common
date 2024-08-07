@@ -8,7 +8,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 use StanislavPivovartsev\InterestingStatistics\Common\Exception\ModelForSaveBuilderException;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\GameMessageModel;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveMessageModel;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 
 class MoveModelForSaveBuilder extends StandardModelForSaveBuilder
 {
@@ -19,7 +18,7 @@ class MoveModelForSaveBuilder extends StandardModelForSaveBuilder
         parent::__construct($idGeneratorStrategy);
     }
 
-    public function buildModelForInsert(ModelInCollectionInterface|MoveSavableMessageModel $model): void
+    public function buildModelForInsert(ModelInCollectionInterface|MoveMessageModel $model): void
     {
         parent::buildModelForInsert($model);
 
@@ -35,8 +34,8 @@ class MoveModelForSaveBuilder extends StandardModelForSaveBuilder
     }
 
     public function buildModelForUpdate(
-        ModelInCollectionInterface|MoveSavableMessageModel $model,
-        ModelInCollectionInterface|MoveSavableMessageModel $existingModel
+        ModelInCollectionInterface|MoveMessageModel $model,
+        ModelInCollectionInterface|MoveMessageModel $existingModel
     ): void {
         parent::buildModelForUpdate($model, $existingModel);
 

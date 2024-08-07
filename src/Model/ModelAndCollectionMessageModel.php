@@ -15,7 +15,7 @@ class ModelAndCollectionMessageModel extends AbstractMessageModel implements Pro
         'eav_attributes' => EavAttributeModel::class,
         'eav_attribute_int' => EavAttributeIntModel::class,
         'eav_attribute_varchar' => EavAttributeVarcharModel::class,
-        'moves' => MoveSavableMessageModel::class,
+        'moves' => MoveMessageModel::class,
         'move_scores' => MoveScoreModel::class,
     ];
 

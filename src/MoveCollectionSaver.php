@@ -8,7 +8,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverIn
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveMessageModel;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveSavableMessageModel;
 
 class MoveCollectionSaver extends AbstractCollectionSaver
 {
@@ -26,7 +25,7 @@ class MoveCollectionSaver extends AbstractCollectionSaver
 
     public function getModelInstanceClass(): string
     {
-        return MoveSavableMessageModel::class;
+        return MoveMessageModel::class;
     }
 
     public function saveModel(ModelInCollectionInterface|MoveMessageModel $model): bool
