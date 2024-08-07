@@ -4,10 +4,21 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-class GameCollectionSaverFactory extends AbstractCollectionSaverFactory
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverFactoryInterface;
+
+class GameCollectionSaverFactory implements CollectionSaverFactoryInterface
 {
-    protected function getCollectionSaverClassName(): string
+    public function __construct(
+        private readonly StorageSaverFactoryInterface $storageSaverFactory,
+    ) {
+    }
+
+    public function createCollectionSaver(): CollectionSaverInterface
     {
-        return GameCollectionSaver::class;
+        return new GameCollectionSaver(
+            $this->storageSaverFactory->createStorageSaver(),
+        );
     }
 }

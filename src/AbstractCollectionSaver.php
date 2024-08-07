@@ -4,23 +4,19 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverContextInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverInterface;
 
 abstract class AbstractCollectionSaver implements CollectionSaverInterface
 {
     public function __construct(
-        private readonly CollectionSaverContextInterface $collectionSaverContext,
-        private readonly CollectionSaverStrategyInterface $collectionSaverStrategy,
+        private readonly StorageSaverInterface        $storageSaver,
     ) {
     }
 
     public function saveModel(ModelInCollectionInterface $model): bool
     {
-        $this->collectionSaverContext->setStrategy($this->collectionSaverStrategy);
-
-        return $this->collectionSaverContext->processSaveModel($model, $this->getCollection());
+        return $this->storageSaver->saveModel($this->getCollection(), $model);
     }
 }

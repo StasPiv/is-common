@@ -2,12 +2,12 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
 
-class AMQPCollectionSaverStrategyFactory implements CollectionSaverStrategyFactoryInterface
+class AMQPStorageSaverFactory implements StorageSaverFactoryInterface
 {
     public function __construct(
         private readonly PublisherFactoryInterface $publisherFactory,
@@ -15,9 +15,9 @@ class AMQPCollectionSaverStrategyFactory implements CollectionSaverStrategyFacto
     ) {
     }
 
-    public function createSaverStrategy(): CollectionSaverStrategyInterface
+    public function createStorageSaver(): StorageSaverInterface
     {
-        return new AMQPCollectionSaverStrategy(
+        return new AMQPStorageSaver(
             $this->publisherFactory->createPublisher(),
             $this->eventManagerFactory->createEventManager(),
         );

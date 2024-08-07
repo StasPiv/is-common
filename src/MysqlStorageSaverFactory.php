@@ -3,8 +3,8 @@
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelForSaveBuilderFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionFactoryInterface;
@@ -12,7 +12,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqliFactoryInte
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlInsertQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlUpdateQueryBuilderInterface;
 
-class MysqlCollectionSaverStrategyFactory implements CollectionSaverStrategyFactoryInterface
+class MysqlStorageSaverFactory implements StorageSaverFactoryInterface
 {
     public function __construct(
         private readonly CollectionFinderFactoryInterface $collectionFinderFactory,
@@ -22,9 +22,9 @@ class MysqlCollectionSaverStrategyFactory implements CollectionSaverStrategyFact
     ) {
     }
 
-    public function createSaverStrategy(): CollectionSaverStrategyInterface
+    public function createStorageSaver(): StorageSaverInterface
     {
-        return new MysqlCollectionSaverStrategy(
+        return new MysqlStorageSaver(
             $this->mysqlConnectionFactory->createMysqlConnection(),
             $this->collectionFinderFactory->createCollectionFinder(),
             $this->createMysqlInsertQueryBuilder(),

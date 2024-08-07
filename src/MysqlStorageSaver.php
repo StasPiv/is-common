@@ -3,14 +3,14 @@
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelForSaveBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlInsertQueryBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlUpdateQueryBuilderInterface;
 
-class MysqlCollectionSaverStrategy implements CollectionSaverStrategyInterface
+class MysqlStorageSaver implements StorageSaverInterface
 {
     public function __construct(
         private readonly MysqlConnectionInterface         $mysqlConnection,

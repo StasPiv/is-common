@@ -4,10 +4,21 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-class EavAttributeCollectionSaverFactory extends AbstractCollectionSaverFactory
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverFactoryInterface;
+
+class EavAttributeCollectionSaverFactory implements CollectionSaverFactoryInterface
 {
-    protected function getCollectionSaverClassName(): string
+    public function __construct(
+        private readonly StorageSaverFactoryInterface $storageSaverFactory,
+    ) {
+    }
+
+    public function createCollectionSaver(): CollectionSaverInterface
     {
-        return EavAttributeCollectionSaver::class;
+        return new EavAttributeCollectionSaver(
+            $this->storageSaverFactory->createStorageSaver(),
+        );
     }
 }

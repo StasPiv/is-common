@@ -3,27 +3,22 @@
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverContextInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
 class CollectionSaverContext implements CollectionSaverContextInterface
 {
-    private CollectionSaverStrategyInterface $collectionSaverStrategy;
+    private CollectionSaverInterface $collectionSaver;
 
-    /**
-     * @param \StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverStrategyInterface $collectionSaverStrategy
-     *
-     * @return CollectionSaverContext
-     */
-    public function setStrategy(CollectionSaverStrategyInterface $collectionSaverStrategy): CollectionSaverContext
+    public function processSaveModel(ModelInCollectionInterface $model): bool
     {
-        $this->collectionSaverStrategy = $collectionSaverStrategy;
-
-        return $this;
+        return $this->collectionSaver->saveModel($model);
     }
 
-    public function processSaveModel(ModelInCollectionInterface $model, string $collection): bool
+    public function setStrategy(CollectionSaverInterface $collectionSaver): static
     {
-        return $this->collectionSaverStrategy->saveModel($collection, $model);
+        $this->collectionSaver = $collectionSaver;
+
+        return $this;
     }
 }

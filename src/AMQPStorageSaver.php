@@ -5,10 +5,11 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\ModelAndCollectionMessageModel;
 
-class AMQPCollectionSaverStrategy implements Contract\CollectionSaverStrategyInterface
+class AMQPStorageSaver implements StorageSaverInterface
 {
     public function __construct(
         private readonly PublisherInterface $publisher,
