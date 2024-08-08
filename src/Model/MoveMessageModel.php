@@ -47,8 +47,8 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
             'moveNotation' => $this->moveNotation,
             'fenBefore' => $this->fenBefore,
             'fenAfter' => $this->fenAfter,
-            'player' => $this->player,
-            'opponent' => $this->opponent,
+            'player' => $this->player->getName(),
+            'opponent' => $this->opponent->getName(),
             'playerElo' => $this->player->getElo(),
             'opponentElo' => $this->opponent->getElo(),
         ];
