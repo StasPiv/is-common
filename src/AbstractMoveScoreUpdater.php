@@ -6,7 +6,6 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MoveScoreUpdaterInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\ScoreDiffCalculatorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ScoreProcessorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ScoreWorkerProcessTypeEnum;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\DataAwareProcessDataModel;
@@ -17,7 +16,6 @@ abstract class AbstractMoveScoreUpdater implements MoveScoreUpdaterInterface
 {
     final public function __construct(
         private readonly EventManagerInterface                   $eventManager,
-        private readonly ScoreDiffCalculatorInterface            $scoreDiffCalculator,
         private readonly ScoreProcessorInterface $scoreProcessor,
     ) {
     }
@@ -50,8 +48,6 @@ abstract class AbstractMoveScoreUpdater implements MoveScoreUpdaterInterface
         }
 
         $this->updateScoreColumn($moveScoreModel, $score);
-        $diff = $this->scoreDiffCalculator->calculateDiff($moveScoreModel);
-        $moveScoreModel->setDiff($diff !== null ? (string) $diff : null);
     }
 
     abstract protected function updateScoreColumn(MoveScoreModel $moveScoreModel, int $score): void;
