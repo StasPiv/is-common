@@ -42,7 +42,7 @@ class MoveScoreCollectionFinder extends AbstractMysqlFinder
 
     protected function buildModelFromDb(array $assoc): ModelInCollectionInterface
     {
-        $assoc['moveModel'] = $this->moveCollectionFinder->find($assoc['id']);
+        $assoc['move'] = $this->moveCollectionFinder->find($assoc['id']);
 
         return parent::buildModelFromDb($assoc);
     }
