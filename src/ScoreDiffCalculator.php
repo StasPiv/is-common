@@ -15,18 +15,15 @@ class ScoreDiffCalculator implements ScoreDiffCalculatorInterface
             return null;
         }
 
-        $baseDiff = $moveScoreModel->getScoreAfter() - $moveScoreModel->getScoreBefore();
+        // if I anyway win
+        $scoreBefore = $moveScoreModel->getScoreBefore() > 300 ? 300 : $moveScoreModel->getScoreBefore();
+        // if I anyway lose
+        $scoreAfter = $moveScoreModel->getScoreAfter() < -300 ? -300 : $moveScoreModel->getScoreAfter();
 
-        if ($moveScoreModel->getScoreAfter() > 300) { // if I anyway win
-            return 0;
-        }
+        $baseDiff = $scoreAfter - $scoreBefore;
 
-        if ($moveScoreModel->getScoreBefore() < -300) { // if I anyway lose
-            return 0;
-        }
-
-        if ($baseDiff < -300) {
-            return -300;
+        if ($baseDiff < -600) {
+            return -600;
         }
 
         if ($baseDiff > 0) {
