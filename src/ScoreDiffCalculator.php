@@ -17,6 +17,14 @@ class ScoreDiffCalculator implements ScoreDiffCalculatorInterface
 
         $baseDiff = $moveScoreModel->getScoreAfter() - $moveScoreModel->getScoreBefore();
 
+        if ($moveScoreModel->getScoreAfter() > 300) { // if I anyway win
+            return 0;
+        }
+
+        if ($moveScoreModel->getScoreBefore() < -300) { // if I anyway lose
+            return 0;
+        }
+
         if ($baseDiff < -300) {
             return -300;
         }
