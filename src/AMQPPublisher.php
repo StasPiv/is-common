@@ -49,16 +49,19 @@ class AMQPPublisher implements PublisherInterface
 
     private function publishBatchRecursive(): void
     {
-        do {
-            list($queueName, $messageCount, $consumerCount)
-                = $this->channel->queue_declare($this->queue, true);
+        list($queueName, $messageCount, $consumerCount)
+            = $this->channel->queue_declare($this->queue, true);
 
+        while($messageCount < self::QUEUE_SIZE_LIMIT) {
             $this->eventManager->notify(
                 PublisherEventTypeEnum::MessageCountLessThanLimit,
                 new DataAwareProcessDataModel(["queue" => $queueName, "messageCount" => $messageCount,]),
             );
-            sleep(5);
-        } while($messageCount > self::QUEUE_SIZE_LIMIT);
+            sleep(1);
+
+            list($queueName, $messageCount, $consumerCount)
+                = $this->channel->queue_declare($this->queue, true);
+        }
 
         $this->eventManager->notify(
             PublisherEventTypeEnum::MessageCountGreaterThanLimit,
