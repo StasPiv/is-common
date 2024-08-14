@@ -9,6 +9,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInter
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublishingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\PublisherEventTypeEnum;
 
 class MessageProcessorEventManagerFactory implements EventManagerFactoryInterface
 {
@@ -45,6 +46,8 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
             ProcessEventTypeEnum::ModelSaveFailed,
             ProcessEventTypeEnum::MessagePreparedForPublish,
             ProcessEventTypeEnum::ModelPublished,
+            PublisherEventTypeEnum::MessageCountGreaterThanLimit,
+            PublisherEventTypeEnum::MessageCountLessThanLimit,
         ];
     }
 }
