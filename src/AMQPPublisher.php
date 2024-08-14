@@ -54,14 +54,14 @@ class AMQPPublisher implements PublisherInterface
                 = $this->channel->queue_declare($this->queue, true);
 
             $this->eventManager->notify(
-                PublisherEventTypeEnum::MessageCountGreaterThanLimit,
+                PublisherEventTypeEnum::MessageCountLessThanLimit,
                 new DataAwareProcessDataModel(["queue" => $queueName, "messageCount" => $messageCount,]),
             );
             sleep(5);
         } while($messageCount > self::QUEUE_SIZE_LIMIT);
 
         $this->eventManager->notify(
-            PublisherEventTypeEnum::MessageCountLessThanLimit,
+            PublisherEventTypeEnum::MessageCountGreaterThanLimit,
             new DataAwareProcessDataModel(["message" => "Publish batch",])
         );
         $this->channel->publish_batch();
