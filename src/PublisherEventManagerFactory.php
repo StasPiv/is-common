@@ -8,7 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriber
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\PublisherEventTypeEnum;
 use StanislavPivovartsev\InterestingStatistics\Common\EventManager;
 
-class PublisherEvenManagerFactory implements EventManagerFactoryInterface
+class PublisherEventManagerFactory implements EventManagerFactoryInterface
 {
     public function __construct(
         private readonly LoggingSubscriberFactoryInterface $loggingSubscriberFactory,
