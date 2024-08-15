@@ -10,5 +10,7 @@ interface MysqlConnectionInterface
 {
     public function query(string $sql): mysqli_result|bool;
 
+    public function queryForce(string $sql): mysqli_result|bool;
+
     public function getAffectedRows(): int;
 }

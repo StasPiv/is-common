@@ -35,6 +35,6 @@ class MysqlStorageSaver implements StorageSaverInterface
             $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $data);
         }
 
-        return $this->mysqlConnection->query($sql);
+        return $this->mysqlConnection->queryForce($sql);
     }
 }
