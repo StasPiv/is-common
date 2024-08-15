@@ -14,8 +14,8 @@ use StanislavPivovartsev\InterestingStatistics\Common\Model\DataAwareProcessData
 
 class AMQPPublisher implements PublisherInterface
 {
-    const BATCH_SIZE = 100;
-    const QUEUE_SIZE_LIMIT = 500;
+    const BATCH_SIZE = 1000;
+    const QUEUE_SIZE_LIMIT = 10000;
 
     private static array $queueSizes = [];
 
