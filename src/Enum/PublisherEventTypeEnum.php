@@ -7,5 +7,5 @@ enum PublisherEventTypeEnum implements EventTypeInterface
     use EventTypeTrait;
 
     case MessageCountGreaterThanLimit;
-    case MessageCountLessThanLimit;
+    case PublishBatchMessages;
 }
