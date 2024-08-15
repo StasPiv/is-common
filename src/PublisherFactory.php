@@ -5,7 +5,6 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\PublisherConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 
@@ -25,10 +24,5 @@ class PublisherFactory implements PublisherFactoryInterface
             $this->publisherConfiguration->getQueue(),
             $this->eventManagerFactory->createEventManager(),
         );
-    }
-
-    private function createMessageModelFromStringBuilder(): MessageModelFromStringBuilderInterface
-    {
-        return new JsonDecodeMessageModelBuilder();
     }
 }
