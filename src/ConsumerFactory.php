@@ -15,18 +15,18 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromS
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 class ConsumerFactory implements ConsumerFactoryInterface
 {
     public function __construct(
         private readonly AMQPConnectionFactoryInterface           $amqpConnectionFactory,
-        private readonly SubscriberFactoryInterface        $loggingSubscriberFactory,
+        private readonly SubscriberFactoryInterface               $loggingSubscriberFactory,
         private readonly AMQPConsumerConfigurationInterface       $consumerConfiguration,
         private readonly MessageProcessorFactoryInterface         $messageProcessorFactory,
         private readonly AMQPMessageFacadeBuilderFactoryInterface $amqpMessageFacadeBuilderFactory,
-        private readonly SubscriberFactoryInterface $finalBatchPublishingSubscriber,
+        private readonly SubscriberFactoryInterface               $finalBatchPublishingSubscriberFactory,
+        private readonly SubscriberFactoryInterface               $acknowledgingSubscriberFactory,
     ) {
     }
 
@@ -66,27 +66,8 @@ class ConsumerFactory implements ConsumerFactoryInterface
             ProcessEventTypeEnum::Fail,
             $this->loggingSubscriberFactory->createSubscriber()
         );
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->finalBatchPublishingSubscriber->createSubscriber());
-
-        return $eventManager;
-    }
-
-    private function createAcknowledgingSubscriber(): SubscriberInterface
-    {
-        return new AcknowledgingSubscriber(
-            $this->createAcknowledgingEventManager(),
-        );
-    }
-
-    private function createAcknowledgingEventManager(): EventManagerInterface
-    {
-        $eventManager = new EventManager();
-
-        $eventManager->subscribe(
-            ProcessEventTypeEnum::MessageAcked,
-            $this->loggingSubscriberFactory->createSubscriber(),
-        );
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->acknowledgingSubscriberFactory->createSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->finalBatchPublishingSubscriberFactory->createSubscriber());
 
         return $eventManager;
     }

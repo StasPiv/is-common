@@ -18,6 +18,11 @@ class EventTypeAwareProcessData implements Contract\EventTypeAwareProcessDataInt
         return $this->eventType;
     }
 
+    public function getProcessData(): ProcessDataInterface
+    {
+        return $this->processData;
+    }
+
     public function __toString(): string
     {
         return (string) $this->processData;
