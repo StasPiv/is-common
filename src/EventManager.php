@@ -36,7 +36,7 @@ class EventManager implements EventManagerInterface
 
         array_walk(
             $this->subscribers[$eventType->getName()],
-            fn (SubscriberInterface $subscriber) => $subscriber->update($data),
+            fn (SubscriberInterface $subscriber) => $subscriber->update(new EventTypeAwareProcessData($eventType, $data)),
         );
     }
 }

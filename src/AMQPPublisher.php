@@ -50,13 +50,22 @@ class AMQPPublisher implements PublisherInterface
         }
 
         if (self::$queueSizes[$this->queue] === $this->queueBatchConfiguration->getBatchSize($this->queue)) {
-            $this->publishBatchRecursive();
+            $this->publishBatchDelayed();
 
             self::$queueSizes[$this->queue] = 0;
         }
     }
 
-    private function publishBatchRecursive(): void
+    public function publishBatch(): void
+    {
+        $this->eventManager->notify(
+            PublisherEventTypeEnum::PublishBatchMessages,
+            new DataAwareProcessDataModel(["queue" => $this->queue,])
+        );
+        $this->channel->publish_batch();
+    }
+
+    private function publishBatchDelayed(): void
     {
         list($queueName, $messageCount, $consumerCount)
             = $this->channel->queue_declare($this->queue, true);
@@ -72,19 +81,11 @@ class AMQPPublisher implements PublisherInterface
                 = $this->channel->queue_declare($this->queue, true);
         }
 
-        $this->eventManager->notify(
-            PublisherEventTypeEnum::PublishBatchMessages,
-            new DataAwareProcessDataModel(["queue" => $queueName, "messageCount" => $messageCount])
-        );
-        $this->channel->publish_batch();
+        $this->publishBatch();
     }
 
     public function __destruct()
     {
-        $this->eventManager->notify(
-            PublisherEventTypeEnum::PublishBatchMessages,
-            new DataAwareProcessDataModel(["queue" => $this->queue,])
-        );
-        $this->channel->publish_batch();
+        $this->publishBatch();
     }
 }

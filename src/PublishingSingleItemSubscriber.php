@@ -5,12 +5,13 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventTypeAwareProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
-class PublishingSubscriber implements SubscriberInterface
+class PublishingSingleItemSubscriber implements SubscriberInterface
 {
     public function __construct(
         private readonly PublisherInterface      $publisher,
@@ -19,11 +20,11 @@ class PublishingSubscriber implements SubscriberInterface
     }
 
     /**
-     * @param ProcessDataInterface $processData
+     * @param \StanislavPivovartsev\InterestingStatistics\Common\Contract\EventTypeAwareProcessDataInterface $processData
      *
      * @throws \StanislavPivovartsev\InterestingStatistics\Common\Exception\SubscriberException
      */
-    public function update(ProcessDataInterface $processData): void
+    public function update(EventTypeAwareProcessDataInterface $processData): void
     {
         $this->publisher->publish($processData);
 

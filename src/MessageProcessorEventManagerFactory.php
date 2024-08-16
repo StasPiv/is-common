@@ -6,16 +6,15 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublishingSubscriberFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\PublisherEventTypeEnum;
 
 class MessageProcessorEventManagerFactory implements EventManagerFactoryInterface
 {
     public function __construct(
-        protected LoggingSubscriberFactoryInterface $loggingSubscriberFactory,
-        protected PublishingSubscriberFactoryInterface $publishingSubscriberFactory,
+        protected SubscriberFactoryInterface $loggingSubscriberFactory,
+        protected SubscriberFactoryInterface $publishingSubscriberFactory,
     ) {
     }
 
@@ -26,11 +25,11 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
         foreach ($this->getLoggingSubscriberEvents() as $loggingSubscriberEvent) {
             $eventManager->subscribe(
                 $loggingSubscriberEvent,
-                $this->loggingSubscriberFactory->createLoggingSubscriber($loggingSubscriberEvent),
+                $this->loggingSubscriberFactory->createSubscriber(),
             );
         }
 
-        $eventManager->subscribe(ProcessEventTypeEnum::MessagePreparedForPublish, $this->publishingSubscriberFactory->createPublishingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::MessagePreparedForPublish, $this->publishingSubscriberFactory->createSubscriber());
 
         return $eventManager;
     }

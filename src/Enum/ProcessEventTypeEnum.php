@@ -31,4 +31,6 @@ enum ProcessEventTypeEnum implements EventTypeInterface
     case ModelDeleted;
 
     case ModelPublished;
+
+    case MessageBatchPreparedForPublish;
 }

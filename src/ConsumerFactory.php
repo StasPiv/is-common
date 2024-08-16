@@ -10,11 +10,11 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\AMQ
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ConsumerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelExtractorInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelFromStringBuilderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageProcessorFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageReceiverInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
@@ -22,10 +22,11 @@ class ConsumerFactory implements ConsumerFactoryInterface
 {
     public function __construct(
         private readonly AMQPConnectionFactoryInterface           $amqpConnectionFactory,
-        private readonly LoggingSubscriberFactoryInterface        $loggingSubscriberFactory,
+        private readonly SubscriberFactoryInterface        $loggingSubscriberFactory,
         private readonly AMQPConsumerConfigurationInterface       $consumerConfiguration,
         private readonly MessageProcessorFactoryInterface         $messageProcessorFactory,
         private readonly AMQPMessageFacadeBuilderFactoryInterface $amqpMessageFacadeBuilderFactory,
+        private readonly SubscriberFactoryInterface $finalBatchPublishingSubscriber,
     ) {
     }
 
@@ -55,17 +56,18 @@ class ConsumerFactory implements ConsumerFactoryInterface
 
         $eventManager->subscribe(
             ProcessEventTypeEnum::MessageReceived,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageReceived)
+            $this->loggingSubscriberFactory->createSubscriber()
         );
         $eventManager->subscribe(
             ProcessEventTypeEnum::Success,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::Success)
+            $this->loggingSubscriberFactory->createSubscriber()
         );
         $eventManager->subscribe(
             ProcessEventTypeEnum::Fail,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::Fail)
+            $this->loggingSubscriberFactory->createSubscriber()
         );
         $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->createAcknowledgingSubscriber());
+        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->finalBatchPublishingSubscriber->createSubscriber());
 
         return $eventManager;
     }
@@ -83,7 +85,7 @@ class ConsumerFactory implements ConsumerFactoryInterface
 
         $eventManager->subscribe(
             ProcessEventTypeEnum::MessageAcked,
-            $this->loggingSubscriberFactory->createLoggingSubscriber(ProcessEventTypeEnum::MessageAcked)
+            $this->loggingSubscriberFactory->createSubscriber(),
         );
 
         return $eventManager;

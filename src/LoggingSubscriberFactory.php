@@ -4,36 +4,19 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Level;
-use Monolog\Logger;
-use Psr\Log\LoggerInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\LoggerConfigurationInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggingSubscriberFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\LoggerFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Enum\EventTypeInterface;
 
-class LoggingSubscriberFactory implements LoggingSubscriberFactoryInterface
+class LoggingSubscriberFactory implements SubscriberFactoryInterface
 {
     public function __construct(
-        private readonly LoggerConfigurationInterface $loggerConfiguration,
+        private readonly LoggerFactoryInterface $loggerFactory,
     ) {
     }
 
-    public function createLoggingSubscriber(EventTypeInterface $eventType): SubscriberInterface
+    public function createSubscriber(): SubscriberInterface
     {
-        return new LoggingSubscriber($this->createLogger(), $eventType);
-    }
-
-    protected function createLogger(): LoggerInterface
-    {
-        $logger = new Logger($this->loggerConfiguration->getLogName());
-        $logger->pushHandler(
-            new StreamHandler('php://stdout',
-                Level::fromName($this->loggerConfiguration->getLogLevel())
-            )
-        );
-
-        return $logger;
+        return new LoggingSubscriber($this->loggerFactory->createLogger());
     }
 }

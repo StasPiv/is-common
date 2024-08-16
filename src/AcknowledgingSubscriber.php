@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AckableInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventTypeAwareProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
@@ -17,7 +17,7 @@ class AcknowledgingSubscriber implements SubscriberInterface
     ) {
     }
 
-    public function update(ProcessDataInterface $processData): void
+    public function update(EventTypeAwareProcessDataInterface $processData): void
     {
         if (!$processData instanceof AckableInterface) {
             return;
