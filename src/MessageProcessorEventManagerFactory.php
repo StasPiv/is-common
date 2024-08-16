@@ -46,7 +46,6 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
             ProcessEventTypeEnum::MessagePreparedForPublish,
             ProcessEventTypeEnum::ModelPublished,
             PublisherEventTypeEnum::MessageCountGreaterThanLimit,
-            PublisherEventTypeEnum::PublishBatchMessages,
         ];
     }
 }

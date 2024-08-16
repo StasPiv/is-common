@@ -36,6 +36,7 @@ class PublisherEventManagerFactory implements EventManagerFactoryInterface
         return [
             PublisherEventTypeEnum::MessageCountGreaterThanLimit,
             PublisherEventTypeEnum::PublishBatchMessages,
+            PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
         ];
     }
 }
