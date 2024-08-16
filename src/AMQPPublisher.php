@@ -27,6 +27,16 @@ class AMQPPublisher implements PublisherInterface
 
     public function publish(StringInterface $model): void
     {
+        if ($this->queueBatchConfiguration->isForce()) {
+            $this->channel->basic_publish(
+                new AMQPMessage((string) $model),
+                '',
+                $this->queue,
+            );
+
+            return;
+        }
+
         $this->channel->batch_basic_publish(
             new AMQPMessage((string) $model),
             '',
