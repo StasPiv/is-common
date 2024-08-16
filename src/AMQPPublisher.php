@@ -60,7 +60,7 @@ class AMQPPublisher implements PublisherInterface
     {
         $messageCount = $this->getMessageCount();
 
-        if ($messageCount > $this->queueBatchConfiguration->getQueueSizeLimit($this->queue)) {
+        if ($messageCount < $this->queueBatchConfiguration->getQueueSizeLimit($this->queue)) {
             $this->publishBatchDelayed();
 
             return;
