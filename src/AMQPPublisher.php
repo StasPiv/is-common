@@ -81,6 +81,10 @@ class AMQPPublisher implements PublisherInterface
 
     public function __destruct()
     {
+        $this->eventManager->notify(
+            PublisherEventTypeEnum::PublishBatchMessages,
+            new DataAwareProcessDataModel(["queue" => $this->queue,])
+        );
         $this->channel->publish_batch();
     }
 }
