@@ -28,7 +28,7 @@ class ConsumerFactory implements ConsumerFactoryInterface
         private readonly AMQPConsumerConfigurationInterface       $consumerConfiguration,
         private readonly MessageProcessorFactoryInterface         $messageProcessorFactory,
         private readonly AMQPMessageFacadeBuilderFactoryInterface $amqpMessageFacadeBuilderFactory,
-        private readonly array                                    $successSubscriberFactories,
+        private array                                    $successSubscriberFactories,
     ) {
     }
 
