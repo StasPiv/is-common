@@ -50,7 +50,7 @@ class AMQPPublisher implements PublisherInterface
         }
 
         if (self::$queueSizes[$this->queue] === $this->queueBatchConfiguration->getBatchSize($this->queue)) {
-            $this->publishBatchDelayed();
+            $this->publishBatch();
 
             self::$queueSizes[$this->queue] = 0;
         }
@@ -60,10 +60,13 @@ class AMQPPublisher implements PublisherInterface
     {
         $messageCount = $this->getMessageCount();
 
-        if ($messageCount < $this->queueBatchConfiguration->getQueueSizeLimit($this->queue)) {
-            $this->publishBatchDelayed();
+        if ($messageCount > $this->queueBatchConfiguration->getQueueSizeLimit($this->queue)) {
+            $this->eventManager->notify(
+                PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
+                new DataAwareProcessDataModel(["queue" => $this->queue]),
+            );
 
-            return;
+            $this->waitForPublish();
         }
 
         $this->eventManager->notify(
@@ -73,7 +76,7 @@ class AMQPPublisher implements PublisherInterface
         $this->channel->publish_batch();
     }
 
-    private function publishBatchDelayed(): void
+    private function waitForPublish(): void
     {
         $messageCount = $this->getMessageCount();
 
@@ -86,8 +89,6 @@ class AMQPPublisher implements PublisherInterface
 
             $messageCount = $this->getMessageCount();
         }
-
-        $this->publishBatch();
     }
 
     public function __destruct()
