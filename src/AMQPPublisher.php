@@ -58,6 +58,17 @@ class AMQPPublisher implements PublisherInterface
 
     public function publishBatch(): void
     {
+        $messageCount = $this->getMessageCount();
+
+        if ($messageCount + $this->queueBatchConfiguration->getBatchSize($this->queue) > $this->queueBatchConfiguration->getQueueSizeLimit($this->queue)) {
+            $this->eventManager->notify(
+                PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
+                new DataAwareProcessDataModel(["queue" => $this->queue,])
+            );
+
+            return;
+        }
+
         $this->eventManager->notify(
             PublisherEventTypeEnum::PublishBatchMessages,
             new DataAwareProcessDataModel(["queue" => $this->queue,])
@@ -67,18 +78,16 @@ class AMQPPublisher implements PublisherInterface
 
     private function publishBatchDelayed(): void
     {
-        list($queueName, $messageCount, $consumerCount)
-            = $this->channel->queue_declare($this->queue, true);
+        $messageCount = $this->getMessageCount();
 
         while($messageCount > $this->queueBatchConfiguration->getQueueSizeLimit($this->queue)) {
             $this->eventManager->notify(
                 PublisherEventTypeEnum::MessageCountGreaterThanLimit,
-                new DataAwareProcessDataModel(["queue" => $queueName, "messageCount" => $messageCount,]),
+                new DataAwareProcessDataModel(["queue" => $this->queue, "messageCount" => $messageCount,]),
             );
             sleep(1);
 
-            list($queueName, $messageCount, $consumerCount)
-                = $this->channel->queue_declare($this->queue, true);
+            $messageCount = $this->getMessageCount();
         }
 
         $this->publishBatch();
@@ -87,5 +96,13 @@ class AMQPPublisher implements PublisherInterface
     public function __destruct()
     {
         $this->publishBatch();
+    }
+
+    private function getMessageCount(): int
+    {
+        list($queueName, $messageCount, $consumerCount)
+            = $this->channel->queue_declare($this->queue, true);
+
+        return $messageCount;
     }
 }

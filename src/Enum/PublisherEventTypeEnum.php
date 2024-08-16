@@ -8,4 +8,5 @@ enum PublisherEventTypeEnum implements EventTypeInterface
 
     case MessageCountGreaterThanLimit;
     case PublishBatchMessages;
+    case QueueOverloadedForFinalBatch;
 }
