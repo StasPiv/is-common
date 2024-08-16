@@ -19,11 +19,13 @@ class AcknowledgingSubscriber implements SubscriberInterface
 
     public function update(EventTypeAwareProcessDataInterface $processData): void
     {
-        if (!$processData instanceof AckableInterface) {
+        $message = $processData->getProcessData();
+
+        if (!$message instanceof AckableInterface) {
             return;
         }
 
-        $processData->ack();
+        $message->ack();
 
         $this->eventManager->notify(ProcessEventTypeEnum::MessageAcked, $processData);
     }

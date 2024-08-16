@@ -7,4 +7,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Enum\EventTypeInterface;
 interface EventTypeAwareProcessDataInterface extends ProcessDataInterface
 {
     public function getEventType(): EventTypeInterface;
+
+    public function getProcessData(): ProcessDataInterface;
 }
