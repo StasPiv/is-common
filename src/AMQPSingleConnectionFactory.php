@@ -10,10 +10,6 @@ class AMQPSingleConnectionFactory extends AMQPConnectionFactory
 
     public function createAMQPChannel(): AMQPChannel
     {
-        return $this->getFromIdentityMap(
-            'channel',
-            fn (): AMQPChannel => parent::createAMQPChannel(),
-            func_get_args()
-        );
+        return $this->getFromIdentityMap(__FUNCTION__, func_get_args());
     }
 }

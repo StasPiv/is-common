@@ -2,16 +2,21 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
+use PhpAmqpLib\Channel\AMQPChannel;
+
 trait IdentityMapTrait
 {
     protected array $identityMap = [];
 
-    protected function getFromIdentityMap(string $identityKey, callable $identityValueFn, array $identityValueFnArgs = []): mixed
+    protected function getFromIdentityMap(string $identityKey, array $identityValueFnArgs = []): mixed
     {
         if (isset($this->identityMap[$identityKey])) {
             return $this->identityMap[$identityKey];
         }
 
-        return $this->identityMap[$identityKey] = call_user_func_array($identityValueFn, $identityValueFnArgs);
+        return $this->identityMap[$identityKey] = call_user_func_array(
+            fn (): AMQPChannel => parent::{$identityKey}(),
+            $identityValueFnArgs,
+        );
     }
 }
