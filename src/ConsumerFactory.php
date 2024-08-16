@@ -19,14 +19,16 @@ use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
 
 class ConsumerFactory implements ConsumerFactoryInterface
 {
+    /**
+     * @param array<\StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberFactoryInterface> $successSubscriberFactories
+     */
     public function __construct(
         private readonly AMQPConnectionFactoryInterface           $amqpConnectionFactory,
         private readonly SubscriberFactoryInterface               $loggingSubscriberFactory,
         private readonly AMQPConsumerConfigurationInterface       $consumerConfiguration,
         private readonly MessageProcessorFactoryInterface         $messageProcessorFactory,
         private readonly AMQPMessageFacadeBuilderFactoryInterface $amqpMessageFacadeBuilderFactory,
-        private readonly SubscriberFactoryInterface               $finalBatchPublishingSubscriberFactory,
-        private readonly SubscriberFactoryInterface               $acknowledgingSubscriberFactory,
+        private readonly array                                    $successSubscriberFactories,
     ) {
     }
 
@@ -66,8 +68,12 @@ class ConsumerFactory implements ConsumerFactoryInterface
             ProcessEventTypeEnum::Fail,
             $this->loggingSubscriberFactory->createSubscriber()
         );
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->acknowledgingSubscriberFactory->createSubscriber());
-        $eventManager->subscribe(ProcessEventTypeEnum::Success, $this->finalBatchPublishingSubscriberFactory->createSubscriber());
+
+        array_walk(
+            $this->successSubscriberFactories,
+            fn (SubscriberFactoryInterface $subscriberFactory) =>
+                $eventManager->subscribe(ProcessEventTypeEnum::Success, $subscriberFactory->createSubscriber()),
+        );
 
         return $eventManager;
     }
