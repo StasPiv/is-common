@@ -7,6 +7,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration\Pub
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueBatchConfigurationInterface;
 
 class PublisherFactory implements PublisherFactoryInterface
 {
@@ -14,6 +15,7 @@ class PublisherFactory implements PublisherFactoryInterface
         private readonly AMQPConnectionFactoryInterface $amqpConnectionFactory,
         private readonly PublisherConfigurationInterface $publisherConfiguration,
         private readonly EventManagerFactoryInterface $eventManagerFactory,
+        private readonly QueueBatchConfigurationInterface $queueBatchConfiguration,
     ) {
     }
 
@@ -23,6 +25,7 @@ class PublisherFactory implements PublisherFactoryInterface
             $this->amqpConnectionFactory->createAMQPChannel(),
             $this->publisherConfiguration->getQueue(),
             $this->eventManagerFactory->createEventManager(),
+            $this->queueBatchConfiguration,
         );
     }
 }

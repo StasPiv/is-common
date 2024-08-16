@@ -8,21 +8,20 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueBatchConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\PublisherEventTypeEnum;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\DataAwareProcessDataModel;
 
 class AMQPPublisher implements PublisherInterface
 {
-    const BATCH_SIZE = 1000;
-    const QUEUE_SIZE_LIMIT = 10000;
-
     private static array $queueSizes = [];
 
     public function __construct(
         private readonly AMQPChannel           $channel,
         private readonly string                $queue,
         private readonly EventManagerInterface $eventManager,
+        private readonly QueueBatchConfigurationInterface $queueBatchConfiguration,
     ) {
     }
 
@@ -40,7 +39,7 @@ class AMQPPublisher implements PublisherInterface
             self::$queueSizes[$this->queue]++;
         }
 
-        if (self::$queueSizes[$this->queue] === self::BATCH_SIZE) {
+        if (self::$queueSizes[$this->queue] === $this->queueBatchConfiguration->getBatchSize($this->queue)) {
             $this->publishBatchRecursive();
 
             self::$queueSizes[$this->queue] = 0;
@@ -52,7 +51,7 @@ class AMQPPublisher implements PublisherInterface
         list($queueName, $messageCount, $consumerCount)
             = $this->channel->queue_declare($this->queue, true);
 
-        while($messageCount > self::QUEUE_SIZE_LIMIT) {
+        while($messageCount > $this->queueBatchConfiguration->getQueueSizeLimit($this->queue)) {
             $this->eventManager->notify(
                 PublisherEventTypeEnum::MessageCountGreaterThanLimit,
                 new DataAwareProcessDataModel(["queue" => $queueName, "messageCount" => $messageCount,]),
