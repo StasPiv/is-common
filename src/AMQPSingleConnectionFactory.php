@@ -8,6 +8,8 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFac
 
 class AMQPSingleConnectionFactory implements Contract\AMQPConnectionFactoryInterface
 {
+    private array $identityMap = [];
+
     public function __construct(
         private readonly AMQPConnectionFactoryInterface $amqpConnectionFactory,
     ) {
@@ -15,23 +17,19 @@ class AMQPSingleConnectionFactory implements Contract\AMQPConnectionFactoryInter
 
     public function createAMQPConnection(): AMQPStreamConnection
     {
-        static $instance;
-
-        if (isset($instance)) {
-            return $instance;
+        if (isset($this->identityMap['connection'])) {
+            return $this->identityMap['connection'];
         }
 
-        return $instance = $this->amqpConnectionFactory->createAMQPConnection();
+        return $this->identityMap['connection'] = $this->amqpConnectionFactory->createAMQPConnection();
     }
 
     public function createAMQPChannel(): AMQPChannel
     {
-        static $instance;
-
-        if (isset($instance)) {
-            return $instance;
+        if (isset($this->identityMap['channel'])) {
+            return $this->identityMap['channel'];
         }
 
-        return $instance = $this->amqpConnectionFactory->createAMQPChannel();
+        return $this->identityMap['channel'] = $this->amqpConnectionFactory->createAMQPChannel();
     }
 }
