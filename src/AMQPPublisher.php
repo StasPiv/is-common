@@ -104,7 +104,7 @@ class AMQPPublisher implements PublisherInterface
 
     private function isQueueOverloaded(): bool
     {
-        return $this->getMessageCount() - $this->queueBatchConfiguration->getBatchSize($this->queue) >
+        return $this->getMessageCount() + $this->queueBatchConfiguration->getBatchSize($this->queue) >
             $this->queueBatchConfiguration->getQueueSizeLimit($this->queue);
     }
 }
