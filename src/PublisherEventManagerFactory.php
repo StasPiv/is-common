@@ -34,7 +34,7 @@ class PublisherEventManagerFactory implements EventManagerFactoryInterface
     protected function getLoggingSubscriberEvents(): array
     {
         return [
-            PublisherEventTypeEnum::MessageCountGreaterThanLimit,
+            PublisherEventTypeEnum::WaitForPublish,
             PublisherEventTypeEnum::PublishBatchMessages,
             PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
         ];

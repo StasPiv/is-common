@@ -58,14 +58,7 @@ class AMQPPublisher implements PublisherInterface
 
     public function publishBatch(): void
     {
-        if ($this->isQueueOverloaded()) {
-            $this->eventManager->notify(
-                PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
-                new DataAwareProcessDataModel(["queue" => $this->queue]),
-            );
-
-            $this->waitForPublish();
-        }
+        $this->waitForPublish();
 
         $this->eventManager->notify(
             PublisherEventTypeEnum::PublishBatchMessages,
@@ -78,9 +71,9 @@ class AMQPPublisher implements PublisherInterface
     {
         $messageCount = $this->getMessageCount();
 
-        while($this->isQueueOverloaded()) {
+        while(!$this->isQueueReadyForPublish()) {
             $this->eventManager->notify(
-                PublisherEventTypeEnum::MessageCountGreaterThanLimit,
+                PublisherEventTypeEnum::WaitForPublish,
                 new DataAwareProcessDataModel(["queue" => $this->queue, "messageCount" => $messageCount,]),
             );
             sleep(1);
@@ -102,9 +95,12 @@ class AMQPPublisher implements PublisherInterface
         return $messageCount;
     }
 
-    private function isQueueOverloaded(): bool
+    private function isQueueReadyForPublish(): bool
     {
-        return $this->getMessageCount() + $this->queueBatchConfiguration->getBatchSize($this->queue) >
-            $this->queueBatchConfiguration->getQueueSizeLimit($this->queue);
+        $messageCount = $this->getMessageCount();
+        $queueSizeLimit = $this->queueBatchConfiguration->getQueueSizeLimit($this->queue);
+        $batchSize = $this->queueBatchConfiguration->getBatchSize($this->queue);
+
+        return $messageCount < $queueSizeLimit && $messageCount + $batchSize > $queueSizeLimit;
     }
 }
