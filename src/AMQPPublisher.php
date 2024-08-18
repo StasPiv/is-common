@@ -101,6 +101,6 @@ class AMQPPublisher implements PublisherInterface
         $queueSizeLimit = $this->queueBatchConfiguration->getQueueSizeLimit($this->queue);
         $batchSize = $this->queueBatchConfiguration->getBatchSize($this->queue);
 
-        return $messageCount < $queueSizeLimit && $messageCount + $batchSize > $queueSizeLimit;
+        return $messageCount + $batchSize < $queueSizeLimit;
     }
 }
