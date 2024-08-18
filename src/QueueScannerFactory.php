@@ -2,6 +2,7 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueDeclareProcessorFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\AMQPConnectionFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueScannerFactoryInterface;
@@ -12,6 +13,7 @@ class QueueScannerFactory implements QueueScannerFactoryInterface
     public function __construct(
         private readonly AMQPConnectionFactoryInterface $amqpConnectionFactory,
         private readonly QueueDeclareProcessorFactoryInterface $queueDeclareProcessorFactory,
+        private readonly EventManagerFactoryInterface $eventManagerFactory,
     ) {
     }
 
@@ -20,6 +22,7 @@ class QueueScannerFactory implements QueueScannerFactoryInterface
         return new QueueScanner(
             $this->amqpConnectionFactory->createAMQPChannel(),
             $this->queueDeclareProcessorFactory->createQueueDeclareProcessor(),
+            $this->eventManagerFactory->createEventManager(),
         );
     }
 }
