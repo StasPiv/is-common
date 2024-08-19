@@ -6,6 +6,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerFacto
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\PublisherEventTypeEnum;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\QueueScannerEventTypeEnum;
 
 class PublisherEventManagerFactory implements EventManagerFactoryInterface
 {
@@ -34,6 +35,7 @@ class PublisherEventManagerFactory implements EventManagerFactoryInterface
     protected function getLoggingSubscriberEvents(): array
     {
         return [
+            QueueScannerEventTypeEnum::WaitForMessages,
             PublisherEventTypeEnum::WaitForPublish,
             PublisherEventTypeEnum::PublishBatchMessages,
             PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
