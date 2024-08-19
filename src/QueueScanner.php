@@ -30,7 +30,11 @@ class QueueScanner implements QueueScannerInterface
 
             $processResult = $this->queueDeclareProcessor->processQueueDeclare($queueName, $messageCount, $consumerCount);
 
+            if (!$processResult) {
+                break;
+            }
+
             sleep(1);
-        } while ($processResult);
+        } while (true);
     }
 }
