@@ -2,7 +2,7 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
-class DiffModel
+class MoveEvaluationModel
 {
     private string $fen;
     private string $gameMove;
