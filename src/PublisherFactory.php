@@ -8,6 +8,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerFacto
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueBatchConfigurationInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueScannerFactoryInterface;
 
 class PublisherFactory implements PublisherFactoryInterface
 {
@@ -16,6 +17,7 @@ class PublisherFactory implements PublisherFactoryInterface
         private readonly PublisherConfigurationInterface $publisherConfiguration,
         private readonly EventManagerFactoryInterface $eventManagerFactory,
         private readonly QueueBatchConfigurationInterface $queueBatchConfiguration,
+        private readonly QueueScannerFactoryInterface $queueScannerFactory,
     ) {
     }
 
@@ -26,6 +28,7 @@ class PublisherFactory implements PublisherFactoryInterface
             $this->publisherConfiguration->getQueue(),
             $this->eventManagerFactory->createEventManager(),
             $this->queueBatchConfiguration,
+            $this->queueScannerFactory->createQueueScanner(),
         );
     }
 }
