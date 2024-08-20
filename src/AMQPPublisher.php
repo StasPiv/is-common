@@ -61,6 +61,10 @@ class AMQPPublisher implements PublisherInterface
 
     public function publishBatch(): void
     {
+        if ($this->queueBatchConfiguration->getBatchSize($this->queue) === 0) {
+            return;
+        }
+
         $this->waitForPublish();
 
         $this->eventManager->notify(
