@@ -46,7 +46,7 @@ class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollec
                 ProcessEventTypeEnum::ModelSaveFailed,
                 new DataAwareProcessDataModel(
                     [
-                        'exception' => $exception,
+                        'exception' => $exception->getMessage(),
                     ],
                 ),
             );
