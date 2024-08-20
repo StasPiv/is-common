@@ -18,19 +18,21 @@ class LoggingSubscriber implements SubscriberInterface
 
     public function update(EventTypeAwareProcessDataInterface $processData): void
     {
+        $message = $processData->getEventType()->getName() . ': ' . $processData;
+
         if (in_array($processData->getEventType(), $this->getErrorEvents())) {
-            $this->logger->error($processData);
+            $this->logger->error($message);
 
             return;
         }
 
         if (in_array($processData->getEventType(), $this->getInfoEvents())) {
-            $this->logger->info($processData);
+            $this->logger->info($message);
 
             return;
         }
 
-        $this->logger->debug($processData->getEventType()->getName() . ': ' . $processData);
+        $this->logger->debug($message);
     }
 
     private function getErrorEvents(): array
