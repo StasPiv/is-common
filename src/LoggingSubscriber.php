@@ -24,7 +24,13 @@ class LoggingSubscriber implements SubscriberInterface
             return;
         }
 
-        $this->logger->info($processData->getEventType()->getName() . ': ' . $processData);
+        if (in_array($processData->getEventType(), $this->getInfoEvents())) {
+            $this->logger->info($processData);
+
+            return;
+        }
+
+        $this->logger->debug($processData->getEventType()->getName() . ': ' . $processData);
     }
 
     private function getErrorEvents(): array
@@ -32,6 +38,14 @@ class LoggingSubscriber implements SubscriberInterface
         return [
             ProcessEventTypeEnum::Fail,
             ProcessEventTypeEnum::ModelSaveFailed,
+        ];
+    }
+
+    private function getInfoEvents(): array
+    {
+        return [
+            ProcessEventTypeEnum::MessageReceived,
+            ProcessEventTypeEnum::MessageAcked,
         ];
     }
 }
