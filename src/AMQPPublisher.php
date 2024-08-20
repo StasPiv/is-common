@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
 use PhpAmqpLib\Message\AMQPMessage;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
@@ -66,7 +67,11 @@ class AMQPPublisher implements PublisherInterface
             PublisherEventTypeEnum::PublishBatchMessages,
             new DataAwareProcessDataModel(["queue" => $this->queue,])
         );
-        $this->channel->publish_batch();
+        try {
+            $this->channel->publish_batch();
+        } catch (AMQPTimeoutException) {
+            $this->publishBatch();
+        }
     }
 
     private function waitForPublish(): void
