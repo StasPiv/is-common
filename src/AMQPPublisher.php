@@ -30,7 +30,7 @@ class AMQPPublisher implements PublisherInterface
 
     public function publish(StringInterface $model): void
     {
-        if ($this->queueBatchConfiguration->isForce()) {
+        if ($this->queueBatchConfiguration->isForce() || $this->queueBatchConfiguration->getBatchSize($this->queue) === 1) {
             $this->channel->basic_publish(
                 new AMQPMessage((string) $model),
                 '',
