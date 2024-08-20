@@ -18,12 +18,20 @@ class LoggingSubscriber implements SubscriberInterface
 
     public function update(EventTypeAwareProcessDataInterface $processData): void
     {
-        if ($processData->getEventType() === ProcessEventTypeEnum::Fail) {
+        if (in_array($processData->getEventType(), $this->getErrorEvents())) {
             $this->logger->error($processData);
 
             return;
         }
 
         $this->logger->info($processData->getEventType()->getName() . ': ' . $processData);
+    }
+
+    private function getErrorEvents(): array
+    {
+        return [
+            ProcessEventTypeEnum::Fail,
+            ProcessEventTypeEnum::ModelSaveFailed,
+        ];
     }
 }
