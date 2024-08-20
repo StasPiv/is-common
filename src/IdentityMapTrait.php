@@ -15,7 +15,7 @@ trait IdentityMapTrait
         }
 
         return $this->identityMap[$identityKey] = call_user_func_array(
-            fn (): AMQPChannel => parent::{$identityKey}(),
+            fn (): mixed => parent::{$identityKey}(),
             $identityValueFnArgs,
         );
     }
