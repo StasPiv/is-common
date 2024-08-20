@@ -6,12 +6,21 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EavAttributeValueCollectionSaverContextInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\IdGeneratorStrategyInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
+use StanislavPivovartsev\InterestingStatistics\Common\Exception\EavAttributeValueException;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\DataAwareProcessDataModel;
 
 class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollectionSaverContextInterface
 {
     private CollectionSaverInterface $strategy;
+
+    public function __construct(
+        private readonly EventManagerInterface $eventManager,
+    ) {
+    }
 
     public function setStrategy(CollectionSaverInterface $strategy): EavAttributeValueCollectionSaverContext
     {
@@ -24,12 +33,26 @@ class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollec
     {
         /** @var \StanislavPivovartsev\InterestingStatistics\Common\Model\AbstractEavAttributeValueModel|class-string $modelClass */
         $modelClass = $this->strategy->getModelInstanceClass();
-        $eavAttributeValueModel = new $modelClass(
-            $entity,
-            $entityType,
-            $attribute,
-            $value,
-        );
+
+        try {
+            $eavAttributeValueModel = new $modelClass(
+                $entity,
+                $entityType,
+                $attribute,
+                $value,
+            );
+        } catch (EavAttributeValueException $exception) {
+            $this->eventManager->notify(
+                ProcessEventTypeEnum::ModelSaveFailed,
+                new DataAwareProcessDataModel(
+                    [
+                        'exception' => $exception,
+                    ],
+                ),
+            );
+
+            return;
+        }
 
         $this->strategy->saveModel($eavAttributeValueModel);
     }

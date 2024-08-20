@@ -21,7 +21,11 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
     ) {
         if (!$this->checkValueType($this->value)) {
             throw new EavAttributeValueException(
-                sprintf('Type of value %s for class %s is incorrect', $this->value, static::class),
+                sprintf('Type of value %s for attribute %s for class %s is incorrect',
+                    $this->value,
+                    $this->attribute->getName(),
+                    static::class
+                ),
             );
         }
     }
