@@ -2,9 +2,7 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
-
-class MoveEvaluationModel implements MessageModelInterface
+class MoveEvaluationModel extends AbstractMessageModel
 {
     use StringJsonEncodableTrait;
 
