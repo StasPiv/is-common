@@ -2,9 +2,9 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 
-class MoveEvaluationModel implements StringInterface
+class MoveEvaluationModel implements MessageModelInterface
 {
     use StringJsonEncodableTrait;
 
