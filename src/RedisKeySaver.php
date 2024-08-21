@@ -18,4 +18,9 @@ class RedisKeySaver implements KeySaverInterface
     {
         $this->redisClient->set($key, $value);
     }
+
+    public function saveValue(string $key, string $value): void
+    {
+        $this->redisClient->set($key, $value);
+    }
 }

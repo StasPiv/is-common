@@ -2,8 +2,12 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
-class MoveEvaluationModel
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
+
+class MoveEvaluationModel implements StringInterface
 {
+    use StringJsonEncodableTrait;
+
     private string $fen;
     private string $gameMove;
     private string $bestMove;
@@ -17,6 +21,17 @@ class MoveEvaluationModel
         $this->fen = $fen;
         $this->gameMove = $gameMove;
         $this->bestMove = $bestMove;
+    }
+
+    public function getDataForSerialize(): array
+    {
+        return [
+            'fen' => $this->fen,
+            'gameMove' => $this->gameMove,
+            'bestMove' => $this->bestMove,
+            'gameScore' => $this->gameScore,
+            'bestScore' => $this->bestScore,
+        ];
     }
 
     public function getFen(): string
