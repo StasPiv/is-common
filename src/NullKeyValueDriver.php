@@ -25,4 +25,9 @@ class NullKeyValueDriver implements KeyFinderInterface, KeySaverInterface
     public function saveValue(string $key, string $value): void
     {
     }
+
+    public function getStringValue(string $key): ?string
+    {
+        return null;
+    }
 }

@@ -8,5 +8,7 @@ interface KeyFinderInterface
 {
     public function getIntValue(string $key): ?int;
 
+    public function getStringValue(string $key): ?string;
+
     public function exists(string $key): bool;
 }
