@@ -18,6 +18,7 @@ abstract class AbstractEavAttributeValueFinder extends AbstractMysqlFinder
         private readonly CollectionFinderContextInterface $collectionFinderContext,
         private readonly CollectionFinderInterface $gameFinder,
         private readonly CollectionFinderInterface $eavAttributeFinder,
+        private readonly CollectionFinderInterface $moveFinder,
     ) {
         parent::__construct($mysqlConnection, $mysqlSelectQueryBuilder);
     }
@@ -26,6 +27,7 @@ abstract class AbstractEavAttributeValueFinder extends AbstractMysqlFinder
     {
         $entityFinder = match ($model->getEntityType()) {
             'game' => $this->gameFinder,
+            'move' => $this->moveFinder,
             default => throw new CollectionFinderException('Unknown entity type: ' . $model->getEntityType()),
         };
 

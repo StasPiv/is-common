@@ -16,6 +16,7 @@ abstract class AbstractEavAttributeValueCollectionFinderFactory extends Abstract
         private readonly CollectionFinderContextFactoryInterface $collectionFinderContextFactory,
         private readonly CollectionFinderFactoryInterface $gameCollectionFinderFactory,
         private readonly CollectionFinderFactoryInterface $eavAttributeCollectionFinderFactory,
+        private readonly CollectionFinderFactoryInterface $moveCollectionFinderFactory,
     ) {
         parent::__construct($mysqlConnectionFactory, $mysqliFactory);
     }
@@ -31,6 +32,7 @@ abstract class AbstractEavAttributeValueCollectionFinderFactory extends Abstract
             $this->collectionFinderContextFactory->createCollectionFinderContext(),
             $this->gameCollectionFinderFactory->createCollectionFinder(),
             $this->eavAttributeCollectionFinderFactory->createCollectionFinder(),
+            $this->moveCollectionFinderFactory->createCollectionFinder(),
         );
     }
 }
