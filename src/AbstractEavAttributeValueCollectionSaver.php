@@ -19,6 +19,7 @@ abstract class AbstractEavAttributeValueCollectionSaver extends AbstractCollecti
         private readonly CollectionSaverInterface        $eavAttributeCollectionSaver,
         private readonly CollectionSaverContextInterface $entityCollectionSaverContext,
         private readonly CollectionSaverInterface        $gameCollectionSaver,
+        private readonly CollectionSaverInterface        $moveCollectionSaver,
     ) {
         parent::__construct($storageSaver);
     }
@@ -29,6 +30,7 @@ abstract class AbstractEavAttributeValueCollectionSaver extends AbstractCollecti
 
         $entitySaverStrategy = match ($model->getEntityType()) {
             'game' => $this->gameCollectionSaver,
+            'move' => $this->moveCollectionSaver,
             default => throw new CollectionSaverException('Unknown saver entity type ' . $model->getEntityType()),
         };
 

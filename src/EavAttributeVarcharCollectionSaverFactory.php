@@ -16,6 +16,7 @@ class EavAttributeVarcharCollectionSaverFactory implements CollectionSaverFactor
         private readonly CollectionSaverFactoryInterface $eavAttributeCollectionSaverFactory,
         private readonly CollectionSaverContextFactoryInterface $entityCollectionSaverContext,
         private readonly CollectionSaverFactoryInterface $gameCollectionSaverFactory,
+        private readonly CollectionSaverFactoryInterface $moveCollectionSaverFactory,
     ) {
     }
 
@@ -26,6 +27,7 @@ class EavAttributeVarcharCollectionSaverFactory implements CollectionSaverFactor
             $this->eavAttributeCollectionSaverFactory->createCollectionSaver(),
             $this->entityCollectionSaverContext->createCollectionSaverContext(),
             $this->gameCollectionSaverFactory->createCollectionSaver(),
+            $this->moveCollectionSaverFactory->createCollectionSaver(),
         );
     }
 }
