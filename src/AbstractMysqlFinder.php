@@ -48,6 +48,28 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
         return $this->buildModelFromDb($assoc);
     }
 
+    public function findAll(array $criteria): array
+    {
+        $sql = $this->mysqlSelectQueryBuilder->buildSelectSql(
+            $this->getCollection(),
+            ['*'],
+            $criteria
+        );
+
+        $result = $this->mysqlConnection->query($sql);
+
+        if ($result->num_rows === 0) {
+            return [];
+        }
+
+        $allRows = $result->fetch_all();
+
+        return array_map(
+            [$this, 'buildModelFromDb'],
+            $allRows,
+        );
+    }
+
     abstract protected function getUniqueCriteria(ModelInCollectionInterface $model): array;
 
     protected function buildModelFromDb(array $assoc): ModelInCollectionInterface
