@@ -8,6 +8,7 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Exception\AMQPTimeoutException;
 use PhpAmqpLib\Message\AMQPMessage;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\PublisherInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueBatchConfigurationInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueScannerInterface;
@@ -30,12 +31,12 @@ class AMQPPublisher implements PublisherInterface
 
     public function publish(StringInterface $model): void
     {
-        $this->eventManager->notify(
-            PublisherEventTypeEnum::Publish,
-            new DataAwareProcessDataModel([
-                'model' => $model,
-            ]),
-        );
+        if ($model instanceof ProcessDataInterface) {
+            $this->eventManager->notify(
+                PublisherEventTypeEnum::Publish,
+                $model,
+            );
+        }
 
         if ($this->queueBatchConfiguration->isForce() || $this->queueBatchConfiguration->getBatchSize($this->queue) === 0) {
             $this->channel->basic_publish(
