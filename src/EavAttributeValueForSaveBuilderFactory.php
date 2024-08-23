@@ -14,6 +14,7 @@ class EavAttributeValueForSaveBuilderFactory implements Contract\ModelForSaveBui
         private readonly CollectionFinderContextFactoryInterface $collectionFinderContextFactory,
         private readonly CollectionFinderFactoryInterface $gameFinderFactory,
         private readonly CollectionFinderFactoryInterface $eavAttributeFinderFactory,
+        private readonly CollectionFinderFactoryInterface $moveFinderFactory,
     ) {
     }
 
@@ -24,6 +25,7 @@ class EavAttributeValueForSaveBuilderFactory implements Contract\ModelForSaveBui
             $this->collectionFinderContextFactory->createCollectionFinderContext(),
             $this->gameFinderFactory->createCollectionFinder(),
             $this->eavAttributeFinderFactory->createCollectionFinder(),
+            $this->moveFinderFactory->createCollectionFinder(),
         );
     }
 }

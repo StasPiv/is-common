@@ -18,6 +18,7 @@ class EavAttributeValueForSaveBuilder extends StandardModelForSaveBuilder
         private readonly CollectionFinderContextInterface $collectionFinderContext,
         private readonly CollectionFinderInterface $gameFinder,
         private readonly CollectionFinderInterface $eavAttributeFinder,
+        private readonly CollectionFinderInterface $moveFinder,
     ) {
         parent::__construct($idGeneratorStrategy);
     }
@@ -29,6 +30,7 @@ class EavAttributeValueForSaveBuilder extends StandardModelForSaveBuilder
 
         $entityFinder = match ($model->getEntityType()) {
             'game' => $this->gameFinder,
+            'move' => $this->moveFinder,
             default => throw new CollectionFinderException('Unknown entity type: ' . $model->getEntityType()),
         };
 
