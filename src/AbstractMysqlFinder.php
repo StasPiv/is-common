@@ -62,7 +62,7 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
             return [];
         }
 
-        $allRows = $result->fetch_all();
+        $allRows = $result->fetch_all(\MYSQLI_ASSOC);
 
         return array_map(
             [$this, 'buildModelFromDb'],
