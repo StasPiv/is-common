@@ -54,8 +54,12 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
 
     public static function getInstance(...$data): static
     {
-        // todo: change when deal with different entities
-        $data['entity'] = GameMessageModel::getInstance(...$data['entity']);
+        $data['entity'] = match ($data['entityType']) {
+            'game' => GameMessageModel::getInstance(...$data['entity']),
+            'move' => MoveMessageModel::getInstance(...$data['entity']),
+            default => throw new EavAttributeValueException('Unknown entity type: ' . $data['entityType']),
+        };
+
         $data['attribute'] = EavAttributeModel::getInstance(...$data['attribute']);
 
         return parent::getInstance(...$data);
