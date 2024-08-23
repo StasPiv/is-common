@@ -7,6 +7,7 @@ enum PublisherEventTypeEnum implements EventTypeInterface
     use EventTypeTrait;
 
     case WaitForPublish;
+    case Publish;
     case PublishBatchMessages;
     case QueueOverloadedForFinalBatch;
 }

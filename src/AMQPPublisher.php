@@ -30,6 +30,13 @@ class AMQPPublisher implements PublisherInterface
 
     public function publish(StringInterface $model): void
     {
+        $this->eventManager->notify(
+            PublisherEventTypeEnum::Publish,
+            new DataAwareProcessDataModel([
+                'model' => $model,
+            ]),
+        );
+
         if ($this->queueBatchConfiguration->isForce() || $this->queueBatchConfiguration->getBatchSize($this->queue) === 0) {
             $this->channel->basic_publish(
                 new AMQPMessage((string) $model),

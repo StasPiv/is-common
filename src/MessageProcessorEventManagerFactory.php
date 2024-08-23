@@ -46,6 +46,7 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
             ProcessEventTypeEnum::MessagePreparedForPublish,
             ProcessEventTypeEnum::ModelPublished,
             PublisherEventTypeEnum::WaitForPublish,
+            PublisherEventTypeEnum::Publish,
             PublisherEventTypeEnum::PublishBatchMessages,
             PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
         ];
