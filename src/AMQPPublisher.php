@@ -18,8 +18,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Model\DataAwareProcessData
 
 class AMQPPublisher implements PublisherInterface
 {
-    private static array $queueSizes = [];
-
     public function __construct(
         private readonly AMQPChannel           $channel,
         private readonly string                $queue,
@@ -53,18 +51,6 @@ class AMQPPublisher implements PublisherInterface
             '',
             $this->queue,
         );
-
-        if (!isset(self::$queueSizes[$this->queue])) {
-            self::$queueSizes[$this->queue] = 1;
-        } else {
-            self::$queueSizes[$this->queue]++;
-        }
-
-        if (self::$queueSizes[$this->queue] === $this->queueBatchConfiguration->getBatchSize($this->queue)) {
-            $this->publishBatch();
-
-            self::$queueSizes[$this->queue] = 0;
-        }
     }
 
     public function publishBatch(): void
