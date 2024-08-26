@@ -15,6 +15,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\QueueScannerInter
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StringInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\PublisherEventTypeEnum;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\DataAwareProcessDataModel;
+use Throwable;
 
 class AMQPPublisher implements PublisherInterface
 {
@@ -81,7 +82,12 @@ class AMQPPublisher implements PublisherInterface
         );
         try {
             $this->channel->publish_batch();
-        } catch (AMQPTimeoutException) {
+        } catch (Throwable) {
+            $this->eventManager->notify(
+                PublisherEventTypeEnum::PublishFail,
+                new DataAwareProcessDataModel(["queue" => $this->queue,])
+            );
+            sleep(5);
             $this->publishBatch();
         }
     }

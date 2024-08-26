@@ -39,6 +39,7 @@ class PublisherEventManagerFactory implements EventManagerFactoryInterface
             PublisherEventTypeEnum::WaitForPublish,
             PublisherEventTypeEnum::Publish,
             PublisherEventTypeEnum::PublishBatchMessages,
+            PublisherEventTypeEnum::PublishFail,
             PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
         ];
     }
