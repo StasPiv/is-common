@@ -68,6 +68,9 @@ class AMQPPublisher implements PublisherInterface
         }
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function publishBatch(): void
     {
         if ($this->queueBatchConfiguration->getBatchSize($this->queue) === 0) {
@@ -87,8 +90,8 @@ class AMQPPublisher implements PublisherInterface
                 PublisherEventTypeEnum::PublishFail,
                 new DataAwareProcessDataModel(["queue" => $this->queue, 'message' => $exception->getMessage()])
             );
-            sleep(5);
-            $this->publishBatch();
+
+            throw $exception;
         }
     }
 
