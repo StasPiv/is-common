@@ -12,6 +12,7 @@ class PublisherEventManagerFactory implements EventManagerFactoryInterface
 {
     public function __construct(
         private readonly SubscriberFactoryInterface $loggingSubscriberFactory,
+        private readonly SubscriberFactoryInterface $terminatorSubscriberFactory,
     ) {
     }
 
@@ -25,6 +26,11 @@ class PublisherEventManagerFactory implements EventManagerFactoryInterface
                 $this->loggingSubscriberFactory->createSubscriber($loggingSubscriberEvent),
             );
         }
+
+        $eventManager->subscribe(
+            PublisherEventTypeEnum::PublishFail,
+            $this->terminatorSubscriberFactory->createSubscriber()
+        );
 
         return $eventManager;
     }
