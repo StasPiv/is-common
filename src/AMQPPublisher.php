@@ -82,10 +82,10 @@ class AMQPPublisher implements PublisherInterface
         );
         try {
             $this->channel->publish_batch();
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
             $this->eventManager->notify(
                 PublisherEventTypeEnum::PublishFail,
-                new DataAwareProcessDataModel(["queue" => $this->queue,])
+                new DataAwareProcessDataModel(["queue" => $this->queue, 'message' => $exception->getMessage()])
             );
             sleep(5);
             $this->publishBatch();

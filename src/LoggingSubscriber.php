@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventTypeAwareProcessDataInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\PublisherEventTypeEnum;
 
 class LoggingSubscriber implements SubscriberInterface
 {
@@ -40,6 +41,7 @@ class LoggingSubscriber implements SubscriberInterface
         return [
             ProcessEventTypeEnum::Fail,
             ProcessEventTypeEnum::ModelSaveFailed,
+            PublisherEventTypeEnum::PublishFail,
         ];
     }
 
