@@ -20,6 +20,7 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     public function getDataForSerialize(): array
     {
         return [
+            'id' => $this->id,
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
         ];
@@ -32,6 +33,18 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
         ];
+    }
+
+    public static function getInstance(...$data): static
+    {
+        $id = $data['id'];
+        unset($data['id']);
+
+        $gameMessageModel = parent::getInstance($data);
+
+        $gameMessageModel->setId($id);
+
+        return $gameMessageModel;
     }
 
     public function getId(): string
