@@ -18,7 +18,7 @@ class MysqlInsertQueryBuilder implements MysqlInsertQueryBuilderInterface
     {
         $pairs = $this->buildPairs($data);
 
-        return "INSERT INTO `$table` SET $pairs";
+        return "INSERT IGNORE INTO `$table` SET $pairs";
     }
 
     /**

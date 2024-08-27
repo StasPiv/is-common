@@ -15,7 +15,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlUpdateQueryB
 class MysqlStorageSaverFactory implements StorageSaverFactoryInterface
 {
     public function __construct(
-        private readonly CollectionFinderFactoryInterface $collectionFinderFactory,
         private readonly MysqlConnectionFactoryInterface $mysqlConnectionFactory,
         private readonly MysqliFactoryInterface $mysqliFactory,
         private readonly ModelForSaveBuilderFactoryInterface $modelForSaveBuilderFactory,
@@ -26,9 +25,7 @@ class MysqlStorageSaverFactory implements StorageSaverFactoryInterface
     {
         return new MysqlStorageSaver(
             $this->mysqlConnectionFactory->createMysqlConnection(),
-            $this->collectionFinderFactory->createCollectionFinder(),
             $this->createMysqlInsertQueryBuilder(),
-            $this->createMysqlUpdateQueryBuilder(),
             $this->modelForSaveBuilderFactory->createModelForSaveBuilder(),
         );
     }
