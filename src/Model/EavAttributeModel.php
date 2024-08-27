@@ -52,6 +52,7 @@ class EavAttributeModel extends AbstractMessageModel implements ModelInCollectio
     public function getDataForSerialize(): array
     {
         return [
+            'id' => $this->id,
             'type' => $this->type,
             'name' => $this->name,
             'table' => $this->table,
