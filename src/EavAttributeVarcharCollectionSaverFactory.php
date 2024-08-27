@@ -4,8 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderContextFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderFactoryInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverContextFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverFactoryInterface;
@@ -14,10 +13,10 @@ class EavAttributeVarcharCollectionSaverFactory implements CollectionSaverFactor
 {
     public function __construct(
         private readonly StorageSaverFactoryInterface $storageSaverFactory,
-        private readonly CollectionFinderContextFactoryInterface $collectionFinderContextFactory,
-        private readonly CollectionFinderFactoryInterface $gameCollectionFinderFactory,
-        private readonly CollectionFinderFactoryInterface $eavAttributeCollectionFinderFactory,
-        private readonly CollectionFinderFactoryInterface $moveCollectionFinderFactory,
+        private readonly CollectionSaverFactoryInterface $eavAttributeCollectionSaverFactory,
+        private readonly CollectionSaverContextFactoryInterface $entityCollectionSaverContext,
+        private readonly CollectionSaverFactoryInterface $gameCollectionSaverFactory,
+        private readonly CollectionSaverFactoryInterface $moveCollectionSaverFactory,
     ) {
     }
 
@@ -25,10 +24,10 @@ class EavAttributeVarcharCollectionSaverFactory implements CollectionSaverFactor
     {
         return new EavAttributeVarcharCollectionSaver(
             $this->storageSaverFactory->createStorageSaver(),
-            $this->collectionFinderContextFactory->createCollectionFinderContext(),
-            $this->gameCollectionFinderFactory->createCollectionFinder(),
-            $this->eavAttributeCollectionFinderFactory->createCollectionFinder(),
-            $this->moveCollectionFinderFactory->createCollectionFinder(),
+            $this->eavAttributeCollectionSaverFactory->createCollectionSaver(),
+            $this->entityCollectionSaverContext->createCollectionSaverContext(),
+            $this->gameCollectionSaverFactory->createCollectionSaver(),
+            $this->moveCollectionSaverFactory->createCollectionSaver(),
         );
     }
 }
