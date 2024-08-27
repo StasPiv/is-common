@@ -26,6 +26,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
     public function getDataForSerialize(): array
     {
         return [
+            'id' => $this->id,
             'game' => $this->game->getDataForSerialize(),
             'moveNumber' => $this->moveNumber,
             'side' => $this->side,
