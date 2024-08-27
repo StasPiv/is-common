@@ -68,4 +68,16 @@ class EavAttributeModel extends AbstractMessageModel implements ModelInCollectio
             'table' => $this->table,
         ];
     }
+
+    public static function getInstance(...$data): static
+    {
+        $id = $data['id'];
+        unset($data['id']);
+
+        $eavAttributeModel = parent::getInstance(...$data);
+
+        $eavAttributeModel->setId($id);
+
+        return $eavAttributeModel;
+    }
 }
