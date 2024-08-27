@@ -99,9 +99,4 @@ class AMQPPublisher implements PublisherInterface
     {
         $this->queueScanner->scanQueue($this->queue);
     }
-
-    public function __destruct()
-    {
-        $this->publishBatch();
-    }
 }
