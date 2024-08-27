@@ -29,11 +29,7 @@ class MysqliFacadeConnection implements MysqlConnectionInterface
         try {
             return $this->mysqli->query($sql);
         } catch (Throwable $exception) {
-            if (str_contains($exception->getMessage(), 'Duplicate')) {
-                return true;
-            } else {
-                throw $exception;
-            }
+            return false;
         }
     }
 
