@@ -44,6 +44,11 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
         $this->id = $id;
     }
 
+    public function hasId(): bool
+    {
+        return isset($this->id);
+    }
+
     public function getPgnHash(): string
     {
         return $this->pgnHash;

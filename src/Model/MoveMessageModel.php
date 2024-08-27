@@ -85,6 +85,11 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
         $this->id = $id;
     }
 
+    public function hasId(): bool
+    {
+        return isset($this->id);
+    }
+
     public function getGameId(): string
     {
         return $this->game->getId();

@@ -75,6 +75,11 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
         $this->id = $id;
     }
 
+    public function hasId(): bool
+    {
+        return isset($this->id);
+    }
+
     public function setEntityId(string $entityId): void
     {
         $this->entityId = $entityId;

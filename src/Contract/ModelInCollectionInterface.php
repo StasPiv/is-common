@@ -9,4 +9,6 @@ interface ModelInCollectionInterface extends SavableModelInterface
     public function getId(): string;
 
     public function setId(string $id): void;
+
+    public function hasId(): bool;
 }

@@ -30,6 +30,11 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         $this->id = $id;
     }
 
+    public function hasId(): bool
+    {
+        return isset($this->id);
+    }
+
     public function getDataForSerialize(): array
     {
         return [

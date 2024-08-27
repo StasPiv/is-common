@@ -29,6 +29,11 @@ class EavAttributeModel extends AbstractMessageModel implements ModelInCollectio
         $this->id = $id;
     }
 
+    public function hasId(): bool
+    {
+        return isset($this->id);
+    }
+
     public function getType(): string
     {
         return $this->type;
