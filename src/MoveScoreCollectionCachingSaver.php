@@ -14,11 +14,10 @@ class MoveScoreCollectionCachingSaver extends MoveScoreCollectionSaver
 {
     public function __construct(
         StorageSaverInterface $storageSaver,
-        CollectionSaverInterface $moveCollectionSaver,
         private readonly KeyFinderInterface $keyFinder,
         private readonly KeySaverInterface $keySaver,
     ) {
-        parent::__construct($storageSaver, $moveCollectionSaver);
+        parent::__construct($storageSaver);
     }
 
     public function saveModel(MoveScoreModel|ModelInCollectionInterface $model): bool

@@ -19,11 +19,10 @@ class MysqlStorageSaver implements StorageSaverInterface
 
     public function saveModel(string $collection, ModelInCollectionInterface $model): bool
     {
-        if ($model->hasId()) {
-            return true;
+        if (!$model->hasId()) {
+            $this->modelForSaveBuilder->buildModelForInsert($model);
         }
 
-        $this->modelForSaveBuilder->buildModelForInsert($model);
         $data = $model->getDataForSave();
         $data['id'] = $model->getId();
         $sql = $this->mysqlInsertQueryBuilder->buildInsertSql($collection, $data);

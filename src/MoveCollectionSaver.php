@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionSaverInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\StorageSaverInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveMessageModel;
 
@@ -13,7 +11,6 @@ class MoveCollectionSaver extends AbstractCollectionSaver
 {
     public function __construct(
         StorageSaverInterface $storageSaver,
-        private readonly CollectionSaverInterface $gameCollectionSaver,
     ) {
         parent::__construct($storageSaver);
     }
@@ -26,12 +23,5 @@ class MoveCollectionSaver extends AbstractCollectionSaver
     public function getModelInstanceClass(): string
     {
         return MoveMessageModel::class;
-    }
-
-    public function saveModel(ModelInCollectionInterface|MoveMessageModel $model): bool
-    {
-        $this->gameCollectionSaver->saveModel($model->getGame());
-
-        return parent::saveModel($model);
     }
 }

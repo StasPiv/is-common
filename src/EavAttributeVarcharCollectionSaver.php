@@ -6,7 +6,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Model\EavAttributeVarcharModel;
 
-class EavAttributeVarcharCollectionSaver extends AbstractEavAttributeValueCollectionSaver
+class EavAttributeVarcharCollectionSaver extends AbstractCollectionSaver
 {
     public function getCollection(): string
     {

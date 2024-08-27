@@ -11,7 +11,6 @@ class MoveScoreCollectionCachingSaverFactory implements Contract\CollectionSaver
 {
     public function __construct(
         private readonly StorageSaverFactoryInterface $storageSaverFactory,
-        private readonly CollectionSaverFactoryInterface $moveCollectionSaverFactory,
         private readonly KeyValueDriverFactoryInterface $keyValueDriverFactory,
     ) {
     }
@@ -20,7 +19,6 @@ class MoveScoreCollectionCachingSaverFactory implements Contract\CollectionSaver
     {
         return new MoveScoreCollectionCachingSaver(
             $this->storageSaverFactory->createStorageSaver(),
-            $this->moveCollectionSaverFactory->createCollectionSaver(),
             $this->keyValueDriverFactory->createKeyFinder(),
             $this->keyValueDriverFactory->createKeySaver(),
         );

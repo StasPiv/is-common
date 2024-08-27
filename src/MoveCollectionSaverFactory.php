@@ -12,7 +12,6 @@ class MoveCollectionSaverFactory implements CollectionSaverFactoryInterface
 {
     public function __construct(
         private readonly StorageSaverFactoryInterface $storageSaverFactory,
-        private readonly CollectionSaverFactoryInterface $gameCollectionSaverFactory,
     ) {
     }
 
@@ -20,7 +19,6 @@ class MoveCollectionSaverFactory implements CollectionSaverFactoryInterface
     {
         return new MoveCollectionSaver(
             $this->storageSaverFactory->createStorageSaver(),
-            $this->gameCollectionSaverFactory->createCollectionSaver(),
         );
     }
 }
