@@ -23,6 +23,13 @@ class AMQPConnectionFactory implements AMQPConnectionFactoryInterface
             $this->amqpConnectionConfiguration->getPort(),
             $this->amqpConnectionConfiguration->getUser(),
             $this->amqpConnectionConfiguration->getPassword(),
+            '/',
+            false,
+            'AMQPLAIN',
+            null,
+            'en_US',
+            30.0,
+            30.0,
         );
     }
 
