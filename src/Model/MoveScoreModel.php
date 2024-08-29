@@ -53,6 +53,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
             'id' => $this->move->getId(),
             'scoreBefore' => $this->scoreBefore,
             'scoreAfter' => $this->scoreAfter,
+            'diff' => $this->diff,
             'accuracy' => $this->accuracy,
         ];
     }
