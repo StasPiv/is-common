@@ -26,4 +26,20 @@ class ScoreDiffCalculatorTest extends TestCase
         // assert
         self::assertSame($expectedDiff, $actualDiff);
     }
+
+    /**
+     * @dataProvider \StanislavPivovartsev\InterestingStatistics\Common\Tests\ScoreDiffCalculator\ScoreDiffCalculatorDataProvider::provideDataForCalculateAccuracy
+     */
+    public function testCalculateAccuracy(int $scoreBefore, int $scoreAfter, float $expectedAccuracy): void
+    {
+        // arrange
+        $calculator = new ScoreDiffCalculator();
+        $moveScoreModel = new MoveScoreModel($this->createMock(MoveMessageModel::class), $scoreBefore, $scoreAfter, null);
+
+        // act
+        $actualDiff = $calculator->calculateAccuracy($moveScoreModel);
+
+        // assert
+        self::assertSame($expectedAccuracy, $actualDiff);
+    }
 }

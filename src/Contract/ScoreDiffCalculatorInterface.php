@@ -9,4 +9,6 @@ use StanislavPivovartsev\InterestingStatistics\Common\Model\MoveScoreModel;
 interface ScoreDiffCalculatorInterface
 {
     public function calculateDiff(MoveScoreModel $moveScoreModel): ?int;
+
+    public function calculateAccuracy(MoveScoreModel $moveScoreModel): ?float;
 }

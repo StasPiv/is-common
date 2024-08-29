@@ -15,15 +15,38 @@ class ScoreDiffCalculator implements ScoreDiffCalculatorInterface
             return null;
         }
 
+        return $this->getBaseDiffWithCoefficient($moveScoreModel, 600);
+
+    }
+
+    public function calculateAccuracy(MoveScoreModel $moveScoreModel): ?float
+    {
+        if ($moveScoreModel->getScoreBefore() === null || $moveScoreModel->getScoreAfter() === null) {
+            return null;
+        }
+
+        $coefficient = 280;
+
+        $baseDiff = $this->getBaseDiffWithCoefficient($moveScoreModel, $coefficient);
+
+        if ($baseDiff === 0) {
+            return 100;
+        }
+
+        return ($coefficient + $baseDiff) / ($coefficient / 100);
+    }
+
+    private function getBaseDiffWithCoefficient(MoveScoreModel $moveScoreModel, int $coefficient): int
+    {
         // if I anyway win
-        $scoreBefore = $moveScoreModel->getScoreBefore() > 300 ? 300 : $moveScoreModel->getScoreBefore();
+        $scoreBefore = $moveScoreModel->getScoreBefore() > $coefficient / 2 ? $coefficient / 2 : $moveScoreModel->getScoreBefore();
         // if I anyway lose
-        $scoreAfter = $moveScoreModel->getScoreAfter() < -300 ? -300 : $moveScoreModel->getScoreAfter();
+        $scoreAfter = $moveScoreModel->getScoreAfter() < -$coefficient / 2 ? -$coefficient / 2 : $moveScoreModel->getScoreAfter();
 
         $baseDiff = $scoreAfter - $scoreBefore;
 
-        if ($baseDiff < -600) {
-            return -600;
+        if ($baseDiff < -$coefficient) {
+            return -$coefficient;
         }
 
         if ($baseDiff > 0) {
