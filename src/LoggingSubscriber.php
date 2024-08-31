@@ -36,7 +36,7 @@ class LoggingSubscriber implements SubscriberInterface
         $this->logger->debug($message);
     }
 
-    private function getErrorEvents(): array
+    protected function getErrorEvents(): array
     {
         return [
             ProcessEventTypeEnum::Fail,
@@ -45,7 +45,7 @@ class LoggingSubscriber implements SubscriberInterface
         ];
     }
 
-    private function getInfoEvents(): array
+    protected function getInfoEvents(): array
     {
         return [
             ProcessEventTypeEnum::MessageReceived,

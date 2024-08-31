@@ -18,7 +18,7 @@ class ScoreDiffCalculatorTest extends TestCase
     {
         // arrange
         $calculator = new ScoreDiffCalculator();
-        $moveScoreModel = new MoveScoreModel($this->createMock(MoveMessageModel::class), $scoreBefore, $scoreAfter, null);
+        $moveScoreModel = new MoveScoreModel($this->createMock(MoveMessageModel::class), $scoreBefore, $scoreAfter, null, null);
 
         // act
         $actualDiff = $calculator->calculateDiff($moveScoreModel);
@@ -34,7 +34,7 @@ class ScoreDiffCalculatorTest extends TestCase
     {
         // arrange
         $calculator = new ScoreDiffCalculator();
-        $moveScoreModel = new MoveScoreModel($this->createMock(MoveMessageModel::class), $scoreBefore, $scoreAfter, null);
+        $moveScoreModel = new MoveScoreModel($this->createMock(MoveMessageModel::class), $scoreBefore, $scoreAfter, null, null);
 
         // act
         $actualDiff = $calculator->calculateAccuracy($moveScoreModel);
