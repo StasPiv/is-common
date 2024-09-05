@@ -28,7 +28,7 @@ class AMQPConnectionFactory implements AMQPConnectionFactoryInterface
             'AMQPLAIN',
             null,
             'en_US',
-            3.0,
+            30.0,
             30.0,
         );
     }
