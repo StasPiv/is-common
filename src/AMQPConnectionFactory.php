@@ -29,8 +29,8 @@ class AMQPConnectionFactory implements AMQPConnectionFactoryInterface
                 'AMQPLAIN',
                 null,
                 'en_US',
-                30.0,
-                30.0,
+                300.0,
+                300.0,
             );
         } catch (\Exception $e) {
             sleep(1);
