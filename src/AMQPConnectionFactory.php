@@ -18,25 +18,19 @@ class AMQPConnectionFactory implements AMQPConnectionFactoryInterface
 
     public function createAMQPConnection(): AMQPStreamConnection
     {
-        try {
-            return new AMQPStreamConnection(
-                $this->amqpConnectionConfiguration->getHost(),
-                $this->amqpConnectionConfiguration->getPort(),
-                $this->amqpConnectionConfiguration->getUser(),
-                $this->amqpConnectionConfiguration->getPassword(),
-                '/',
-                false,
-                'AMQPLAIN',
-                null,
-                'en_US',
-                300.0,
-                300.0,
-            );
-        } catch (\Exception $e) {
-            sleep(1);
-
-            return $this->createAMQPConnection();
-        }
+        return new AMQPStreamConnection(
+            $this->amqpConnectionConfiguration->getHost(),
+            $this->amqpConnectionConfiguration->getPort(),
+            $this->amqpConnectionConfiguration->getUser(),
+            $this->amqpConnectionConfiguration->getPassword(),
+            '/',
+            false,
+            'AMQPLAIN',
+            null,
+            'en_US',
+            3.0,
+            3.0,
+        );
     }
 
     public function createAMQPChannel(): AMQPChannel
