@@ -38,7 +38,7 @@ class AMQPConsumer implements ConsumerInterface
             false
         );
 
-        $this->channel->basic_qos(0, 1, true);
+        $this->channel->basic_qos(0, 1, false);
         $this->channel->basic_consume(
             $this->configuration->getQueue(),
             '',
