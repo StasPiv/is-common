@@ -8,7 +8,13 @@ trait StringJsonEncodableTrait
 {
     public function __toString(): string
     {
-        return json_encode($this->getDataForSerialize());
+        $str = json_encode($this->getDataForSerialize());
+
+        if (!is_string($str)) {
+            return '';
+        }
+
+        return $str;
     }
 
     abstract public function getDataForSerialize(): array;
