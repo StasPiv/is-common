@@ -23,7 +23,7 @@ class ChessMqConsumer implements ConsumerInterface
         $fp = $this->openSocket();
 
         while (!feof($fp)) {
-            $response = fgets($fp, 1024);
+            $response = fgets($fp);
             if (strlen(trim($response)) !== 0) {
                 $this->messageReceiver->onReceive(new ChessMqMessageFacade($response, $this->configuration->getModelInstance()));
 
