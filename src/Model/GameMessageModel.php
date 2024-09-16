@@ -14,6 +14,7 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     public function __construct(
         private readonly string $pgn,
         private readonly string $pgnHash,
+        private readonly string $createdAt,
     ) {
     }
 
@@ -23,6 +24,7 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             'id' => $this->id,
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
+            'createdAt' => $this->createdAt,
         ];
     }
 
@@ -32,6 +34,7 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             'id' => $this->id,
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
+            'createdAt' => $this->createdAt,
         ];
     }
 
