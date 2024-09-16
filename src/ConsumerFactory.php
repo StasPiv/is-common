@@ -23,9 +23,9 @@ class ConsumerFactory implements ConsumerFactoryInterface
      * @param array<\StanislavPivovartsev\InterestingStatistics\Common\Contract\SubscriberFactoryInterface> $successSubscriberFactories
      */
     public function __construct(
-        private readonly AMQPConnectionFactoryInterface           $amqpConnectionFactory,
+        protected readonly AMQPConnectionFactoryInterface           $amqpConnectionFactory,
         private readonly SubscriberFactoryInterface               $loggingSubscriberFactory,
-        private readonly AMQPConsumerConfigurationInterface       $consumerConfiguration,
+        protected readonly AMQPConsumerConfigurationInterface       $consumerConfiguration,
         private readonly MessageProcessorFactoryInterface         $messageProcessorFactory,
         private readonly AMQPMessageFacadeBuilderFactoryInterface $amqpMessageFacadeBuilderFactory,
         private array                                    $successSubscriberFactories,
@@ -43,7 +43,7 @@ class ConsumerFactory implements ConsumerFactoryInterface
         );
     }
 
-    private function createMessageReceiver(): MessageReceiverInterface
+    protected function createMessageReceiver(): MessageReceiverInterface
     {
         return new MessageReceiver(
             $this->createReceiverEventManager(),
