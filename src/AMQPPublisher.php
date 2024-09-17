@@ -40,11 +40,31 @@ class AMQPPublisher implements PublisherInterface
         }
 
         if ($this->queueBatchConfiguration->isForce() || $this->queueBatchConfiguration->getBatchSize($this->queue) === 0) {
+            $this->channel->set_nack_handler(
+                function () use ($model) {
+                    sleep(1);
+                    $this->eventManager->notify(
+                        PublisherEventTypeEnum::WaitForPublish,
+                        new DataAwareProcessDataModel([]),
+                    );
+                    $this->channel->basic_publish(
+                        new AMQPMessage((string) $model),
+                        '',
+                        $this->queue,
+                    );
+                    $this->channel->wait_for_pending_acks();
+                }
+            );
+
+            $this->channel->confirm_select();
+
             $this->channel->basic_publish(
                 new AMQPMessage((string) $model),
                 '',
                 $this->queue,
             );
+
+            $this->channel->wait_for_pending_acks();
 
             return;
         }
