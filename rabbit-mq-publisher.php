@@ -144,5 +144,4 @@ $moveSavable = new PgnSaveMessageModel($pgn);
 
 while (true) {
     $publisher->publish($moveSavable);
-    usleep(500000);
 }

@@ -30,11 +30,6 @@ class AMQPPublisher implements PublisherInterface
     ) {
         $this->channel->set_nack_handler(
             function (AMQPMessage $message) {
-                sleep(1);
-                $this->eventManager->notify(
-                    PublisherEventTypeEnum::WaitForPublish,
-                    new DataAwareProcessDataModel([]),
-                );
                 $this->channel->basic_publish(
                     $message,
                     '',

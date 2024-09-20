@@ -127,8 +127,7 @@ $messageProcessorFactory = new class implements MessageProcessorFactoryInterface
             {
                 global $publisher;
 
-                for ($i=0;$i<5;$i++) {
-                    sleep(1);
+                for ($i=0;$i<1000;$i++) {
                     $publisher->publish($messageModel);
                 }
             }
