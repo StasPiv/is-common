@@ -28,6 +28,7 @@ class AMQPPublisher implements PublisherInterface
         private readonly QueueBatchConfigurationInterface $queueBatchConfiguration,
         private readonly QueueScannerInterface $queueScanner,
     ) {
+        $this->channel->confirm_select();
     }
 
     public function publish(StringInterface $model): void
@@ -55,8 +56,6 @@ class AMQPPublisher implements PublisherInterface
                     $this->channel->wait_for_pending_acks();
                 }
             );
-
-            $this->channel->confirm_select();
 
             $this->channel->basic_publish(
                 new AMQPMessage((string) $model),
