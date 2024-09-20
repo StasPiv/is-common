@@ -142,6 +142,7 @@ $pgn = '[Event "Rated Blitz game"]
 
 $moveSavable = new PgnSaveMessageModel($pgn);
 
-for ($i=0;$i<3;$i++) {
+while (true) {
     $publisher->publish($moveSavable);
+    usleep(500000);
 }

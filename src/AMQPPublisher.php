@@ -28,6 +28,21 @@ class AMQPPublisher implements PublisherInterface
         private readonly QueueBatchConfigurationInterface $queueBatchConfiguration,
         private readonly QueueScannerInterface $queueScanner,
     ) {
+        $this->channel->set_nack_handler(
+            function (AMQPMessage $message) {
+                sleep(1);
+                $this->eventManager->notify(
+                    PublisherEventTypeEnum::WaitForPublish,
+                    new DataAwareProcessDataModel([]),
+                );
+                $this->channel->basic_publish(
+                    $message,
+                    '',
+                    $this->queue,
+                );
+            }
+        );
+
         $this->channel->confirm_select();
     }
 
@@ -41,22 +56,6 @@ class AMQPPublisher implements PublisherInterface
         }
 
         if ($this->queueBatchConfiguration->isForce() || $this->queueBatchConfiguration->getBatchSize($this->queue) === 0) {
-            $this->channel->set_nack_handler(
-                function () use ($model) {
-                    sleep(1);
-                    $this->eventManager->notify(
-                        PublisherEventTypeEnum::WaitForPublish,
-                        new DataAwareProcessDataModel([]),
-                    );
-                    $this->channel->basic_publish(
-                        new AMQPMessage((string) $model),
-                        '',
-                        $this->queue,
-                    );
-                    $this->channel->wait_for_pending_acks();
-                }
-            );
-
             $this->channel->basic_publish(
                 new AMQPMessage((string) $model),
                 '',
