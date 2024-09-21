@@ -20,9 +20,7 @@ class MongoStorageSaverFactory implements Contract\StorageSaverFactoryInterface
     {
         $uri = $this->connectionConfiguration->getConnectionUri();
 
-        $apiVersion = new ServerApi(ServerApi::V1);
-
-        $client = new Client($uri, [], ['serverApi' => $apiVersion]);
+        $client = new Client($uri);
         $database = $client->selectDatabase($this->connectionConfiguration->getDatabase());
 
         return new MongoStorageSaver($database, $this->eventManagerFactory->createEventManager());
