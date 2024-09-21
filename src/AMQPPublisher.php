@@ -30,10 +30,20 @@ class AMQPPublisher implements PublisherInterface
     ) {
         $this->channel->set_nack_handler(
             function (AMQPMessage $message) {
+                $this->eventManager->notify(
+                    PublisherEventTypeEnum::NackReceived,
+                    new DataAwareProcessDataModel([
+                        'queue' => $message->getRoutingKey(),
+                        'message' => $message->getBody(),
+                    ])
+                );
+
+                sleep(10);
+
                 $this->channel->basic_publish(
                     $message,
-                    '',
-                    $this->queue,
+                    $message->getExchange(),
+                    $message->getRoutingKey(),
                 );
             }
         );
@@ -43,19 +53,22 @@ class AMQPPublisher implements PublisherInterface
 
     public function publish(StringInterface $model): void
     {
-        if ($model instanceof ProcessDataInterface) {
-            $this->eventManager->notify(
-                PublisherEventTypeEnum::Publish,
-                $model,
-            );
-        }
-
         if ($this->queueBatchConfiguration->isForce() || $this->queueBatchConfiguration->getBatchSize($this->queue) === 0) {
             $this->channel->basic_publish(
                 new AMQPMessage((string) $model),
                 '',
                 $this->queue,
             );
+
+            if ($model instanceof ProcessDataInterface) {
+                $this->eventManager->notify(
+                    PublisherEventTypeEnum::Publish,
+                    new DataAwareProcessDataModel([
+                        'queue' => $this->queue,
+                        'model' => (string) $model,
+                    ]),
+                );
+            }
 
             $this->channel->wait_for_pending_acks();
 

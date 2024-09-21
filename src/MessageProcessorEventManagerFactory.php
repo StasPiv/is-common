@@ -49,6 +49,7 @@ class MessageProcessorEventManagerFactory implements EventManagerFactoryInterfac
             PublisherEventTypeEnum::Publish,
             PublisherEventTypeEnum::PublishBatchMessages,
             PublisherEventTypeEnum::QueueOverloadedForFinalBatch,
+            PublisherEventTypeEnum::NackReceived,
         ];
     }
 }

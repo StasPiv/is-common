@@ -11,4 +11,5 @@ enum PublisherEventTypeEnum implements EventTypeInterface
     case PublishBatchMessages;
     case PublishFail;
     case QueueOverloadedForFinalBatch;
+    case NackReceived;
 }
