@@ -6,13 +6,17 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use mysqli;
 use mysqli_result;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MysqlConnectionInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\DataAwareProcessDataModel;
 use Throwable;
 
 class MysqliFacadeConnection implements MysqlConnectionInterface
 {
     public function __construct(
-        private readonly mysqli $mysqli
+        private readonly mysqli $mysqli,
+        private readonly EventManagerInterface $eventManager,
     ) {
     }
 
@@ -29,6 +33,11 @@ class MysqliFacadeConnection implements MysqlConnectionInterface
         try {
             return $this->mysqli->query($sql);
         } catch (Throwable $exception) {
+            $this->eventManager->notify(
+                ProcessEventTypeEnum::ModelSaveFailed,
+                new DataAwareProcessDataModel(['exception' => $exception->getMessage()]),
+            );
+
             return false;
         }
     }
