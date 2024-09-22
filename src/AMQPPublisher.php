@@ -38,8 +38,6 @@ class AMQPPublisher implements PublisherInterface
                     ])
                 );
 
-                sleep(10);
-
                 $this->channel->basic_publish(
                     $message,
                     $message->getExchange(),
