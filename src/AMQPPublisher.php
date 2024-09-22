@@ -28,25 +28,25 @@ class AMQPPublisher implements PublisherInterface
         private readonly QueueBatchConfigurationInterface $queueBatchConfiguration,
         private readonly QueueScannerInterface $queueScanner,
     ) {
-        $this->channel->set_nack_handler(
-            function (AMQPMessage $message) {
-                $this->eventManager->notify(
-                    PublisherEventTypeEnum::NackReceived,
-                    new DataAwareProcessDataModel([
-                        'queue' => $message->getRoutingKey(),
-                        'message' => $message->getBody(),
-                    ])
-                );
-
-                $this->channel->basic_publish(
-                    $message,
-                    $message->getExchange(),
-                    $message->getRoutingKey(),
-                );
-            }
-        );
-
-        $this->channel->confirm_select();
+//        $this->channel->set_nack_handler(
+//            function (AMQPMessage $message) {
+//                $this->eventManager->notify(
+//                    PublisherEventTypeEnum::NackReceived,
+//                    new DataAwareProcessDataModel([
+//                        'queue' => $message->getRoutingKey(),
+//                        'message' => $message->getBody(),
+//                    ])
+//                );
+//
+//                $this->channel->basic_publish(
+//                    $message,
+//                    $message->getExchange(),
+//                    $message->getRoutingKey(),
+//                );
+//            }
+//        );
+//
+//        $this->channel->confirm_select();
     }
 
     public function publish(StringInterface $model): void
@@ -68,7 +68,7 @@ class AMQPPublisher implements PublisherInterface
                 );
             }
 
-            $this->channel->wait_for_pending_acks();
+//            $this->channel->wait_for_pending_acks();
 
             return;
         }
