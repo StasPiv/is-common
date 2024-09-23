@@ -21,4 +21,17 @@ class QueueCleaner implements QueueCleanerInterface
             $this->channel->basic_qos(0, 1, false);
         }
     }
+
+    public function cleanUserQueues(array $queues, string $user): void
+    {
+        $this->cleanQueues($this->getUserQueues($queues, $user));
+    }
+
+    private function getUserQueues(array $queues, string $user): array
+    {
+        return array_map(
+            fn (string $queue): string => $queue . '_' . $user,
+            $queues,
+        );
+    }
 }
