@@ -15,6 +15,7 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
 {
     public function __construct(
         protected string $pgn,
+        private readonly string $user,
     ) {
     }
 
@@ -28,5 +29,10 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
     public function getPgn(): string
     {
         return $this->pgn;
+    }
+
+    public function getUser(): string
+    {
+        return $this->user;
     }
 }
