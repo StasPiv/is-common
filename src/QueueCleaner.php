@@ -31,9 +31,26 @@ class QueueCleaner implements QueueCleanerInterface
         }
     }
 
+    public function deleteQueues(array $queues): void
+    {
+        foreach ($queues as $queue) {
+            $this->channel->queue_delete($queue);
+
+            $this->eventManager->notify(
+                ProcessEventTypeEnum::QueueDeleted,
+                new DataAwareProcessDataModel(['queue' => $queue]),
+            );
+        }
+    }
+
     public function cleanUserQueues(array $queues, string $user): void
     {
         $this->cleanQueues($this->getUserQueues($queues, $user));
+    }
+
+    public function deleteUserQueues(array $queues, string $user): void
+    {
+        $this->deleteQueues($this->getUserQueues($queues, $user));
     }
 
     private function getUserQueues(array $queues, string $user): array
