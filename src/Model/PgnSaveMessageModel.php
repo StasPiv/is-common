@@ -23,6 +23,7 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
     {
         return [
             'pgn' => $this->pgn,
+            'user' => $this->user,
         ];
     }
 
