@@ -2,7 +2,7 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Contract\Configuration;
 
-interface ScoreWorkersRunConfigurationInterface
+interface WorkersRunConfigurationInterface
 {
     public function getContainerImagesForRun(): array;
 }
