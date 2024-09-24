@@ -29,6 +29,11 @@ class QueueCleaner implements QueueCleanerInterface
                 new DataAwareProcessDataModel(['queue' => $queue]),
             );
         }
+
+        $this->eventManager->notify(
+            ProcessEventTypeEnum::AllQueuesCleaned,
+            new DataAwareProcessDataModel(['queues' => $queues]),
+        );
     }
 
     public function deleteQueues(array $queues): void
@@ -41,6 +46,11 @@ class QueueCleaner implements QueueCleanerInterface
                 new DataAwareProcessDataModel(['queue' => $queue]),
             );
         }
+
+        $this->eventManager->notify(
+            ProcessEventTypeEnum::AllQueuesDeleted,
+            new DataAwareProcessDataModel(['queues' => $queues]),
+        );
     }
 
     public function cleanUserQueues(array $queues, string $user): void
