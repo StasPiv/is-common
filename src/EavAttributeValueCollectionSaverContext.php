@@ -19,6 +19,7 @@ class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollec
 
     public function __construct(
         private readonly EventManagerInterface $eventManager,
+        private readonly IdGeneratorStrategyInterface $idGeneratorStrategy,
     ) {
     }
 
@@ -41,6 +42,8 @@ class EavAttributeValueCollectionSaverContext implements EavAttributeValueCollec
                 $attribute,
                 $value,
             );
+
+            $eavAttributeValueModel->setId($this->idGeneratorStrategy->generateId());
         } catch (EavAttributeValueException $exception) {
             $this->eventManager->notify(
                 ProcessEventTypeEnum::ModelSaveFailed,
