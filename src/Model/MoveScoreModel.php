@@ -14,8 +14,8 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
 
     public function __construct(
         private readonly MoveMessageModel $move,
-        private ?string                   $scoreBefore,
-        private ?string                   $scoreAfter,
+        private ?int                   $scoreBefore,
+        private ?int                   $scoreAfter,
         private ?int                   $diff,
         private ?float                   $accuracy,
     ) {
@@ -65,12 +65,12 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         return parent::getInstance(...$data);
     }
 
-    public function getScoreBefore(): ?string
+    public function getScoreBefore(): ?int
     {
         return $this->scoreBefore;
     }
 
-    public function getScoreAfter(): ?string
+    public function getScoreAfter(): ?int
     {
         return $this->scoreAfter;
     }
@@ -107,14 +107,14 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         return $this;
     }
 
-    public function setScoreBefore(string $scoreBefore): MoveScoreModel
+    public function setScoreBefore(?int $scoreBefore): MoveScoreModel
     {
         $this->scoreBefore = $scoreBefore;
 
         return $this;
     }
 
-    public function setScoreAfter(string $scoreAfter): MoveScoreModel
+    public function setScoreAfter(?int $scoreAfter): MoveScoreModel
     {
         $this->scoreAfter = $scoreAfter;
 
