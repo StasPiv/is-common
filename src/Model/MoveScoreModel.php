@@ -16,8 +16,8 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         private readonly MoveMessageModel $move,
         private ?string                   $scoreBefore,
         private ?string                   $scoreAfter,
-        private ?string                   $diff,
-        private ?string                   $accuracy,
+        private ?int                   $diff,
+        private ?float                   $accuracy,
     ) {
     }
 
@@ -77,10 +77,10 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
 
     public function getDiff(): ?int
     {
-        return $this->diff !== null ? (int) $this->diff : null;
+        return $this->diff;
     }
 
-    public function setDiff(?string $diff): MoveScoreModel
+    public function setDiff(?int $diff): MoveScoreModel
     {
         $this->diff = $diff;
 
@@ -88,19 +88,19 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
     }
 
     /**
-     * @return string|null
+     * @return float|null
      */
-    public function getAccuracy(): ?string
+    public function getAccuracy(): ?float
     {
         return $this->accuracy;
     }
 
     /**
-     * @param string|null $accuracy
+     * @param float|null $accuracy
      *
      * @return MoveScoreModel
      */
-    public function setAccuracy(?string $accuracy): MoveScoreModel
+    public function setAccuracy(?float $accuracy): MoveScoreModel
     {
         $this->accuracy = $accuracy;
 
