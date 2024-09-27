@@ -28,9 +28,13 @@ abstract class AbstractEavAttributeValueModel extends AbstractMessageModel imple
                 ),
             );
         }
+
+        $this->castValue();
     }
 
     abstract protected function checkValueType(mixed $value): bool;
+
+    abstract protected function castValue(): void;
 
     public function getDataForSerialize(): array
     {

@@ -12,4 +12,9 @@ class EavAttributeVarcharModel extends AbstractEavAttributeValueModel
     {
         return is_string($value);
     }
+
+    protected function castValue(): void
+    {
+        $this->value = (string) $this->value;
+    }
 }

@@ -12,4 +12,9 @@ class EavAttributeIntModel extends AbstractEavAttributeValueModel
     {
         return is_numeric($value);
     }
+
+    protected function castValue(): void
+    {
+        $this->value = (int) $this->value;
+    }
 }
