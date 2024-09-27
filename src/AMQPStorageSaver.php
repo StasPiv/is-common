@@ -19,10 +19,6 @@ class AMQPStorageSaver implements StorageSaverInterface
 
     public function saveModel(string $collection, ModelInCollectionInterface $model): bool
     {
-        if ($model->hasId()) {
-            return true;
-        }
-
         $modelForPublish = new ModelAndCollectionMessageModel($collection, $model);
         $this->publisher->publish($modelForPublish);
         $this->eventManager->notify(ProcessEventTypeEnum::ModelPublished, $modelForPublish);
