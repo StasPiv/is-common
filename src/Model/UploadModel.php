@@ -4,16 +4,14 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
-class GameUserModel implements ModelInCollectionInterface
+class UploadModel implements ModelInCollectionInterface
 {
     use StringJsonEncodableTrait;
 
-    private string $id;
-
     public function __construct(
-        private readonly string $gameId,
+        private string $id,
         private readonly string $user,
-        private readonly string $uploadId,
+        private readonly \DateTime $uploadedAt,
     ) {
     }
 
@@ -35,9 +33,9 @@ class GameUserModel implements ModelInCollectionInterface
     public function getDataForSave(): array
     {
         return [
-            'id' => $this->id,
-            'gameId' => $this->gameId,
-            'user' => $this->user,
+            $this->id,
+            $this->user,
+            $this->uploadedAt,
         ];
     }
 
