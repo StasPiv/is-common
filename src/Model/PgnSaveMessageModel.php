@@ -16,6 +16,7 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
     public function __construct(
         protected string $pgn,
         private readonly string $user,
+        private readonly string $uploadId,
     ) {
     }
 
@@ -24,6 +25,7 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
         return [
             'pgn' => $this->pgn,
             'user' => $this->user,
+            'uploadId' => $this->uploadId,
         ];
     }
 
@@ -35,5 +37,10 @@ class PgnSaveMessageModel extends AbstractMessageModel implements
     public function getUser(): string
     {
         return $this->user;
+    }
+
+    public function getUploadId(): string
+    {
+        return $this->uploadId;
     }
 }
