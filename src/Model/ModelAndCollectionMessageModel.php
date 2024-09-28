@@ -17,6 +17,7 @@ class ModelAndCollectionMessageModel extends AbstractMessageModel implements Pro
         'eav_attribute_varchar' => EavAttributeVarcharModel::class,
         'moves' => MoveMessageModel::class,
         'move_scores' => MoveScoreModel::class,
+        'uploads' => UploadModel::class,
     ];
 
     public function __construct(
