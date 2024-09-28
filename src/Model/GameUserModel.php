@@ -35,7 +35,7 @@ class GameUserModel implements ModelInCollectionInterface
     public function getDataForSave(): array
     {
         return [
-            'id' => $this->id,
+            '_id' => $this->id,
             'gameId' => $this->gameId,
             'user' => $this->user,
             'uploadId' => $this->uploadId,
