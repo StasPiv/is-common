@@ -8,7 +8,7 @@ class UploadCollectionSaver extends AbstractCollectionSaver
 {
     public function getCollection(): string
     {
-        return 'upload';
+        return 'uploads';
     }
 
     public function getModelInstanceClass(): string
