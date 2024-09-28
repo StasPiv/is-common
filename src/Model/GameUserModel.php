@@ -38,6 +38,7 @@ class GameUserModel implements ModelInCollectionInterface
             'id' => $this->id,
             'gameId' => $this->gameId,
             'user' => $this->user,
+            'uploadId' => $this->uploadId,
         ];
     }
 
