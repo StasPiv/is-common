@@ -34,7 +34,7 @@ class UploadModel extends AbstractMessageModel implements ModelInCollectionInter
     public function getDataForSave(): array
     {
         return [
-            '_id' => $this->id,
+            'id' => $this->id,
             'user' => $this->user,
             'uploadedAt' => $this->uploadedAt,
         ];
