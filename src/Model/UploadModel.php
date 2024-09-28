@@ -12,7 +12,7 @@ class UploadModel extends AbstractMessageModel implements ModelInCollectionInter
     public function __construct(
         private string $id,
         private readonly string $user,
-        private readonly \DateTime $uploadedAt,
+        private readonly string $uploadedAt,
     ) {
     }
 
