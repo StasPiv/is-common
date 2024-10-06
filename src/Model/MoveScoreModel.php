@@ -18,6 +18,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         private ?int                   $scoreAfter,
         private ?int                   $diff,
         private ?float                   $accuracy,
+        private ?string                   $bestMove,
     ) {
     }
 
@@ -36,6 +37,18 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         return isset($this->id);
     }
 
+    /**
+     * @param string|null $bestMove
+     *
+     * @return MoveScoreModel
+     */
+    public function setBestMove(?string $bestMove): MoveScoreModel
+    {
+        $this->bestMove = $bestMove;
+
+        return $this;
+    }
+
     public function getDataForSerialize(): array
     {
         return [
@@ -44,6 +57,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
             'scoreAfter' => $this->scoreAfter,
             'diff' => $this->diff,
             'accuracy' => $this->accuracy,
+            'bestMove' => $this->bestMove,
         ];
     }
 
@@ -55,6 +69,7 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
             'scoreAfter' => $this->scoreAfter,
             'diff' => $this->diff,
             'accuracy' => $this->accuracy,
+            'bestMove' => $this->bestMove,
         ];
     }
 
