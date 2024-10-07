@@ -13,6 +13,7 @@ class UploadModel extends AbstractMessageModel implements ModelInCollectionInter
         private string $id,
         private readonly string $user,
         private readonly string $uploadedAt,
+        private readonly ?string $name = null,
     ) {
     }
 
@@ -37,6 +38,7 @@ class UploadModel extends AbstractMessageModel implements ModelInCollectionInter
             'id' => $this->id,
             'user' => $this->user,
             'uploadedAt' => $this->uploadedAt,
+            'name' => $this->name,
         ];
     }
 
