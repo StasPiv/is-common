@@ -1,0 +1,67 @@
+<?php
+
+namespace StanislavPivovartsev\InterestingStatistics\Common;
+
+use MongoDB\Database;
+use MongoDB\Model\BSONDocument;
+use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
+
+abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinderInterface
+{
+    public function __construct(
+        private readonly Database $database,
+    ) {
+    }
+
+    public function findUnique(ModelInCollectionInterface $model): ?ModelInCollectionInterface
+    {
+        /** @var \MongoDB\Model\BSONDocument $object */
+        $object = $this->database->selectCollection($this->getCollection())->findOne($this->getUniqueCriteria($model));
+
+        return $this->makeModel($object);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function find(string $id): ?ModelInCollectionInterface
+    {
+        return $this->findOneBy(['_id' => $id]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAll(array $criteria): array
+    {
+        /** @var array<\MongoDB\Model\BSONDocument> $objects */
+        $objects = $this->database->selectCollection($this->getCollection())->find($criteria);
+
+        $models = [];
+
+        foreach ($objects as $object) {
+            $models[] = $this->makeModel($object);
+        }
+
+        return $models;
+    }
+
+    public function findOneBy(array $criteria): ?ModelInCollectionInterface
+    {
+        /** @var \MongoDB\Model\BSONDocument $object */
+        $object = $this->database->selectCollection($this->getCollection())->findOne($criteria);
+
+        return $this->makeModel($object);
+    }
+
+    protected function makeModel(BSONDocument $object): ModelInCollectionInterface
+    {
+        $data = $object->getArrayCopy();
+        $data['id'] = $data['_id'];
+        unset($data['_id']);
+
+        $modelClassInstance = $this->getModelInstanceClass();
+
+        return $modelClassInstance::getInstance(...$data);
+    }
+}

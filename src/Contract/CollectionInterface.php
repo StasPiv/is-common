@@ -9,7 +9,7 @@ interface CollectionInterface
     public function getCollection(): string;
 
     /**
-     * @return class-string
+     * @return class-string|ModelInCollectionInterface
      */
     public function getModelInstanceClass(): string;
 }
