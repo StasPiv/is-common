@@ -51,6 +51,10 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
         /** @var \MongoDB\Model\BSONDocument $object */
         $object = $this->database->selectCollection($this->getCollection())->findOne($criteria);
 
+        if (!$object) {
+            return null;
+        }
+
         return $this->makeModel($object);
     }
 
