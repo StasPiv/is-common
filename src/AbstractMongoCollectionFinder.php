@@ -15,10 +15,7 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
 
     public function findUnique(ModelInCollectionInterface $model): ?ModelInCollectionInterface
     {
-        /** @var \MongoDB\Model\BSONDocument $object */
-        $object = $this->database->selectCollection($this->getCollection())->findOne($this->getUniqueCriteria($model));
-
-        return $this->makeModel($object);
+        return $this->findOneBy($this->getUniqueCriteria($model));
     }
 
     /**
