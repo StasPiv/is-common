@@ -24,6 +24,7 @@ class ReportMongoCollectionFinder extends AbstractMongoCollectionFinder
     {
         return [
             'reportParamsHash' => $model->getReportParamsHash(),
+            'uploadId' => $model->getUploadId(),
         ];
     }
 }
