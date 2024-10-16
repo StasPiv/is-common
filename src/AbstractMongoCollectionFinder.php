@@ -5,6 +5,7 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use MongoDB\Database;
 use MongoDB\Model\BSONDocument;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\GameMessageModel;
 
 abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinderInterface
 {
@@ -54,6 +55,8 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
 
         return $this->makeModel($object);
     }
+
+    abstract protected function getUniqueCriteria(ModelInCollectionInterface|GameMessageModel $model): array;
 
     protected function makeModel(BSONDocument $object): ModelInCollectionInterface
     {

@@ -14,7 +14,7 @@ class ReportModel extends AbstractMessageModel implements ModelInCollectionInter
         private readonly string $uploadId,
         private readonly array $reportParams,
         private readonly string $reportParamsHash,
-        private readonly array $result,
+        private ?array $result = null,
     ) {
     }
 
@@ -80,5 +80,17 @@ class ReportModel extends AbstractMessageModel implements ModelInCollectionInter
     public function getResult(): array
     {
         return $this->result;
+    }
+
+    /**
+     * @param array|null $result
+     *
+     * @return ReportModel
+     */
+    public function setResult(?array $result): static
+    {
+        $this->result = $result;
+
+        return $this;
     }
 }
