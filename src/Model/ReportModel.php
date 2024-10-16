@@ -40,6 +40,7 @@ class ReportModel extends AbstractMessageModel implements ModelInCollectionInter
             'id' => $this->id,
             'uploadId' => $this->uploadId,
             'reportParams' => $this->reportParams,
+            'reportParamsHash' => $this->reportParamsHash,
             'result' => $this->result,
         ];
     }
