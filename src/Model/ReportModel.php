@@ -2,6 +2,7 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
+use MongoDB\Model\BSONDocument;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
@@ -98,11 +99,17 @@ class ReportModel extends AbstractMessageModel implements ModelInCollectionInter
     {
         /** @var \MongoDB\Model\BSONDocument $reportParams */
         $reportParams = $data['reportParams'];
-        $data['reportParams'] = $reportParams->getArrayCopy();
+
+        if ($reportParams instanceof BSONDocument) {
+            $data['reportParams'] = $reportParams->getArrayCopy();
+        }
 
         /** @var \MongoDB\Model\BSONDocument $result */
         $result = $data['result'];
-        $data['result'] = $result->getArrayCopy();
+
+        if ($result instanceof BSONDocument) {
+            $data['result'] = $result->getArrayCopy();
+        }
 
         return parent::getInstance(...$data);
     }
