@@ -2,6 +2,7 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
+use MongoDB\Model\BSONArray;
 use MongoDB\Model\BSONDocument;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
@@ -104,10 +105,10 @@ class ReportModel extends AbstractMessageModel implements ModelInCollectionInter
             $data['reportParams'] = $reportParams->getArrayCopy();
         }
 
-        /** @var \MongoDB\Model\BSONDocument $result */
+        /** @var \MongoDB\Model\BSONArray $result */
         $result = $data['result'];
 
-        if ($result instanceof BSONDocument) {
+        if ($result instanceof BSONArray) {
             $data['result'] = $result->getArrayCopy();
         }
 
