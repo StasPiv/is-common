@@ -93,4 +93,17 @@ class ReportModel extends AbstractMessageModel implements ModelInCollectionInter
 
         return $this;
     }
+
+    public static function getInstance(...$data): static
+    {
+        /** @var \MongoDB\Model\BSONDocument $reportParams */
+        $reportParams = $data['reportParams'];
+        $data['reportParams'] = $reportParams->getArrayCopy();
+
+        /** @var \MongoDB\Model\BSONDocument $result */
+        $result = $data['result'];
+        $data['result'] = $result->getArrayCopy();
+
+        return parent::getInstance(...$data);
+    }
 }
