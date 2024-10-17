@@ -108,7 +108,7 @@ class ReportModel extends AbstractMessageModel implements ModelInCollectionInter
         /** @var \MongoDB\Model\BSONArray $result */
         $result = $data['result'];
 
-        if ($result instanceof BSONArray) {
+        if ($result instanceof BSONArray || $result instanceof BSONDocument) {
             $data['result'] = $result->getArrayCopy();
         }
 
