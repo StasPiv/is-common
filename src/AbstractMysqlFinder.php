@@ -48,7 +48,7 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
         return $this->buildModelFromDb($assoc);
     }
 
-    public function findAll(array $criteria): array
+    public function findAll(array $criteria, array $options = []): array
     {
         $sql = $this->mysqlSelectQueryBuilder->buildSelectSql(
             $this->getCollection(),

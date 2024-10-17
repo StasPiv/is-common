@@ -18,7 +18,9 @@ interface CollectionFinderInterface extends CollectionInterface
     public function findOneBy(array $criteria): ?ModelInCollectionInterface;
 
     /**
+     * @param array $options *
+     *
      * @return array<\StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface>
      */
-    public function findAll(array $criteria): array;
+    public function findAll(array $criteria, array $options = []): array;
 }

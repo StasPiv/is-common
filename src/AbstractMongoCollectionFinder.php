@@ -28,12 +28,14 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
     }
 
     /**
+     * @param array $options *
+     *
      * @inheritDoc
      */
-    public function findAll(array $criteria): array
+    public function findAll(array $criteria, array $options = []): array
     {
         /** @var array<\MongoDB\Model\BSONDocument> $objects */
-        $objects = $this->database->selectCollection($this->getCollection())->find($criteria);
+        $objects = $this->database->selectCollection($this->getCollection())->find($criteria, $options);
 
         $models = [];
 
