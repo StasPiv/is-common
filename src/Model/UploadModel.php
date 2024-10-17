@@ -46,4 +46,28 @@ class UploadModel extends AbstractMessageModel implements ModelInCollectionInter
     {
         return $this->getDataForSave();
     }
+
+    /**
+     * @return string
+     */
+    public function getUser(): string
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUploadedAt(): string
+    {
+        return $this->uploadedAt;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 }
