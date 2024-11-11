@@ -24,7 +24,9 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
      */
     public function find(string $id): ?ModelInCollectionInterface
     {
-        return $this->findOneBy(['_id' => $id]);
+        $criteria = array_merge(['_id' => $id], $this->getDefaultCriteria());
+
+        return $this->findOneBy($criteria);
     }
 
     /**
@@ -34,6 +36,8 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
      */
     public function findAll(array $criteria, array $options = []): array
     {
+        $criteria = array_merge($criteria, $this->getDefaultCriteria());
+
         /** @var array<\MongoDB\Model\BSONDocument> $objects */
         $objects = $this->database->selectCollection($this->getCollection())->find($criteria, $options);
 
@@ -48,6 +52,8 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
 
     public function findOneBy(array $criteria): ?ModelInCollectionInterface
     {
+        $criteria = array_merge($criteria, $this->getDefaultCriteria());
+
         /** @var \MongoDB\Model\BSONDocument $object */
         $object = $this->database->selectCollection($this->getCollection())->findOne($criteria);
 
@@ -69,5 +75,10 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
         $modelClassInstance = $this->getModelInstanceClass();
 
         return $modelClassInstance::getInstance(...$data);
+    }
+
+    protected function getDefaultCriteria(): array
+    {
+        return [];
     }
 }
