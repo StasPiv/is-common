@@ -42,10 +42,13 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     {
         $id = $data['id'];
         unset($data['id']);
+        $eventId = $data['eventId'];
+        unset($data['eventId']);
 
         $gameMessageModel = parent::getInstance(...$data);
 
         $gameMessageModel->setId($id);
+        $gameMessageModel->setEventId($eventId);
 
         return $gameMessageModel;
     }
