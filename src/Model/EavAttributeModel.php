@@ -74,6 +74,8 @@ class EavAttributeModel extends AbstractMessageModel implements ModelInCollectio
         $id = $data['id'];
         unset($data['id']);
 
+        $data['type'] = (string) $data['type'];
+
         $eavAttributeModel = parent::getInstance(...$data);
 
         $eavAttributeModel->setId($id);
