@@ -11,6 +11,8 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
 {
     private string $id;
 
+    private ?string $eventId;
+
     public function __construct(
         private readonly string $pgn,
         private readonly string $pgnHash,
@@ -32,6 +34,7 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             'id' => $this->id,
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
+            'eventId' => $this->eventId,
         ];
     }
 
@@ -70,5 +73,17 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     public function getPgn(): string
     {
         return $this->pgn;
+    }
+
+    public function getEventId(): ?string
+    {
+        return $this->eventId;
+    }
+
+    public function setEventId(?string $eventId): GameMessageModel
+    {
+        $this->eventId = $eventId;
+
+        return $this;
     }
 }
