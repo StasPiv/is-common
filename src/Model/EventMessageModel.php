@@ -10,7 +10,8 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
     private string $id;
 
     public function __construct(
-        private readonly string $name
+        private readonly string $name,
+        private readonly string $uploadId,
     ) {
     }
 
@@ -34,11 +35,17 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
         return $this->name;
     }
 
+    public function getUploadId(): string
+    {
+        return $this->uploadId;
+    }
+
     public function getDataForSave(): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'uploadId' => $this->uploadId,
         ];
     }
 
