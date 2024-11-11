@@ -29,6 +29,11 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
         return isset($this->id);
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     public function getDataForSave(): array
     {
         return [
