@@ -53,4 +53,16 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
     {
         return $this->getDataForSave();
     }
+
+    public static function getInstance(...$data): static
+    {
+        $id = $data['id'];
+        unset($data['id']);
+
+        $eventMessageModel = parent::getInstance(...$data);
+
+        $eventMessageModel->setId($id);
+
+        return $eventMessageModel;
+    }
 }
