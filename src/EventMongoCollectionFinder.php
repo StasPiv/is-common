@@ -17,7 +17,7 @@ class EventMongoCollectionFinder extends AbstractMongoCollectionFinder
 
     public function getCollection(): string
     {
-        return 'events';
+        return 'events_ext';
     }
 
     public function getModelInstanceClass(): string
