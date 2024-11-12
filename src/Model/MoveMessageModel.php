@@ -20,6 +20,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
         private readonly string $moveNotation,
         private readonly string $fenBefore,
         private readonly string $fenAfter,
+        private readonly ?MoveScoreModel $score,
     ) {
     }
 
@@ -35,6 +36,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
             'moveNotation' => $this->moveNotation,
             'fenBefore' => $this->fenBefore,
             'fenAfter' => $this->fenAfter,
+            'score' => $this->score?->getDataForSerialize(),
         ];
     }
 
@@ -62,6 +64,10 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
         $data['opponent'] = PlayerModel::getInstance(...$data['opponent']);
         $id = $data['id'];
         unset($data['id']);
+
+        if (isset($data['score'])) {
+            $data['score'] = MoveScoreModel::getInstance(...$data['score']);
+        }
 
         $moveMessageModel = parent::getInstance(...$data);
         $moveMessageModel->setId($id);
