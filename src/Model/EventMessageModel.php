@@ -12,6 +12,7 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
     public function __construct(
         private readonly string $name,
         private readonly string $uploadId,
+        private readonly ?UploadModel $upload = null,
     ) {
     }
 
@@ -51,7 +52,12 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
 
     public function getDataForSerialize(): array
     {
-        return $this->getDataForSave();
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'uploadId' => $this->uploadId,
+            'upload' => $this->getUpload()?->getDataForSerialize(),
+        ];
     }
 
     public static function getInstance(...$data): static
@@ -59,10 +65,26 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
         $id = $data['id'];
         unset($data['id']);
 
+        if (isset($data['upload'])) {
+            $upload = $data['upload'][0];
+
+            if (isset($upload['_id'])) {
+                $upload['id'] = (string) $upload['_id'];
+                unset($upload['_id']);
+            }
+
+            $data['upload'] = UploadModel::getInstance(...$upload);
+        }
+
         $eventMessageModel = parent::getInstance(...$data);
 
         $eventMessageModel->setId($id);
 
         return $eventMessageModel;
+    }
+
+    public function getUpload(): ?UploadModel
+    {
+        return $this->upload;
     }
 }
