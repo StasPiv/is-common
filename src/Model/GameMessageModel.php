@@ -19,6 +19,7 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
         private readonly ?string $pgnHash = null,
         private readonly ?array $varcharData = null,
         private readonly ?array $intData = null,
+        private readonly ?array $moves = null,
     ) {
     }
 
@@ -30,6 +31,7 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             'pgnHash' => $this->pgnHash,
             'varcharData' => $this->varcharData,
             'intData' => $this->intData,
+            'moves' => $this->moves,
         ];
     }
 
@@ -61,6 +63,10 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
 
         if (isset($data['intData']) && $data['intData'] instanceof BSONArray) {
             $data['intData'] = $data['intData']->getArrayCopy();
+        }
+
+        if (isset($data['moves']) && $data['moves'] instanceof BSONArray) {
+            $data['moves'] = $data['moves']->getArrayCopy();
         }
 
         $gameMessageModel = parent::getInstance(...$data);
