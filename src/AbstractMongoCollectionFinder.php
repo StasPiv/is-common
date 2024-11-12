@@ -5,12 +5,14 @@ namespace StanislavPivovartsev\InterestingStatistics\Common;
 use MongoDB\Database;
 use MongoDB\Model\BSONDocument;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\BSONDocumentModel;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\GameMessageModel;
 
 abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinderInterface
 {
     public function __construct(
         private readonly Database $database,
+        private readonly bool $simpleModels = false,
     ) {
     }
 
@@ -70,6 +72,10 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
 
     protected function makeModel(BSONDocument $object): ModelInCollectionInterface
     {
+        if ($this->simpleModels) {
+            return new BSONDocumentModel($object);
+        }
+
         $data = $object->getArrayCopy();
 
         if (isset($data['_id'])) {
