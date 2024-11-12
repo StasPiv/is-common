@@ -42,8 +42,13 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     {
         $id = $data['id'];
         unset($data['id']);
-        $eventId = $data['eventId'];
-        unset($data['eventId']);
+
+        if (isset($data['eventId'])) {
+            $eventId = $data['eventId'];
+            unset($data['eventId']);
+        } else {
+            $eventId = null;
+        }
 
         $gameMessageModel = parent::getInstance(...$data);
 
