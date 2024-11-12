@@ -71,8 +71,13 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
     protected function makeModel(BSONDocument $object): ModelInCollectionInterface
     {
         $data = $object->getArrayCopy();
-        $data['id'] = $data['_id'];
-        unset($data['_id']);
+
+        if (isset($data['_id'])) {
+            $data['id'] = $data['_id'];
+            unset($data['_id']);
+        } else {
+            $data['id'] = '';
+        }
 
         $modelClassInstance = $this->getModelInstanceClass();
 
