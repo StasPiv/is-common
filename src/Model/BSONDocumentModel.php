@@ -8,9 +8,9 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 class BSONDocumentModel implements ModelInCollectionInterface
 {
     use StringJsonEncodableTrait;
-    
+
     public function __construct(
-        private readonly BSONDocument $document,  
+        private readonly BSONDocument $document,
     ) {
     }
 
@@ -36,6 +36,13 @@ class BSONDocumentModel implements ModelInCollectionInterface
 
     public function getDataForSerialize(): array
     {
-        return $this->document->getArrayCopy();
+        $arrayCopy = $this->document->getArrayCopy();
+
+        if (isset($arrayCopy['_id'])) {
+            $arrayCopy['id'] = $arrayCopy['_id'];
+            unset($arrayCopy['_id']);
+        }
+
+        return $arrayCopy;
     }
 }
