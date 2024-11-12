@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
+use MongoDB\Model\BSONArray;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
@@ -16,6 +17,8 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     public function __construct(
         private readonly ?string $pgn = null,
         private readonly ?string $pgnHash = null,
+        private readonly ?array $varcharData = null,
+        private readonly ?array $intData = null,
     ) {
     }
 
@@ -25,6 +28,8 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             'id' => $this->id,
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
+            'varcharData' => $this->varcharData,
+            'intData' => $this->intData,
         ];
     }
 
@@ -48,6 +53,14 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             unset($data['eventId']);
         } else {
             $eventId = null;
+        }
+
+        if (isset($data['varcharData']) && $data['varcharData'] instanceof BSONArray) {
+            $data['varcharData'] = $data['varcharData']->getArrayCopy();
+        }
+
+        if (isset($data['intData']) && $data['intData'] instanceof BSONArray) {
+            $data['intData'] = $data['intData']->getArrayCopy();
         }
 
         $gameMessageModel = parent::getInstance(...$data);

@@ -9,7 +9,7 @@ class GameMongoCollectionFinder extends AbstractMongoCollectionFinder
 {
     public function getCollection(): string
     {
-        return 'games';
+        return 'games_ext';
     }
 
     /**
