@@ -17,19 +17,19 @@ abstract class AbstractMysqlFinder implements CollectionFinderInterface
     ) {
     }
 
-    public function findUnique(ModelInCollectionInterface $model): ?ModelInCollectionInterface
+    public function findUnique(ModelInCollectionInterface $model, array $options = []): ?ModelInCollectionInterface
     {
         $criteria = $this->getUniqueCriteria($model);
 
         return $this->findOneBy($criteria);
     }
 
-    public function find(string $id): ?ModelInCollectionInterface
+    public function find(string $id, array $options = []): ?ModelInCollectionInterface
     {
         return $this->findOneBy(['id' => $id]);
     }
 
-    public function findOneBy(array $criteria): ?ModelInCollectionInterface
+    public function findOneBy(array $criteria, array $options = []): ?ModelInCollectionInterface
     {
         $sql = $this->mysqlSelectQueryBuilder->buildSelectSql(
             $this->getCollection(),

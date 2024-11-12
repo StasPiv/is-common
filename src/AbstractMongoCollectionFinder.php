@@ -14,19 +14,21 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
     ) {
     }
 
-    public function findUnique(ModelInCollectionInterface $model): ?ModelInCollectionInterface
+    public function findUnique(ModelInCollectionInterface $model, array $options = []): ?ModelInCollectionInterface
     {
-        return $this->findOneBy($this->getUniqueCriteria($model));
+        return $this->findOneBy($this->getUniqueCriteria($model), $options);
     }
 
     /**
+     * @param array $options *
+     *
      * @inheritDoc
      */
-    public function find(string $id): ?ModelInCollectionInterface
+    public function find(string $id, array $options = []): ?ModelInCollectionInterface
     {
         $criteria = array_merge(['_id' => $id], $this->getDefaultCriteria());
 
-        return $this->findOneBy($criteria);
+        return $this->findOneBy($criteria, $options);
     }
 
     /**
@@ -50,12 +52,12 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
         return $models;
     }
 
-    public function findOneBy(array $criteria): ?ModelInCollectionInterface
+    public function findOneBy(array $criteria, array $options = []): ?ModelInCollectionInterface
     {
         $criteria = array_merge($criteria, $this->getDefaultCriteria());
 
         /** @var \MongoDB\Model\BSONDocument $object */
-        $object = $this->database->selectCollection($this->getCollection())->findOne($criteria);
+        $object = $this->database->selectCollection($this->getCollection())->findOne($criteria, $options);
 
         if (!$object) {
             return null;
