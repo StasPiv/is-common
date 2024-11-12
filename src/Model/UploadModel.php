@@ -11,8 +11,8 @@ class UploadModel extends AbstractMessageModel implements ModelInCollectionInter
 
     public function __construct(
         private string $id,
-        private readonly string $user,
-        private readonly string $uploadedAt,
+        private readonly ?string $user = null,
+        private readonly ?string $uploadedAt = null,
         private readonly ?string $name = null,
         private readonly ?string $description = null,
     ) {
@@ -49,18 +49,12 @@ class UploadModel extends AbstractMessageModel implements ModelInCollectionInter
         return $this->getDataForSave();
     }
 
-    /**
-     * @return string
-     */
-    public function getUser(): string
+    public function getUser(): ?string
     {
         return $this->user;
     }
 
-    /**
-     * @return string
-     */
-    public function getUploadedAt(): string
+    public function getUploadedAt(): ?string
     {
         return $this->uploadedAt;
     }
