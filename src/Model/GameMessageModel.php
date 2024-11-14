@@ -12,14 +12,15 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
 {
     private string $id;
 
-    private ?string $eventId = null;
-
     public function __construct(
         private readonly ?string $pgn = null,
         private readonly ?string $pgnHash = null,
         private readonly ?array $varcharData = null,
         private readonly ?array $intData = null,
         private readonly ?array $moves = null,
+        private ?string $eventId = null,
+        private ?string $whiteId = null,
+        private ?string $blackId = null,
     ) {
     }
 
@@ -42,6 +43,8 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
             'pgn' => $this->pgn,
             'pgnHash' => $this->pgnHash,
             'eventId' => $this->eventId,
+            'whiteId' => $this->whiteId,
+            'blackId' => $this->blackId,
         ];
     }
 
@@ -110,6 +113,30 @@ class GameMessageModel extends AbstractMessageModel implements ModelInCollection
     public function setEventId(?string $eventId): GameMessageModel
     {
         $this->eventId = $eventId;
+
+        return $this;
+    }
+
+    public function getWhiteId(): ?string
+    {
+        return $this->whiteId;
+    }
+
+    public function getBlackId(): ?string
+    {
+        return $this->blackId;
+    }
+
+    public function setWhiteId(?string $whiteId): GameMessageModel
+    {
+        $this->whiteId = $whiteId;
+
+        return $this;
+    }
+
+    public function setBlackId(?string $blackId): GameMessageModel
+    {
+        $this->blackId = $blackId;
 
         return $this;
     }
