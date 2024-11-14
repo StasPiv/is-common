@@ -3,24 +3,25 @@
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\EventMessageModel;
+use StanislavPivovartsev\InterestingStatistics\Common\Model\PlayerModel;
 
-class EventMongoCollectionFinder extends AbstractMongoCollectionFinder
+class PlayerMongoCollectionFinder extends AbstractMongoCollectionFinder
 {
-    protected function getUniqueCriteria(ModelInCollectionInterface|EventMessageModel $model): array
+    protected function getUniqueCriteria(ModelInCollectionInterface|PlayerModel $model): array
     {
         return [
             'name' => $model->getName(),
+            'fideId' => $model->getFideId(),
         ];
     }
 
     public function getCollection(): string
     {
-        return 'events_ext';
+        return 'players';
     }
 
     public function getModelInstanceClass(): string
     {
-        return EventMessageModel::class;
+        return PlayerModel::class;
     }
 }

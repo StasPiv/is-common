@@ -68,7 +68,7 @@ abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinde
         return $this->makeModel($object);
     }
 
-    abstract protected function getUniqueCriteria(ModelInCollectionInterface|GameMessageModel $model): array;
+    abstract protected function getUniqueCriteria(ModelInCollectionInterface $model): array;
 
     protected function makeModel(BSONDocument $object): ModelInCollectionInterface
     {

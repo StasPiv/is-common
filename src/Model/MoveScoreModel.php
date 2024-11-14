@@ -9,8 +9,7 @@ use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollection
 class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionInterface
 {
     use StringJsonEncodableTrait;
-
-    private string $id;
+    use IdAwareTrait;
 
     public function __construct(
         private readonly MoveMessageModel $move,
@@ -20,21 +19,6 @@ class MoveScoreModel extends AbstractMessageModel implements ModelInCollectionIn
         private ?float                   $accuracy,
         private ?string                   $bestMove,
     ) {
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function setId(string $id): void
-    {
-        $this->id = $id;
-    }
-
-    public function hasId(): bool
-    {
-        return isset($this->id);
     }
 
     /**

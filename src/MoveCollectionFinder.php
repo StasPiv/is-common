@@ -50,11 +50,11 @@ class MoveCollectionFinder extends AbstractMysqlFinder
         $assoc['moveNumber'] = (int) $assoc['moveNumber'];
         $assoc['player'] = new PlayerModel(
             $assoc['player'],
-            (int) $assoc['playerElo'],
+            (int)$assoc['playerElo'],
         );
         $assoc['opponent'] = new PlayerModel(
             $assoc['opponent'],
-            (int) $assoc['opponentElo'],
+            (int)$assoc['opponentElo'],
         );
         unset($assoc['playerElo']);
         unset($assoc['opponentElo']);
