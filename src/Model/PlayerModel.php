@@ -64,7 +64,9 @@ class PlayerModel extends AbstractMessageModel implements StringInterface, Model
 
         $playerModel = parent::getInstance(...$data);
 
-        $playerModel->setId($id);
+        if ($id) {
+            $playerModel->setId($id);
+        }
 
         return $playerModel;
     }
