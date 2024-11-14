@@ -29,6 +29,7 @@ class PlayerModel extends AbstractMessageModel implements StringInterface, Model
         return [
             'name' => $this->name,
             'elo' => $this->elo,
+            'fideId' => $this->fideId,
         ];
     }
 
@@ -37,6 +38,7 @@ class PlayerModel extends AbstractMessageModel implements StringInterface, Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'fideId' => $this->fideId,
         ];
     }
 
