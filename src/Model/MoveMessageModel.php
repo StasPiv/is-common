@@ -20,7 +20,7 @@ class MoveMessageModel extends AbstractMessageModel implements MessageModelInter
         private readonly string $moveNotation,
         private readonly string $fenBefore,
         private readonly string $fenAfter,
-        private readonly ?MoveScoreModel $score,
+        private readonly ?MoveScoreModel $score = null,
     ) {
     }
 
