@@ -16,7 +16,7 @@ class MongoStorageSaver implements Contract\StorageSaverInterface
     ) {
     }
 
-    public function saveModel(string $collection, ModelInCollectionInterface $model): bool
+    public function saveModel(string $collection, ModelInCollectionInterface $model, bool $update = false): bool
     {
         $data = $model->getDataForSave();
 
@@ -26,8 +26,14 @@ class MongoStorageSaver implements Contract\StorageSaverInterface
             unset($data['id']);
         }
 
+        if ($update && !isset($data['_id'])) {
+            return false;
+        }
+
         try {
-            $result = $this->database->selectCollection($collection)->insertOne($data);
+            $result = $update ?
+                $this->database->selectCollection($collection)->updateOne(['_id' => $data['_id']], $data) :
+                $this->database->selectCollection($collection)->insertOne($data);
         } catch (\Throwable $exception) {
             $this->eventManager->notify(
                 ProcessEventTypeEnum::ModelSaveFailed,

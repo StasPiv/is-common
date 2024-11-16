@@ -17,7 +17,7 @@ class MysqlStorageSaver implements StorageSaverInterface
     ) {
     }
 
-    public function saveModel(string $collection, ModelInCollectionInterface $model): bool
+    public function saveModel(string $collection, ModelInCollectionInterface $model, bool $update = false): bool
     {
         $data = $model->getDataForSave();
 

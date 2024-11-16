@@ -17,7 +17,7 @@ class AMQPStorageSaver implements StorageSaverInterface
     ) {
     }
 
-    public function saveModel(string $collection, ModelInCollectionInterface $model): bool
+    public function saveModel(string $collection, ModelInCollectionInterface $model, bool $update = false): bool
     {
         $modelForPublish = new ModelAndCollectionMessageModel($collection, $model);
         $this->publisher->publish($modelForPublish);
