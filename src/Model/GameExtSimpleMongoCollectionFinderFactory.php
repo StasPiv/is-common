@@ -5,9 +5,9 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderFactoryInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\CollectionFinderInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MongoDatabaseFactoryInterface;
-use StanislavPivovartsev\InterestingStatistics\Common\GameMongoCollectionFinder;
+use StanislavPivovartsev\InterestingStatistics\Common\GameExtMongoCollectionFinder;
 
-class GameSimpleMongoCollectionFinderFactory implements CollectionFinderFactoryInterface
+class GameExtSimpleMongoCollectionFinderFactory implements CollectionFinderFactoryInterface
 {
     public function __construct(
         private readonly MongoDatabaseFactoryInterface $mongoDatabaseFactory,
@@ -16,6 +16,6 @@ class GameSimpleMongoCollectionFinderFactory implements CollectionFinderFactoryI
 
     public function createCollectionFinder(): CollectionFinderInterface
     {
-        return new GameMongoCollectionFinder($this->mongoDatabaseFactory->createDatabase(), true);
+        return new GameExtMongoCollectionFinder($this->mongoDatabaseFactory->createDatabase(), true);
     }
 }

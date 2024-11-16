@@ -6,7 +6,6 @@ use MongoDB\Database;
 use MongoDB\Model\BSONDocument;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Model\BSONDocumentModel;
-use StanislavPivovartsev\InterestingStatistics\Common\Model\GameMessageModel;
 
 abstract class AbstractMongoCollectionFinder implements Contract\CollectionFinderInterface
 {
