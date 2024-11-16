@@ -15,8 +15,8 @@ abstract class AbstractCollectionSaver implements CollectionSaverInterface
     ) {
     }
 
-    public function saveModel(ModelInCollectionInterface $model): bool
+    public function saveModel(ModelInCollectionInterface $model, bool $update = false): bool
     {
-        return $this->storageSaver->saveModel($this->getCollection(), $model);
+        return $this->storageSaver->saveModel($this->getCollection(), $model, $update);
     }
 }

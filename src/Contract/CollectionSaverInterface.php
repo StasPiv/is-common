@@ -6,5 +6,5 @@ namespace StanislavPivovartsev\InterestingStatistics\Common\Contract;
 
 interface CollectionSaverInterface extends CollectionInterface
 {
-    public function saveModel(ModelInCollectionInterface $model): bool;
+    public function saveModel(ModelInCollectionInterface $model, bool $update = false): bool;
 }

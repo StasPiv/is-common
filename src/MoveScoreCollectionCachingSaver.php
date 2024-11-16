@@ -20,7 +20,7 @@ class MoveScoreCollectionCachingSaver extends MoveScoreCollectionSaver
         parent::__construct($storageSaver);
     }
 
-    public function saveModel(MoveScoreModel|ModelInCollectionInterface $model): bool
+    public function saveModel(MoveScoreModel|ModelInCollectionInterface $model, bool $update = false): bool
     {
         $cachedKey = $model->getMove()->getFenBefore() . '-' . $model->getMove()->getMoveNotation();
 
@@ -37,7 +37,7 @@ class MoveScoreCollectionCachingSaver extends MoveScoreCollectionSaver
             );
         }
 
-        return parent::saveModel($model);
+        return parent::saveModel($model, $update);
     }
 
 }
