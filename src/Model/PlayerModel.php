@@ -14,8 +14,8 @@ class PlayerModel extends AbstractMessageModel implements StringInterface, Model
 
     public function __construct(
         private readonly ?string $name = null,
-        private readonly ?int    $elo = null,
-        private readonly ?int $fideId = null,
+        private ?int    $elo = null,
+        private ?int $fideId = null,
     ) {
     }
 
@@ -38,6 +38,7 @@ class PlayerModel extends AbstractMessageModel implements StringInterface, Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'elo' => $this->elo,
             'fideId' => $this->fideId,
         ];
     }
@@ -71,5 +72,19 @@ class PlayerModel extends AbstractMessageModel implements StringInterface, Model
         }
 
         return $playerModel;
+    }
+
+    public function setElo(?int $elo): PlayerModel
+    {
+        $this->elo = $elo;
+
+        return $this;
+    }
+
+    public function setFideId(?int $fideId): PlayerModel
+    {
+        $this->fideId = $fideId;
+
+        return $this;
     }
 }
