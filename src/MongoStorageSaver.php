@@ -3,6 +3,7 @@
 namespace StanislavPivovartsev\InterestingStatistics\Common;
 
 use MongoDB\Database;
+use MongoDB\InsertOneResult;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\EventManagerInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Enum\ProcessEventTypeEnum;
@@ -32,7 +33,7 @@ class MongoStorageSaver implements Contract\StorageSaverInterface
 
         try {
             $result = $update ?
-                $this->database->selectCollection($collection)->updateOne(['_id' => $data['_id']], $data) :
+                $this->database->selectCollection($collection)->updateOne(['_id' => $data['_id']], ['$set' => $data]) :
                 $this->database->selectCollection($collection)->insertOne($data);
         } catch (\Throwable $exception) {
             $this->eventManager->notify(
@@ -43,6 +44,6 @@ class MongoStorageSaver implements Contract\StorageSaverInterface
             return false;
         }
 
-        return $result->getInsertedCount() > 0;
+        return $result instanceof InsertOneResult ? $result->getInsertedCount() > 0 : $result->getUpsertedCount() > 0;
     }
 }
