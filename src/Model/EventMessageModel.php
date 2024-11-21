@@ -11,8 +11,8 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
 
     public function __construct(
         private readonly ?string $name = null,
-        private readonly ?string $uploadId = null,
-        private readonly ?UploadModel $upload = null,
+        private readonly array $uploadId = [],
+        private readonly array $upload = [],
     ) {
     }
 
@@ -36,7 +36,7 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
         return $this->name;
     }
 
-    public function getUploadId(): ?string
+    public function getUploadId(): array
     {
         return $this->uploadId;
     }
@@ -52,11 +52,16 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
 
     public function getDataForSerialize(): array
     {
+        $uploadSerialized = array_map(
+            fn (UploadModel $upload): array => $upload->getDataForSerialize(),
+            $this->getUpload()
+        );
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'uploadId' => $this->uploadId,
-            'upload' => $this->getUpload()?->getDataForSerialize(),
+            'upload' => $uploadSerialized,
         ];
     }
 
@@ -66,24 +71,28 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
         unset($data['id']);
 
         if (isset($data['upload'])) {
-            $upload = $data['upload'][0];
+            $uploads = [];
 
-            if (isset($upload['_id'])) {
-                $upload['id'] = (string) $upload['_id'];
+            foreach ($data['upload'] as $upload) {
+                if (!isset($upload['_id'])) {
+                    continue;
+                }
+
+                $upload['id'] = (string)$upload['_id'];
                 unset($upload['_id']);
+                $uploads[] = UploadModel::getInstance(...$upload);
             }
 
-            $data['upload'] = UploadModel::getInstance(...$upload);
+            $data['upload'] = $uploads;
         }
 
         $eventMessageModel = parent::getInstance(...$data);
-
         $eventMessageModel->setId($id);
 
         return $eventMessageModel;
     }
 
-    public function getUpload(): ?UploadModel
+    public function getUpload(): array
     {
         return $this->upload;
     }
