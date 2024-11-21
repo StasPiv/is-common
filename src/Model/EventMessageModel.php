@@ -2,6 +2,8 @@
 
 namespace StanislavPivovartsev\InterestingStatistics\Common\Model;
 
+use ArrayObject;
+use MongoDB\Model\BSONArray;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\MessageModelInterface;
 use StanislavPivovartsev\InterestingStatistics\Common\Contract\ModelInCollectionInterface;
 
@@ -84,6 +86,10 @@ class EventMessageModel extends AbstractMessageModel implements ModelInCollectio
             }
 
             $data['upload'] = $uploads;
+        }
+
+        if (isset($data['uploadId']) && $data['uploadId'] instanceof BSONArray) {
+            $data['uploadId'] = $data['uploadId']->getArrayCopy();
         }
 
         $eventMessageModel = parent::getInstance(...$data);
